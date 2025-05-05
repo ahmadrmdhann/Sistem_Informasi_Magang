@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Halaman utama (welcome) dengan middleware auth
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
+
+// Login
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'postlogin']);
+
+// Logout
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Registrasi
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('register', [AuthController::class, 'postregister']);
