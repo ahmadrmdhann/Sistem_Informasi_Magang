@@ -119,7 +119,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="container mx-auto px-4 py-16">
+    <section id="about" class="container mx-auto px-4 py-24">
         <h2 class="text-3xl font-bold text-center text-gray-900 mb-10">Tentang Sisforma</h2>
         <div class="max-w-3xl mx-auto text-center text-gray-700">
             <p class="mb-6">

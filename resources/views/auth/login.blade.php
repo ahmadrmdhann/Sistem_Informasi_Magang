@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login</title>
-    <!-- Minimal CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    @vite('resources/css/app.css')
 </head>
-
-<body>
-    <div class="login-container">
-        <h3 class="text-center mb-4">Login</h3>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 flex flex-col items-center">
+        {{-- Logo Nanti Taruh Sini --}}
+        <div class="text-4xl font-extrabold text-blue-700 mb-1">Sisforma</div>
         @if ($errors->has('loginError'))
-            <p style="color: red;">{{ $errors->first('loginError') }}</p>
+            <div class="mb-4 text-red-600 text-sm text-center">
+                {{ $errors->first('loginError') }}
+            </div>
         @endif
-        <form action="{{ url('login') }}" method="POST" id="form-login">
+        <form action="{{ url('login') }}" method="POST" class="w-full">
             @csrf
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
+                <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400" required>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            <div class="mb-2">
+                <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <div class="flex items-center justify-between mb-6">
+                <label class="flex items-center text-sm text-gray-600">
+                    <input type="checkbox" class="form-checkbox rounded border-gray-300 mr-2">
+                    Remember this Device
+                </label>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow transition">
+                Sign in
+            </button>
         </form>
+        <div class="mt-6 text-center text-gray-700 text-sm">
+            Belum punya akun?
+            <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Daftar Sekarang</a>
+        </div>
     </div>
-
-    <!-- Minimal JS -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

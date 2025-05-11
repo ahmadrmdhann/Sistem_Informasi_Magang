@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Login berhasil
-            return redirect('/')->with('success', 'Login berhasil!');
+            return redirect('/dashboard')->with('success', 'Login berhasil!');
         }
 
         // Login gagal
@@ -47,7 +47,6 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|min:3|max:100',
             'username' => 'required|string|min:3|max:20|unique:m_user,username',
-            'email' => 'required|email|unique:m_user,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
@@ -59,14 +58,11 @@ class AuthController extends Controller
         $user = User::create([
             'nama' => $request->nama,
             'username' => $request->username,
-            'email' => $request->email,
             'password' => Hash::make($request->password),
+            'level_id' => 2,
         ]);
 
-        // Login otomatis setelah registrasi
-        Auth::login($user);
-
-        return redirect('/')->with('success', 'Registrasi berhasil!');
+        return redirect('/login')->with('success', 'Registrasi berhasil!');
     }
 
     // Logout

@@ -21,9 +21,11 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
 
-// Logout
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Registrasi
 Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'postregister']);
+
+// Logout
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
