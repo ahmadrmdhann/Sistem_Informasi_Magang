@@ -33,7 +33,7 @@
                 </label>
             </div>
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg shadow transition">
-                Sign in
+                Login
             </button>
         </form>
         <div class="mt-6 text-center text-gray-700 text-sm">
