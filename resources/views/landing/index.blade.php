@@ -28,6 +28,9 @@
                     class="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg font-medium transition">Fitur</a>
                 <a href="#about"
                     class="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg font-medium transition">Tentang</a>
+                <a href="{{ route('lowongan.index') }}"
+                    class="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg font-medium transition">Lowongan</a>
+
             </div>
             <div class="hidden md:flex items-center gap-4">
                 @if (Auth::check())

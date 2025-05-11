@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\LowonganMagangController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,4 +32,6 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Halaman dashboard dengan middleware auth
 Route::get('dashboard', [WelcomeController::class, 'dashboard'])->middleware('auth')->name('dashboard');
+
+Route::resource('lowongan', LowonganMagangController::class);
 

@@ -60,7 +60,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'level_id' => 2,
+            'level_id' => 3,
         ]);
 
         return redirect('/login')->with('success', 'Registrasi berhasil!');
