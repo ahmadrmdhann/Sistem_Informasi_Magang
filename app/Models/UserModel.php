@@ -15,9 +15,16 @@ class UserModel extends Authenticatable
     protected $fillable = [
         'username',
         'nama',
+        'email',
         'password',
         'level_id',
-        'image', // Tambahan
+        'image',
+    ];
+
+    // Hidden Fields
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     // Relationships
@@ -39,5 +46,5 @@ class UserModel extends Authenticatable
     {
         return $this->level->level_kode;
     }
-    
+
 }

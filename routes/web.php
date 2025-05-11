@@ -27,5 +27,8 @@ Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'postregister']);
 
 // Logout
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Halaman dashboard dengan middleware auth
+Route::get('dashboard', [WelcomeController::class, 'dashboard'])->middleware('auth')->name('dashboard');
 

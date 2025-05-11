@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Usermodel as User;
 use App\Models\LevelModel as Level;
-use App\Models\LevelModel;
+use App\Models\UserModel;
 
 class AuthController extends Controller
 {
@@ -26,7 +25,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Login berhasil
-            return redirect('/dashboard')->with('success', 'Login berhasil!');
+            return redirect('/')->with('success', 'Login berhasil!');
         }
 
         // Login gagal
@@ -47,6 +46,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|min:3|max:100',
             'username' => 'required|string|min:3|max:20|unique:m_user,username',
+            'email' => 'required|email|unique:m_user,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
@@ -55,7 +55,7 @@ class AuthController extends Controller
         }
 
         // Buat user baru
-        $user = User::create([
+        UserModel::create([
             'nama' => $request->nama,
             'username' => $request->username,
             'password' => Hash::make($request->password),
@@ -73,6 +73,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('login')->with('success', 'Logout berhasil!');
+        return redirect('/')->with('success', 'Logout berhasil!');
     }
 }

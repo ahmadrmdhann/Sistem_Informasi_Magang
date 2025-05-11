@@ -25,7 +25,7 @@
         <form action="{{ url('register') }}" method="POST" class="w-full">
             @csrf
             <div class="mb-4">
-                <label for="nama" class="block text-sm font-semibold text-gray-700 mb-1">Nama</label>
+                <label for="nama" class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
                 <input type="text" id="nama" name="nama" value="{{ old('nama') }}"
                     class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400"
                     required>
@@ -33,6 +33,12 @@
             <div class="mb-4">
                 <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
                 <input type="text" id="username" name="username" value="{{ old('username') }}"
+                    class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400"
+                    required>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}"
                     class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400"
                     required>
             </div>

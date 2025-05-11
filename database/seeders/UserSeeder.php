@@ -19,18 +19,28 @@ class UserSeeder extends Seeder
                 'user_id' => 1,
                 'level_id' => 1,
                 'username' => 'admin',
-                'nama'  => 'Administrator',
+                'email' => 'admin@example.com',
+                'nama'  => 'Nahdia Putri Safira',
                 'password' => Hash::make('123456'),
             ],
             [
                 'user_id' => 2,
                 'level_id' => 2,
-                'username' => 'mahasiswa',
-                'nama'  => 'Adrian',
+                'username' => 'adri',
+                'email' => 'dosen@example.com',
+                'nama'  => 'Mohammad Adri Favian, S.T',
                 'password' => Hash::make('123456'),
             ],
-            
-            
+            [
+                'user_id' => 3,
+                'level_id' => 3,
+                'username' => 'mahasiswa',
+                'email' => 'mahasiswa@example.com',
+                'nama'  => 'Dandi Azrul Syahputra',
+                'password' => Hash::make('123456'),
+            ],
+
+
         ];
         DB::table('m_user')->insert($data);
 
