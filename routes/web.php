@@ -15,9 +15,7 @@ use App\Http\Controllers\WelcomeController;
 */
 
 // Halaman utama (welcome) dengan middleware auth
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('auth');
+Route::get('/', [WelcomeController::class, 'index']);
 
 // Login
 Route::get('login', [AuthController::class, 'login'])->name('login');

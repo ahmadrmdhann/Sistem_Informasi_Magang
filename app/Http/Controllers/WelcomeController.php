@@ -8,14 +8,6 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-    
-        if (!Auth::check()) {
-            return redirect('login');
-        }
-
-
-        return view('welcome', [
-            'user' => Auth::user()
-        ]);
+        return view('landing.index');
     }
 }
