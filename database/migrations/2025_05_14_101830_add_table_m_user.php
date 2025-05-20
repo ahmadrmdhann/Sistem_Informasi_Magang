@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('m_user', function (Blueprint $table) {
             $table->id('user_id');
             $table->string('username', 50);
-            $table->string('nama', 100);
+            $table->string('nama', 100)->nullable();
             $table->foreignId('level_id')->constrained('m_level', 'level_id');
             $table->string('email', 100)->unique();
             $table->string('password', 255);

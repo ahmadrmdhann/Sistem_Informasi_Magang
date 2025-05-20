@@ -3,7 +3,8 @@ module.exports = {
     darkMode: false,
     content: [
         "./resources/**/*.blade.php",
-        "./resources/**/*.js"
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
     ],
     theme: {
         extend: {},
@@ -11,5 +12,7 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [
+        require('preline/plugin'),
+    ],
 };
