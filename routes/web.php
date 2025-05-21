@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\ProdiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,13 @@ Route::middleware('auth')->group(function () {
     // Admin routes
     Route::middleware('authorize:ADM')->prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/prodi', [App\Http\Controllers\ProdiController::class, 'index'])->name('prodi.index');
+        Route::get('/prodi/create', [App\Http\Controllers\ProdiController::class, 'create'])->name('prodi.create');
+        Route::post('/prodi', [App\Http\Controllers\ProdiController::class, 'store'])->name('prodi.store');
+        Route::get('/prodi/{id}/edit', [App\Http\Controllers\ProdiController::class, 'edit'])->name('prodi.edit');
+        Route::put('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'update'])->name('prodi.update');
+        Route::delete('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'destroy'])->name('prodi.destroy');
+
         
     });
 

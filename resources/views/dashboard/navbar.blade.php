@@ -1,4 +1,4 @@
-<nav class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 z-30 transition-all duration-300"
+<nav class="sticky bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between shadow-sm fixed top-0 z-30 transition-all duration-300"
     id="mainNavbar" style="left: 0; right: 0; width: calc(100% - 16rem);">
     <!-- Logo and Main Nav -->
     <div class="flex items-center space-x-4">
