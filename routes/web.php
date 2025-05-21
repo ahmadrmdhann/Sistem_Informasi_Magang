@@ -50,7 +50,15 @@ Route::middleware('auth')->group(function () {
         Route::put('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'update'])->name('prodi.update');
         Route::delete('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'destroy'])->name('prodi.destroy');
 
-        
+        Route::middleware('authorize:ADM')->prefix('admin')->group(function () {
+            Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+            Route::get('/level', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
+            Route::get('/level/create', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
+            Route::post('/level', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
+            Route::get('/level/{id}/edit', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
+            Route::put('/level/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
+            Route::delete('/level/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
+        });
     });
 
     // Dosen routes
