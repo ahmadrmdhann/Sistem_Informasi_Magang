@@ -39,7 +39,7 @@
                         <p class="text-xs text-gray-500">View and edit your profile</p>
                     </div>
                 </a>
-                <a href="#"
+                <!-- <a href="#"
                     class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition group">
                     <div
                         class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition">
@@ -49,7 +49,7 @@
                         <p class="font-medium">Settings</p>
                         <p class="text-xs text-gray-500">Configure your account</p>
                     </div>
-                </a>
+                </a> -->
                 <div class="border-t border-gray-200 my-2"></div>
                 <form method="GET" action="{{ route('logout') }}" class="block">
                     @csrf
