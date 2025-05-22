@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     // Mahasiswa routes
     Route::middleware('authorize:MHS')->prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+        Route::get('/pengajuan', [MahasiswaController::class, 'pengajuan'])->name('mahasiswa.pengajuan');
         // Add more mahasiswa routes here
     });
 });
