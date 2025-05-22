@@ -24,126 +24,127 @@
         </div>
 
         @if (Auth::user()->level->level_kode == 'ADM')
-        <div class="mb-4">
-            <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Administrasi
-            </p>
-            <a href="{{ route('level.index') }}" 
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-                <span class="text-sm">Manajemen Level</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-file-alt"></i>
-                </div>
-                <span class="text-sm">Manajemen Pengguna</span>
-            </a>
-            <a href="{{ route('prodi.index') }}" 
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="text-sm">Manajemen Program Studi</span>
-            </a>
-        </div>
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Administrasi
+                </p>
+                <a href="{{ route('level.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Level</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-file-alt"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Pengguna</span>
+                </a>
+                <a href="{{ route('prodi.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Program Studi</span>
+                </a>
+            </div>
 
-        <div class="mb-4">
-            <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Manajemen Magang
-            </p>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-building"></i>
-                </div>
-                <span class="text-sm">Manajemen Mitra</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="text-sm">Manajemen Periode Magang</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="text-sm">Manajemen Lowongan Magang</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="text-sm">Pengajuan Magang Mahasiswa</span>
-            </a>
-        </div>
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Manajemen Magang
+                </p>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Mitra</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Periode Magang</span>
+                </a>
+                <a href="{{ route('lowongan.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Lowongan Magang</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="text-sm">Pengajuan Magang Mahasiswa</span>
+                </a>
+            </div>
         @elseif (Auth::user()->level->level_kode == 'DSN')
-        <div class="mb-4">
-            <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Bimbingan
-            </p>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-user-graduate"></i>
-                </div>
-                <span class="text-sm">Mahasiswa Bimbingan</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-tasks"></i>
-                </div>
-                <span class="text-sm">Monitoring Progres</span>
-            </a>
-        </div>
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Bimbingan
+                </p>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <span class="text-sm">Mahasiswa Bimbingan</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-tasks"></i>
+                    </div>
+                    <span class="text-sm">Monitoring Progres</span>
+                </a>
+            </div>
         @elseif (Auth::user()->level->level_kode == 'MHS')
-        <!-- Internship Section -->
-        <div class="mb-4">
-            <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Manajemen Magang
-            </p>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-file-alt"></i>
-                </div>
-                <span class="text-sm">Rekomendasi Magang</span>
-            </a>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-briefcase"></i>
-                </div>
-                <span class="text-sm">Pengajuan Magang</span>
-            </a>
-        </div>
+            <!-- Internship Section -->
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Manajemen Magang
+                </p>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-file-alt"></i>
+                    </div>
+                    <span class="text-sm">Rekomendasi Magang</span>
+                </a>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <span class="text-sm">Pengajuan Magang</span>
+                </a>
+            </div>
 
-        <!-- Progress Section -->
-        <div class="mb-4">
-            <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                Log Kegiatan
-            </p>
-            <a href="#"
-                class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                    <i class="fa-solid fa-tasks"></i>
-                </div>
-                <span class="text-sm">Kegiatan Magang</span>
-            </a>
-        </div>
+            <!-- Progress Section -->
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Log Kegiatan
+                </p>
+                <a href="#"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-tasks"></i>
+                    </div>
+                    <span class="text-sm">Kegiatan Magang</span>
+                </a>
+            </div>
         @endif
 
         <!-- User section at bottom -->
         <div class="mt-auto pt-4 border-t border-gray-100">
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                 class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-red-50 rounded-lg transition-all duration-200 group">
                 <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-red-600">
                     <i class="fa-solid fa-sign-out-alt"></i>

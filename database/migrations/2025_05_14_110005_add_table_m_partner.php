@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('m_partner', function (Blueprint $table) {
             $table->id('partner_id');
             $table->string('nama');
-            $table->string('kontak');
-            $table->string('bidang_industri');
             $table->text('alamat');
+            $table->string('telepon');
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }
