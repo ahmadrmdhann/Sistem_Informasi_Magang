@@ -8,6 +8,7 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PeriodeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('lowongan', LowonganController::class);
         Route::resource('user', UserController::class);
         Route::resource('partner', PartnerController::class);
+        Route::resource('periode', PeriodeController::class);
     });
 
     // Dosen routes
