@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="p-6 w-auto">
+    <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold">Edit Level</h2>
             <a href="{{ route('level.index') }}"
@@ -11,19 +11,32 @@
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <form action="{{ route('level.update', $level->id) }}" method="POST">
+            <form action="{{ route('level.update', $level->level_id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-4">
-                    <label for="nama_level" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="level_kode" class="block text-sm font-medium text-gray-700 mb-1">
+                        Kode Level <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text"
+                        class="w-full px-3 py-2 border rounded-md @error('level_kode') border-red-500 @enderror"
+                        id="level_kode" name="level_kode" value="{{ old('level_kode', $level->level_kode) }}"
+                        placeholder="Masukkan kode level" required>
+                    @error('level_kode')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="level_nama" class="block text-sm font-medium text-gray-700 mb-1">
                         Nama Level <span class="text-red-500">*</span>
                     </label>
                     <input type="text"
-                        class="w-full px-3 py-2 border rounded-md @error('nama_level') border-red-500 @enderror"
-                        id="nama_level" name="nama_level" value="{{ old('nama_level', $level->nama_level) }}"
+                        class="w-full px-3 py-2 border rounded-md @error('level_nama') border-red-500 @enderror"
+                        id="level_nama" name="level_nama" value="{{ old('level_nama', $level->level_nama) }}"
                         placeholder="Masukkan nama level" required>
-                    @error('nama_level')
+                    @error('level_nama')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -37,4 +50,23 @@
             </form>
         </div>
     </div>
+    <script>
+        // Dinamiskan mainContent dengan sidebar jika ingin collapse/expand
+        document.addEventListener('DOMContentLoaded', function () {
+            const mainContent = document.getElementById('mainContent');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            if (sidebarToggle && sidebar && mainContent) {
+                sidebarToggle.addEventListener('click', function () {
+                    setTimeout(function() {
+                        if (sidebar.classList.contains('sidebar-collapsed')) {
+                            mainContent.classList.remove('ml-64');
+                        } else {
+                            mainContent.classList.add('ml-64');
+                        }
+                    }, 100);
+                });
+            }
+        });
+    </script>
 @endsection
