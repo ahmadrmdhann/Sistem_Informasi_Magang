@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,8 +62,11 @@ Route::middleware('auth')->group(function () {
             Route::delete('/level/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
         });
 
-        // Resource route untuk lowongan magang
+
         Route::resource('lowongan', LowonganController::class);
+
+
+        Route::resource('user', UserController::class);
     });
 
     // Dosen routes
