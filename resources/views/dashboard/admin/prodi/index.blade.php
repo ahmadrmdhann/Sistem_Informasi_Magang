@@ -17,36 +17,38 @@
         @endif
 
         <div class="overflow-x-auto">
-            <table id="prodiTable" class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
-                <thead class="bg-blue-100">
+            <table id="prodiTable"
+                class="min-w-full bg-white border border-gray-300 border-separate border-spacing-0 rounded-xl shadow-lg overflow-hidden">
+                <thead class="bg-gradient-to-r from-blue-200 to-blue-100">
                     <tr>
-                        <th class="px-4 py-2">No</th>
-                        <th class="px-4 py-2">Kode</th>
-                        <th class="px-4 py-2">Nama Program Studi</th>
-                        <th class="px-4 py-2">Dibuat</th>
-                        <th class="px-4 py-2">Diperbarui</th>
-                        <th class="px-4 py-2">Aksi</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tl-xl border-b border-r border-gray-300">No</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Kode Prodi</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Nama Prodi</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Dibuat</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Diperbarui</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl border-b border-gray-300">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($prodis as $index => $prodi)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-2">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2">{{ $prodi->prodi_kode }}</td>
-                            <td class="px-4 py-2">{{ $prodi->prodi_nama }}</td>
-                            <td class="px-4 py-2">{{ $prodi->created_at->format('d/m/Y H:i') }}</td>
-                            <td class="px-4 py-2">{{ $prodi->updated_at->format('d/m/Y H:i') }}</td>
-                            <td class="px-4 py-2">
-                                <div class="flex space-x-2">
+                        <tr class="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                            <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $index + 1 }}</td>
+                            <td class="px-6 py-3 text-gray-700 font-mono border-b border-r border-gray-200">{{ $prodi->prodi_kode }}</td>
+                            <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $prodi->prodi_nama }}</td>
+                            <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ $prodi->created_at->format('d/m/Y H:i') }}</td>
+                            <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ $prodi->updated_at->format('d/m/Y H:i') }}</td>
+                            <td class="px-6 py-3 text-center border-b border-gray-200">
+                                <div class="flex justify-center space-x-2">
                                     <a href="{{ route('prodi.edit', $prodi->prodi_id) }}"
-                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                                        class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition-colors duration-150">
                                         <i class="fas fa-edit mr-1"></i>Edit
                                     </a>
                                     <form action="{{ route('prodi.destroy', $prodi->prodi_id) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus prodi ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                                        <button type="submit"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition-colors duration-150">
                                             <i class="fas fa-trash mr-1"></i>Hapus
                                         </button>
                                     </form>
@@ -55,7 +57,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-4 py-2 text-center">Tidak ada data Program Studi</td>
+                            <td colspan="6" class="px-6 py-3 text-center text-gray-500">Tidak ada data Program Studi</td>
                         </tr>
                     @endforelse
                 </tbody>
