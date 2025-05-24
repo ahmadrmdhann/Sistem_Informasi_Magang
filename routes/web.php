@@ -6,7 +6,6 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
-use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,6 +84,7 @@ Route::middleware('auth')->group(function () {
     // Mahasiswa routes
     Route::middleware('authorize:MHS')->prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+        Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
         // Add more mahasiswa routes here
     });
 });
