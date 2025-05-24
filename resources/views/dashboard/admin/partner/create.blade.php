@@ -17,17 +17,17 @@
                     @error('nama') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1">Kontak</label>
-                    <input type="text" name="kontak" class="w-full border rounded px-3 py-2 focus:outline-blue-400"
-                        value="{{ old('kontak') }}">
-                    @error('kontak') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    <label class="block font-semibold mb-1">telepon</label>
+                    <input type="text" name="telepon" class="w-full border rounded px-3 py-2 focus:outline-blue-400"
+                        value="{{ old('telepon') }}">
+                    @error('telepon') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block font-semibold mb-1">Bidang Industri</label>
-                    <input type="text" name="bidang_industri" class="w-full border rounded px-3 py-2 focus:outline-blue-400"
-                        value="{{ old('bidang_industri') }}">
-                    @error('bidang_industri') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+                    <label class="block font-semibold mb-1">Email</label>
+                    <input type="text" name="email" class="w-full border rounded px-3 py-2 focus:outline-blue-400"
+                        value="{{ old('email') }}">
+                    @error('email') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-4">
                     <label class="block font-semibold mb-1">Alamat</label>

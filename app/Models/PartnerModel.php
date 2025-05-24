@@ -12,8 +12,8 @@ class PartnerModel extends Model
 
     protected $fillable = [
         'nama',
-        'kontak',
-        'bidang_industri',
+        'telepon',
+        'email',
         'alamat',
     ];
 
