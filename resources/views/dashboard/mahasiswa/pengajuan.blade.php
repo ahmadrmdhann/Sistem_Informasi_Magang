@@ -57,17 +57,18 @@
                             </div>
 
                             <div>
-                                <label for="durasi" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Durasi Magang <span class="text-red-500">*</span>
+                                <label for="periode_id" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Periode Magang <span class="text-red-500">*</span>
                                 </label>
-                                <select id="durasi" name="durasi"
+                                <select id="periode_id" name="periode_id"
                                     class="py-2.5 px-3 block w-full border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
                                     required>
-                                    <option value="">-- Pilih Durasi --</option>
-                                    <option value="1 Bulan">1 Bulan</option>
-                                    <option value="2 Bulan">2 Bulan</option>
-                                    <option value="3 Bulan">3 Bulan</option>
-                                    <option value="6 Bulan">6 Bulan</option>
+                                    <option value="">-- Pilih Periode --</option>
+                                    @foreach($periodes as $periode)
+                                        <option value="{{ $periode->periode_id }}">
+                                            {{ $periode->nama }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
