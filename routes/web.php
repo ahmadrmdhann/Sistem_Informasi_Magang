@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\PengajuanMagangController;
 use Illuminate\Support\Facades\Route;
 
 /*
