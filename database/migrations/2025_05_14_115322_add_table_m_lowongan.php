@@ -17,13 +17,15 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi');
             $table->text('persyaratan');
-            $table->string('lokasi');
+            $table->string('lokasi')->constrained('kabupaten', 'kabupaten_id')->nullable();
             $table->text('bidang_keahlian');
             $table->foreignId('periode_id')->constrained('m_periode', 'periode_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->timestamps();
         });
+
+        
     }
 
     /**
@@ -31,6 +33,12 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('m_lowongan', function (Blueprint $table) {
+            $table->dropForeign(['kabupaten_id']);
+            $table->dropColumn('kabupaten_id');
+
+        });
+
         Schema::dropIfExists('m_lowongan');
     }
 };
