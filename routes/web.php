@@ -6,6 +6,7 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,6 +60,16 @@ Route::middleware('auth')->group(function () {
             Route::get('/level/{id}/edit', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
             Route::put('/level/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
             Route::delete('/level/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
+        });
+
+    // Mitra routes
+        Route::middleware('authorize:ADM')->prefix('partner')->group(function () {
+            Route::get('/', [App\Http\Controllers\PartnerController::class, 'index'])->name('partner.index');
+            Route::get('/create', [App\Http\Controllers\PartnerController::class, 'create'])->name('partner.create');
+            Route::post('/', [App\Http\Controllers\PartnerController::class, 'store'])->name('partner.store');
+            Route::get('/{id}/edit', [App\Http\Controllers\PartnerController::class, 'edit'])->name('partner.edit');
+            Route::put('/{id}', [App\Http\Controllers\PartnerController::class, 'update'])->name('partner.update');
+            Route::delete('/{id}', [App\Http\Controllers\PartnerController::class, 'destroy'])->name('partner.destroy');
         });
 
         // Resource route untuk lowongan magang
