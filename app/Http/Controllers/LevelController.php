@@ -32,6 +32,7 @@ class LevelController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'level_nama' => 'required|string|max:255|unique:m_level,level_nama',
+            'level_kode' => 'required|string|max:10|unique:m_level,level_kode',
         ]);
 
         if ($validator->fails()) {
@@ -42,6 +43,7 @@ class LevelController extends Controller
 
         LevelModel::create([
             'level_nama' => $request->level_nama,
+            'level_kode' => $request->level_kode,
         ]);
 
         return redirect()->route('level.index')
@@ -65,7 +67,8 @@ class LevelController extends Controller
         $level = LevelModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'level_nama' => 'required|string|max:255|unique:m_level,level_nama,' . $id . ',id',
+            'level_nama' => 'required|string|max:255|unique:m_level,level_nama,' . $id . ',level_id',
+            'level_kode' => 'required|string|max:10|unique:m_level,level_kode,' . $id . ',level_id',
         ]);
 
         if ($validator->fails()) {
@@ -76,6 +79,7 @@ class LevelController extends Controller
 
         $level->update([
             'level_nama' => $request->level_nama,
+            'level_kode' => $request->level_kode,
         ]);
 
         return redirect()->route('level.index')

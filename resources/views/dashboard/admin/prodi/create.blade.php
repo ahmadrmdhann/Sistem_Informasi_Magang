@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="p-6">
+    <div id="mainContent" class="p-6 w-auto pt-[109px] md:pt-[61px] min-h-screen bg-gray-50 transition-all duration-300 ml-64">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold">Tambah Program Studi</h2>
             <a href="{{ route('prodi.index') }}"

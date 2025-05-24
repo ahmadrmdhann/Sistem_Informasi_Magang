@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <div class="p-6 w-auto">
+    <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold">Edit Program Studi</h2>
             <a href="{{ route('prodi.index') }}"
@@ -50,4 +50,23 @@
             </form>
         </div>
     </div>
+    <script>
+        // Dinamiskan mainContent dengan sidebar jika ingin collapse/expand
+        document.addEventListener('DOMContentLoaded', function () {
+            const mainContent = document.getElementById('mainContent');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            if (sidebarToggle && sidebar && mainContent) {
+                sidebarToggle.addEventListener('click', function () {
+                    setTimeout(function() {
+                        if (sidebar.classList.contains('sidebar-collapsed')) {
+                            mainContent.classList.remove('ml-64');
+                        } else {
+                            mainContent.classList.add('ml-64');
+                        }
+                    }, 100); // delay untuk animasi sidebar
+                });
+            }
+        });
+    </script>
 @endsection
