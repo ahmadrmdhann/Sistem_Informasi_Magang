@@ -93,6 +93,23 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}', [LowonganController::class, 'destroy'])->name('lowongan.destroy');
         });
 
+        Route::prefix('lowongan')->group(function () {
+            Route::get('/', [LowonganController::class, 'index'])->name('lowongan.index');
+            Route::get('/create', [LowonganController::class, 'create'])->name('lowongan.create');
+            Route::post('/', [LowonganController::class, 'store'])->name('lowongan.store');
+            Route::get('/{id}/edit', [LowonganController::class, 'edit'])->name('lowongan.edit');
+            Route::put('/{id}', [LowonganController::class, 'update'])->name('lowongan.update');
+            Route::delete('/{id}', [LowonganController::class, 'destroy'])->name('lowongan.destroy');
+        });
+
+        Route::prefix('periode')->group(function () {
+            Route::get('/', [PeriodeController::class, 'index'])->name('periode.index');
+            Route::get('/create', [PeriodeController::class, 'create'])->name('periode.create');
+            Route::post('/', [PeriodeController::class, 'store'])->name('periode.store');
+            Route::get('/{id}/edit', [PeriodeController::class, 'edit'])->name('periode.edit');
+            Route::put('/{id}', [PeriodeController::class, 'update'])->name('periode.update');
+            Route::delete('/{id}', [PeriodeController::class, 'destroy'])->name('periode.destroy');
+        });
     });
 
     // Dosen routes
