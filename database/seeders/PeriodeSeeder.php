@@ -15,14 +15,14 @@ class PeriodeSeeder extends Seeder
     {
         DB::table('m_periode')->insert([
             [
-                'nama'       => 'Periode Ganjil 2023/2024',
+                'nama'       => 'Semester Ganjil 2023/2024',
                 'tanggal_mulai' => '2025-09-01',
                 'tanggal_selesai' => '2026-02-28',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama'       => 'Periode Genap 2024/2025',
+                'nama'       => 'Semester Genap 2024/2025',
                 'tanggal_mulai' => '2026-03-01',
                 'tanggal_selesai' => '2026-08-31',
                 'created_at' => now(),

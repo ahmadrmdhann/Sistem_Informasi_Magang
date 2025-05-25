@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MahasiswaModel extends Model
+class DosenModel extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,14 @@ class MahasiswaModel extends Model
      *
      * @var string
      */
-    protected $table = 'm_mahasiswa';
+    protected $table = 'm_dosen';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = 'mahasiswa_id';
+    protected $primaryKey = 'dosen_id';
 
     /**
      * The attributes that are mass assignable.
@@ -30,15 +30,12 @@ class MahasiswaModel extends Model
      */
     protected $fillable = [
         'user_id',
-        'nim',
-        'prodi_id',
-        'bidang_keahlian',
-        'sertifikat',
-        'cv_file',
+        'nidn',
+        'bidang_minat',
     ];
 
     /**
-     * Get the user that owns the mahasiswa profile.
+     * Get the user that owns the dosen profile.
      */
     public function user()
     {
@@ -46,18 +43,10 @@ class MahasiswaModel extends Model
     }
 
     /**
-     * Get the prodi that the mahasiswa belongs to.
+     * Get the full name of the dosen from the related user.
      */
-    public function prodi()
+    public function getNamaDosenAttribute()
     {
-        return $this->belongsTo(ProdiModel::class, 'prodi_id', 'prodi_id');
-    }
-
-    /**
-     * Get the CV file URL.
-     */
-    public function getCvUrlAttribute()
-    {
-        return $this->cv_file ? asset('storage/cv/' . $this->cv_file) : null;
+        return $this->user ? $this->user->nama : null;
     }
 }

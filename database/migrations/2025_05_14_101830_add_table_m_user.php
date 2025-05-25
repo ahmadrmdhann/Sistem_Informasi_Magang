@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('level_id')->constrained('m_level', 'level_id');
             $table->string('email', 100)->unique();
             $table->string('password', 255);
-            $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
         });
     }

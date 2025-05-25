@@ -29,22 +29,24 @@
                     Administrasi
                 </p>
                 <a href="{{ route('level.index') }}"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('level.index') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600{{ request()->routeIs('level.index') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('level.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('level.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                         <i class="fa-solid fa-users"></i>
                     </div>
                     <span class="text-sm">Manajemen Level</span>
                 </a>
-                <a href="#"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                <a href="{{ route('user.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('user.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('user.*') ? 'text-blue-600' : '' }}">
                         <i class="fa-solid fa-file-alt"></i>
                     </div>
                     <span class="text-sm">Manajemen Pengguna</span>
                 </a>
                 <a href="{{ route('prodi.index') }}"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('prodi.index') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('prodi.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('prodi.*') ? 'text-blue-600' : '' }}">
                         <i class="fa-solid fa-briefcase"></i>
                     </div>
                     <span class="text-sm">Manajemen Program Studi</span>
@@ -56,13 +58,14 @@
                     Manajemen Magang
                 </p>
                 <a href="{{ route('partner.index') }}"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('partner.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('partner.*') ? 'text-blue-600' : '' }}">
                         <i class="fa-solid fa-building"></i>
                     </div>
                     <span class="text-sm">Manajemen Mitra</span>
                 </a>
-                <a href="#"
+                <a href="{{ route('periode.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
                 <a href="{{ route('periode.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('periode.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
@@ -72,9 +75,9 @@
                     <span class="text-sm">Manajemen Periode Magang</span>
                 </a>
                 <a href="{{ route('lowongan.index') }}"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('lowongan.index') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('lowongan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
-                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('lowongan.index') ? 'text-blue-600' : '' }}">
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('lowongan.*') ? 'text-blue-600' : '' }}">
                         <i class="fa-solid fa-briefcase"></i>
                     </div>
                     <span class="text-sm">Manajemen Lowongan Magang</span>

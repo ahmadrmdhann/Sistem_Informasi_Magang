@@ -10,9 +10,9 @@ class PeriodeModel extends Model
     protected $primaryKey = 'periode_id';
 
     protected $fillable = [
-        'nama_periode',
+        'nama',
         'tanggal_mulai',
-        'tanggal_akhir',
+        'tanggal_selesai',
     ];
 
     // Relasi ke lowongan
