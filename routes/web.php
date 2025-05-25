@@ -7,6 +7,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\PengajuanMagangController;
+use App\Http\Controllers\MahasiswaLowonganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,6 +87,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('authorize:MHS')->prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
+        Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
+        Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
         // Add more mahasiswa routes here
+    });
+
+    Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
+        Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
+        Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
     });
 });

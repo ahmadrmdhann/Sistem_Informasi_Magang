@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\LevelModel;
+
 
 class UserModel extends Authenticatable
 {
@@ -33,16 +35,21 @@ class UserModel extends Authenticatable
 
     public function getRoleName(): string
     {
-        return $this->level->level_nama;
+        return $this->level->level_nama ?? '';
     }
 
     public function hasRole($role): bool
     {
-        return $this->level->level_kode == $role;
+        return strtolower($this->level->level_kode ?? '') == strtolower($role);
     }
 
     public function getRole()
     {
-        return $this->level->level_kode;
+        return $this->level->level_kode ?? '';
     }
+    public function mahasiswa()
+    {
+        return $this->hasOne(MahasiswaModel::class, 'user_id', 'user_id');
+    }
+    
 }

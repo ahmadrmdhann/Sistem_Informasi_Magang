@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('m_pengajuan_magang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mahasiswa_id')->constrained('m_mahasiswa', 'user_id');
+            $table->foreignId('mahasiswa_id')->constrained('m_mahasiswa', 'mahasiswa_id');
             $table->foreignId('lowongan_id')->constrained('m_lowongan', 'lowongan_id');
             $table->enum('status', ['diajukan', 'diterima', 'ditolak']);
             $table->date('tanggal_pengajuan');
