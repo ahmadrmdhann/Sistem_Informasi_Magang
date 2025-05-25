@@ -6,6 +6,9 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +92,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [LowonganController::class, 'update'])->name('lowongan.update');
             Route::delete('/{id}', [LowonganController::class, 'destroy'])->name('lowongan.destroy');
         });
+
     });
 
     // Dosen routes

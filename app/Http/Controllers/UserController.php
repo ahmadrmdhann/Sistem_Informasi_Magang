@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
-use App\Models\Level;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -114,7 +113,6 @@ class UserController extends Controller
     {
         $user = UserModel::findOrFail($id);
         $user->delete();
-
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus');
     }
 }
