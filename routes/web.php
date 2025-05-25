@@ -44,26 +44,35 @@ Route::middleware('auth')->group(function () {
 
     // Admin routes
     Route::middleware('authorize:ADM')->prefix('admin')->group(function () {
-        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-        Route::get('/prodi', [App\Http\Controllers\ProdiController::class, 'index'])->name('prodi.index');
-        Route::get('/prodi/create', [App\Http\Controllers\ProdiController::class, 'create'])->name('prodi.create');
-        Route::post('/prodi', [App\Http\Controllers\ProdiController::class, 'store'])->name('prodi.store');
-        Route::get('/prodi/{id}/edit', [App\Http\Controllers\ProdiController::class, 'edit'])->name('prodi.edit');
-        Route::put('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'update'])->name('prodi.update');
-        Route::delete('/prodi/{id}', [App\Http\Controllers\ProdiController::class, 'destroy'])->name('prodi.destroy');
-
-        Route::middleware('authorize:ADM')->prefix('admin')->group(function () {
-            Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-            Route::get('/level', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
-            Route::get('/level/create', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
-            Route::post('/level', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
-            Route::get('/level/{id}/edit', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
-            Route::put('/level/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
-            Route::delete('/level/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
+        Route::prefix('prodi')->group(function () {
+            Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
+            Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
+            Route::post('/', [ProdiController::class, 'store'])->name('prodi.store');
+            Route::get('/{id}/edit', [ProdiController::class, 'edit'])->name('prodi.edit');
+            Route::put('/{id}', [ProdiController::class, 'update'])->name('prodi.update');
+            Route::delete('/{id}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
         });
 
-    // Mitra routes
-        Route::middleware('authorize:ADM')->prefix('partner')->group(function () {
+        Route::prefix('level')->group(function () {
+            Route::get('/', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
+            Route::get('/create', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
+            Route::post('/', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
+            Route::get('/{id}/edit', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
+            Route::put('/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
+            Route::delete('/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
+        });
+
+        Route::prefix('user')->group(function () {
+            Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+            Route::get('/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
+            Route::get('/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
+            Route::post('/', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
+            Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
+            Route::put('/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+            Route::delete('/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+        });
+
+        Route::prefix('partner')->group(function () {
             Route::get('/', [App\Http\Controllers\PartnerController::class, 'index'])->name('partner.index');
             Route::get('/create', [App\Http\Controllers\PartnerController::class, 'create'])->name('partner.create');
             Route::post('/', [App\Http\Controllers\PartnerController::class, 'store'])->name('partner.store');
@@ -72,8 +81,14 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}', [App\Http\Controllers\PartnerController::class, 'destroy'])->name('partner.destroy');
         });
 
-        // Resource route untuk lowongan magang
-        Route::resource('lowongan', LowonganController::class);
+        Route::prefix('lowongan')->group(function () {
+            Route::get('/', [LowonganController::class, 'index'])->name('lowongan.index');
+            Route::get('/create', [LowonganController::class, 'create'])->name('lowongan.create');
+            Route::post('/', [LowonganController::class, 'store'])->name('lowongan.store');
+            Route::get('/{id}/edit', [LowonganController::class, 'edit'])->name('lowongan.edit');
+            Route::put('/{id}', [LowonganController::class, 'update'])->name('lowongan.update');
+            Route::delete('/{id}', [LowonganController::class, 'destroy'])->name('lowongan.destroy');
+        });
     });
 
     // Dosen routes
