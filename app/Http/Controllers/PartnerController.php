@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\PartnerModel;
@@ -59,7 +58,6 @@ class PartnerController extends Controller
     {
         $partner = PartnerModel::findOrFail($id);
         $partner->delete();
-
         return redirect()->route('partner.index')->with('success', 'Mitra berhasil dihapus.');
     }
 }

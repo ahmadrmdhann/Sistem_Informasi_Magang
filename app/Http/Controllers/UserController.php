@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
@@ -13,8 +12,15 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = UserModel::with('level')->get();
+        $users = UserModel::orderBy('user_id', 'asc')->get();
         return view('dashboard.admin.user.index', compact('users'));
+    }
+
+    public function show($id)
+    {
+        $user = UserModel::findOrFail($id);
+        $level = LevelModel::findOrFail($user->level_id);
+        return view('dashboard.admin.user.show', compact('user', 'level'));
     }
 
     public function create()
@@ -26,42 +32,29 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:50|unique:m_user,username',
-            'nama'     => 'nullable|string|max:100',
-            'level_id' => 'required|exists:m_level,level_id',
-            'email'    => 'required|email|max:100|unique:m_user,email',
-            'password' => 'required|string|min:6|confirmed',
-            'status'   => 'required|in:active,inactive',
+            'username' => 'required|unique:users,user_username',
+            'password' => 'required|min:6',
+            'email' => 'required|email|unique:users,user_email',
+            'nama' => 'required',
+            'level_id' => 'required|exists:levels,level_id',
         ]);
 
         if ($validator->fails()) {
-            if ($request->ajax()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validasi gagal',
-                    'errors' => $validator->errors()
-                ]);
-            }
-            return back()->withErrors($validator)->withInput();
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
         UserModel::create([
-            'username' => $request->username,
-            'nama'     => $request->nama,
+            'user_username' => $request->username,
+            'user_password' => Hash::make($request->password),
+            'user_email' => $request->email,
+            'user_nama' => $request->nama,
             'level_id' => $request->level_id,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'status'   => $request->status,
+            'user_status' => $request->has('status') ? 1 : 0,
         ]);
 
-        if ($request->ajax()) {
-            return response()->json([
-                'status' => true,
-                'message' => 'User berhasil ditambahkan.'
-            ]);
-        }
-
-        return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -76,36 +69,50 @@ class UserController extends Controller
         $user = UserModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:50|unique:m_user,username,' . $id . ',user_id',
-            'nama'     => 'nullable|string|max:100',
-            'level_id' => 'required|exists:m_level,level_id',
-            'email'    => 'required|email|max:100|unique:m_user,email,' . $id . ',user_id',
-            'password' => 'nullable|string|min:6|confirmed',
-            'status'   => 'required|in:active,inactive',
+            'username' => 'required|unique:users,user_username,' . $id . ',user_id',
+            'email' => 'required|email|unique:users,user_email,' . $id . ',user_id',
+            'nama' => 'required',
+            'level_id' => 'required|exists:levels,level_id',
         ]);
 
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $user->username = $request->username;
-        $user->nama     = $request->nama;
-        $user->level_id = $request->level_id;
-        $user->email    = $request->email;
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->status   = $request->status;
-        $user->save();
+        $userData = [
+            'user_username' => $request->username,
+            'user_email' => $request->email,
+            'user_nama' => $request->nama,
+            'level_id' => $request->level_id,
+            'user_status' => $request->has('status') ? 1 : 0,
+        ];
 
-        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui.');
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $validator = Validator::make($request->all(), [
+                'password' => 'min:6',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            $userData['user_password'] = Hash::make($request->password);
+        }
+
+        $user->update($userData);
+
+        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         $user = UserModel::findOrFail($id);
         $user->delete();
-
-        return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('user.index')->with('success', 'User berhasil dihapus');
     }
 }
