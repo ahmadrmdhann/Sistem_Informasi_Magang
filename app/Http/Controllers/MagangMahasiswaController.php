@@ -1,24 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\MagangMahasiswaModel;
+
+use App\Models\PengajuanMagangModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\LowonganModel;
 
 class MagangMahasiswaController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        // Ambil daftar lowongan beserta partner dan periode
-        $lowongans = LowonganModel::with('partner')->get();
+        $pengajuans = PengajuanMagangModel::with(['mahasiswa', 'lowongan.partner'])->orderByDesc('created_at')->get();
+        return view('dashboard.admin.pmm.index', compact('pengajuans'));
+    }
 
-        // Ambil status pengajuan mahasiswa
-        $pengajuans = MagangMahasiswaModel::with(['lowongan.partner', 'periode'])
-            ->where('mahasiswa_id', auth()->user()->id)
-            ->orderByDesc('created_at')
-            ->get();
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:diajukan,diterima,ditolak',
+        ]);
 
-        return view('dashboard.mahasiswa.pengajuan', compact('lowongans', 'pengajuans'));
+        $pengajuan = PengajuanMagangModel::findOrFail($id);
+        $pengajuan->status = $request->status;
+        $pengajuan->save();
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui.');
     }
 }

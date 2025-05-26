@@ -56,6 +56,10 @@ class MahasiswaModel extends Model
     /**
      * Get the CV file URL.
      */
+    public function PengajuanMagang()
+    {
+        return $this->hasMany(PengajuanMagangModel::class, 'mahasiswa_id', 'mahasiswa_id');
+    }
     public function getCvUrlAttribute()
     {
         return $this->cv_file ? asset('storage/cv/' . $this->cv_file) : null;

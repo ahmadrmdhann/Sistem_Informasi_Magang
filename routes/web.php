@@ -112,6 +112,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [PeriodeController::class, 'update'])->name('periode.update');
             Route::delete('/{id}', [PeriodeController::class, 'destroy'])->name('periode.destroy');
         });
+        Route::prefix('pmm')->group(function () {
+            Route::get('/', [MagangMahasiswaController::class, 'index'])->name('pmm.index');
+            Route::get('/{id}', [MagangMahasiswaController::class, 'show'])->name('pmm.show');
+            Route::get('/{id}/edit', [MagangMahasiswaController::class, 'edit'])->name('pmm.edit');
+            Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
+            Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
+
+        });
+        
     });
 
     // Dosen routes
