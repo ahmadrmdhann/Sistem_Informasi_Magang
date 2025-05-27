@@ -6,10 +6,12 @@ use App\Http\Controllers\DosenController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\MagangMahasiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
+use App\Http\Controllers\MahasiswaLowonganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,6 +112,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [PeriodeController::class, 'update'])->name('periode.update');
             Route::delete('/{id}', [PeriodeController::class, 'destroy'])->name('periode.destroy');
         });
+        Route::prefix('pmm')->group(function () {
+            Route::get('/', [MagangMahasiswaController::class, 'index'])->name('pmm.index');
+            Route::get('/{id}', [MagangMahasiswaController::class, 'show'])->name('pmm.show');
+            Route::get('/{id}/edit', [MagangMahasiswaController::class, 'edit'])->name('pmm.edit');
+            Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
+            Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
+
+        });
+        
     });
 
     // Dosen routes
@@ -122,6 +133,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('authorize:MHS')->prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
+        Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
+        Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
         // Add more mahasiswa routes here
+    });
+
+    Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
+        Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
+        Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
     });
 });
