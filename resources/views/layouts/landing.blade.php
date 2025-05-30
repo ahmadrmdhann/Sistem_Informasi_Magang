@@ -2,6 +2,8 @@
 
 @section('tittle')
     <title>Sistem Informasi Magang</title>
+    <meta name="description"
+        content="Platform terbaik untuk mengelola program magang dengan mudah, efisien, dan terintegrasi.">
 @endsection
 
 @section('navbar')
@@ -9,29 +11,42 @@
 @endsection
 
 @section('content')
-    @include('landing.content.hero')
+    <div class="flex flex-col min-h-screen">
+        <main class="flex-1">
+            @include('landing.content.hero')
 
-    @include('landing.content.features')
+            @include('landing.content.features')
 
-    @include('landing.content.about')
+            @include('landing.content.about')
 
-    @include('landing.content.contact')
+            @include('landing.content.contact')
 
-    @include('landing.content.cta')
+            @include('landing.content.cta')
+        </main>
+
+        @section('footer')
+            @include('landing.footer')
+        @endsection
+    </div>
+
     <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.onclick = function (e) {
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
+        // Smooth scroll untuk link anchor dengan penanganan error yang lebih baik
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            };
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
         });
     </script>
-@endsection
-
-@section('footer')
-    @include('landing.footer')
 @endsection
