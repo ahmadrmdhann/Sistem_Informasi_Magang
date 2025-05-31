@@ -133,7 +133,6 @@
                         &times;
                     </button>
                 </div>
-
                 <form id="editUserForm" method="POST">
                     @csrf
                     @method('PUT')
@@ -208,22 +207,22 @@
        <script>
         let formToDelete = null;
 
-        // Ketika tombol delete ditekan
+
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', () => {
-                formToDelete = button.closest('form'); // Ambil form dari tombol yang ditekan
+                formToDelete = button.closest('form'); 
                 document.getElementById('deleteConfirmModal').classList.remove('hidden'); // Tampilkan modal
             });
         });
 
-        // Jika tombol konfirmasi hapus ditekan
+
         document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
             if (formToDelete) {
-                formToDelete.submit(); // Submit form yang sudah disimpan saat klik delete
+                formToDelete.submit(); 
             }
         });
 
-        // Jika user membatalkan penghapusan
+
         document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
             formToDelete = null;
             document.getElementById('deleteConfirmModal').classList.add('hidden'); // Sembunyikan modal

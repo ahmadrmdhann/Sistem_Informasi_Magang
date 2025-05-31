@@ -71,17 +71,14 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="lokasi" class="block text-sm font-medium text-gray-700 mb-1">
-                        Lokasi <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" name="lokasi" id="lokasi"
-                        class="w-full px-3 py-2 border rounded-md @error('lokasi') border-red-500 @enderror"
-                        value="{{ old('lokasi') }}" placeholder="Masukkan lokasi" required>
-                    @error('lokasi')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                <select name="lokasi" id="lokasi"
+                    class="w-full px-3 py-2 border rounded-md @error('lokasi') border-red-500 @enderror" required>
+                    <option value="">Pilih Lokasi</option>
+                    @foreach($lokasis as $lokasi)
+                        <option value="{{ $lokasi->kabupaten_id }}" {{ old('kabupaten_id') == $lokasi->kabupaten_id ? 'selected' : '' }}>
+                            {{ $lokasi->nama }}</option>
+                    @endforeach
+                </select>
 
                 <div class="mb-4">
                     <label for="bidang_keahlian" class="block text-sm font-medium text-gray-700 mb-1">

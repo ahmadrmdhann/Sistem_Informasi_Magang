@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('judul');
             $table->text('deskripsi');
             $table->text('persyaratan');
-            $table->string('lokasi')->constrained('kabupaten', 'kabupaten_id')->nullable();
+            $table->foreignId('lokasi')->constrained('m_kota_kabupaten', 'kabupaten_id')->nullable();
             $table->text('bidang_keahlian');
             $table->foreignId('periode_id')->constrained('m_periode', 'periode_id');
             $table->date('tanggal_mulai');
