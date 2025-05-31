@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             DosenSeeder::class,
             PeriodeSeeder::class,
             PartnerSeeder::class,
+            ProvinsiSeeder::class,
+            KabupatenSeeder::class,
             LowonganSeeder::class,
         ]);
     }
