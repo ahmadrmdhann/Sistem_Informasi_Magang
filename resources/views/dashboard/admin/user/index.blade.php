@@ -205,32 +205,31 @@
             });
 
         </script>
-        <script>
-             const baseUrl = "{{ url('http://localhost:8080/Sistem_Informasi_Magang/public') }}"; 
+       <script>
+        let formToDelete = null;
 
-            let formToDelete = null;
-
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', () => {
-                    const form = button.closest('form');
-                    formToDelete = form;
-
-                    // Tampilkan modal hapus
-                    document.getElementById('deleteConfirmModal').classList.remove('hidden');
-                });
+        // Ketika tombol delete ditekan
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', () => {
+                formToDelete = button.closest('form'); // Ambil form dari tombol yang ditekan
+                document.getElementById('deleteConfirmModal').classList.remove('hidden'); // Tampilkan modal
             });
+        });
 
-            document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-                document.getElementById('deleteConfirmModal').classList.add('hidden');
-                formToDelete = null;
-            });
+        // Jika tombol konfirmasi hapus ditekan
+        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+            if (formToDelete) {
+                formToDelete.submit(); // Submit form yang sudah disimpan saat klik delete
+            }
+        });
 
-            document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-                if (formToDelete) {
-                    formToDelete.submit();
-                }
-            });
-        </script>
+        // Jika user membatalkan penghapusan
+        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+            formToDelete = null;
+            document.getElementById('deleteConfirmModal').classList.add('hidden'); // Sembunyikan modal
+        });
+    </script>
+
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const editButtons = document.querySelectorAll(".editUserBtn");
@@ -250,7 +249,7 @@
                         statusCheckbox.checked = user.status == 1;
 
                         // Ganti action form secara dinamis
-                        editForm.action = `${baseUrl}/admin/user/${user.user_id}`;
+                        editForm.action = `/Sistem_Informasi_Magang/public/admin/user/${user.user_id}`;
 
                         // Tampilkan modal
                         document.getElementById("editUserModal").classList.remove("hidden");
