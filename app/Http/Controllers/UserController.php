@@ -13,7 +13,8 @@ class UserController extends Controller
     public function index()
     {
         $users = UserModel::orderBy('user_id', 'asc')->get();
-        return view('dashboard.admin.user.index', compact('users'));
+        $levels = LevelModel::all();
+        return view('dashboard.admin.user.index', compact('users', 'levels'));
     }
 
     public function show($id)
@@ -32,11 +33,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:users,user_username',
+            'username' => 'required|unique:m_user,username',
             'password' => 'required|min:6',
-            'email' => 'required|email|unique:users,user_email',
+            'email' => 'required|email|unique:m_user,email',
             'nama' => 'required',
-            'level_id' => 'required|exists:levels,level_id',
+            'level_id' => 'required|exists:m_level,level_id',
         ]);
 
         if ($validator->fails()) {
@@ -46,12 +47,12 @@ class UserController extends Controller
         }
 
         UserModel::create([
-            'user_username' => $request->username,
-            'user_password' => Hash::make($request->password),
-            'user_email' => $request->email,
-            'user_nama' => $request->nama,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'nama' => $request->nama,
             'level_id' => $request->level_id,
-            'user_status' => $request->has('status') ? 1 : 0,
+
         ]);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan');
@@ -69,10 +70,10 @@ class UserController extends Controller
         $user = UserModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:users,user_username,' . $id . ',user_id',
-            'email' => 'required|email|unique:users,user_email,' . $id . ',user_id',
+            'username' => 'required|unique:m_user,username,' . $id . ',user_id',
+            'email' => 'required|email|unique:m_user,email,' . $id . ',user_id',
             'nama' => 'required',
-            'level_id' => 'required|exists:levels,level_id',
+            'level_id' => 'required|exists:m_level,level_id',
         ]);
 
         if ($validator->fails()) {
@@ -82,10 +83,10 @@ class UserController extends Controller
         }
 
         $userData = [
-            'user_username' => $request->username,
-            'user_email' => $request->email,
-            'user_nama' => $request->nama,
-            'level_id' => $request->level_id,
+            'username' => $request->username,
+            'email' => $request->email,
+            'nama' => $request->nama,
+            'id' => $request->level_id,
             'user_status' => $request->has('status') ? 1 : 0,
         ];
 
