@@ -44,10 +44,12 @@
                         <form action="{{ route('mahasiswa.lowongan.apply', $lowongan->lowongan_id) }}" method="POST"
                             onsubmit="return confirm('Yakin ingin apply ke lowongan ini?')">
                             @csrf
-                            <button type="submit"
-                                class="py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm shadow">
+                            <button type="button"
+                                class="py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm shadow openApplyModalBtn"
+                                data-id="{{ $lowongan->lowongan_id }}">
                                 <i class="fas fa-paper-plane mr-2"></i>Apply
                             </button>
+
                         </form>
                     </div>
                 </div>
@@ -56,4 +58,52 @@
             @endforelse
         </div>
     </div>
+    <!-- Modal Konfirmasi Apply -->
+    <div id="applyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
+            <button type="button" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl font-bold"
+                id="closeApplyModal">&times;</button>
+
+            <h2 class="text-lg font-semibold mb-4 text-gray-800">Konfirmasi Apply</h2>
+            <p class="text-gray-700 mb-6">Apakah kamu yakin ingin apply ke lowongan ini? Pastikan CV sudah terlampir pada profile anda.</p>
+
+            <form id="applyForm" method="POST">
+                @csrf
+                <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium text-sm">
+                    Ya, Apply Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const modal = document.getElementById("applyModal");
+            const closeModalBtn = document.getElementById("closeApplyModal");
+            const applyForm = document.getElementById("applyForm");
+
+            document.querySelectorAll(".openApplyModalBtn").forEach(button => {
+                button.addEventListener("click", () => {
+                    const lowonganId = button.getAttribute("data-id");
+                    applyForm.action = `/Sistem_Informasi_Magang/public/mahasiswa/lowongan/${lowonganId}/apply`;
+                    modal.classList.remove("hidden");
+                    modal.classList.add("flex");
+                });
+            });
+
+            closeModalBtn.addEventListener("click", () => {
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            });
+
+            // Optional: Tutup modal jika klik di luar konten
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove("flex");
+                    modal.classList.add("hidden");
+                }
+            });
+        });
+    </script>
+
 @endsection
