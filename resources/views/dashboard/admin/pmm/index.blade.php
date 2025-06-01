@@ -47,7 +47,7 @@
                                 <tr class="even:bg-blue-50 hover:bg-blue-100 transition-colors">
                                     <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $index + 1 }}</td>
                                     <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">
-                                        {{ $pengajuan->mahasiswa->nama ?? '-' }}</td>
+                                        {{ $pengajuan->mahasiswa->user->nama?? '-' }}</td>
                                     <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">
                                         {{ $pengajuan->lowongan->judul ?? '-' }}</td>
                                     <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">

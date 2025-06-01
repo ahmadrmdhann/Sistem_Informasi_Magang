@@ -13,13 +13,13 @@ class MagangMahasiswaController extends Controller
         return view('dashboard.admin.pmm.index', compact('pengajuans'));
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, $mahasiswa_id)
     {
         $request->validate([
             'status' => 'required|in:diajukan,diterima,ditolak',
         ]);
 
-        $pengajuan = PengajuanMagangModel::findOrFail($id);
+        $pengajuan = PengajuanMagangModel::findOrFail($mahasiswa_id);
         $pengajuan->status = $request->status;
         $pengajuan->save();
 

@@ -21,7 +21,7 @@ class PengajuanMagangModel extends Model
     // Relasi ke mahasiswa
     public function mahasiswa()
     {
-        return $this->belongsTo(UserModel::class, 'mahasiswa_id', 'user_id');
+        return $this->belongsTo(MahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
     // Relasi ke lowongan
