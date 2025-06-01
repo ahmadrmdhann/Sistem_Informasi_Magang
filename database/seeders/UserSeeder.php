@@ -42,6 +42,15 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'username' => 'mahasiswa',
+                'nama' => 'Yantos inferno',
+                'level_id' => 3,
+                'email' => 'mahasiswa2@example.com',
+                'password' => Hash::make('qwqwqw'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

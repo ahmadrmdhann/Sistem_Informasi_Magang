@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PengajuanMagangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class PengajuanMagangController extends Controller
 {
@@ -17,15 +20,14 @@ class PengajuanMagangController extends Controller
 
         $periodes = DB::table('m_periode')->get();
 
-        // Ambil status pengajuan mahasiswa
-        $pengajuans = DB::table('m_pengajuan_magang')
-            ->join('m_lowongan', 'm_pengajuan_magang.lowongan_id', '=', 'm_lowongan.lowongan_id')
-            ->join('m_partner', 'm_lowongan.partner_id', '=', 'm_partner.partner_id')
-            ->select('m_pengajuan_magang.*', 'm_lowongan.judul as lowongan_judul', 'm_partner.nama as partner_nama')
-            ->where('m_pengajuan_magang.mahasiswa_id', auth()->user()->id)
-            ->orderByDesc('m_pengajuan_magang.created_at')
-            ->get();
 
+        $mahasiswa = auth()->user()->mahasiswa;
+        $pengajuans = PengajuanMagangModel::with(['mahasiswa', 'lowongan.partner'])
+        ->where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+        ->orderByDesc('created_at')
+        ->get();
+    
+    
         return view('dashboard.mahasiswa.pengajuan', compact('lowongans', 'periodes', 'pengajuans'));
     }
 }

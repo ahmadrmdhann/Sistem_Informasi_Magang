@@ -41,7 +41,7 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $levelId = 2;
+        $levelId = 3;
         $status = 'active';
 
         DB::table('m_user')->insert([
@@ -49,7 +49,7 @@ class AuthController extends Controller
             'level_id' => $levelId,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => $status,
+            // 'status' => $status,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

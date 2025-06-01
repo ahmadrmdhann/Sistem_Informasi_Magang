@@ -19,7 +19,7 @@ class MahasiswaLowonganController extends Controller
     {
         // Ambil user yang login
         $user = Auth::user();
-
+       
         // Ambil relasi mahasiswa dari user
         $mahasiswa = $user->mahasiswa;
 
@@ -43,7 +43,7 @@ class MahasiswaLowonganController extends Controller
         if ($sudahApply) {
             return redirect()->back()->with('error', 'Kamu sudah pernah mengajukan ke lowongan ini.');
         }
-
+        
         // Simpan pengajuan
         try {
             PengajuanMagangModel::create([
