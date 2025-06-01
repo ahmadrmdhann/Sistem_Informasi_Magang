@@ -3,10 +3,10 @@
 @section('content')
         <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold">Daftar User</h2>
+                <h2 class="text-2xl font-bold">Daftar Pengguna</h2>
                 <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow" data-modal-target="createUserModal"
                     data-modal-toggle="createUserModal">
-                    <i class="fas fa-plus mr-2"></i>Tambah User
+                    <i class="fas fa-plus mr-2"></i>Tambah Pengguna
                 </button>
             </div>
 
@@ -64,7 +64,7 @@
         </div>
     {{-- modal modal modal cuyy --}}
         <div id="createUserModal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-700">Tambah User</h3>
@@ -112,7 +112,7 @@
             </div>
         </div>
         <div id="deleteConfirmModal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Konfirmasi Hapus</h3>
                 <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus user ini?</p>
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div id="editUserModal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-700">Edit User</h3>
