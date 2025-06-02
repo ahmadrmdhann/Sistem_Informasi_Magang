@@ -113,7 +113,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-gray-700">deskripsi</label>
-                        <input type="text" name="deskripsi" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        <textarea name="deskripsi" rows="4" class="w-full border border-gray-300 rounded px-3 py-2" required></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="persyaratan" class="block text-gray-700">persyaratan</label>
@@ -186,11 +186,11 @@
                         </button>
                     </div>
 
-                    <div class="flex justify-end">
+                    {{-- <div class="flex justify-end">
                         <button type="button" data-modal-hide="createLowonganModal"
                             class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Simpan</button>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
         </div>
@@ -236,7 +236,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-gray-700">deskripsi</label>
-                        <input type="text" name="deskripsi" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        <textarea name="deskripsi" rows="4" class="w-full border border-gray-300 rounded px-3 py-2" required></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="persyaratan" class="block text-gray-700">persyaratan</label>
@@ -472,7 +472,7 @@
                         document.getElementById("show_judul").textContent = lowongan.judul || '';
                         document.getElementById("show_deskripsi").textContent = lowongan.deskripsi || '';
                         document.getElementById("show_persyaratan").textContent = lowongan.persyaratan || '';
-                        document.getElementById("show_lokasi").textContent = lokasi || '';
+                        document.getElementById("show_lokasi").textContent = lowongan.lokasi || '';
                         document.getElementById("show_bidang_keahlian").textContent = lowongan.bidang_keahlian || '';
                         document.getElementById("show_periode").textContent = periode || '';
                         document.getElementById("show_tanggal_mulai").textContent = lowongan.tanggal_mulai || '';
