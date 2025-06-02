@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('m_mahasiswa', function (Blueprint $table) {
             $table->id('mahasiswa_id');
             $table->foreignId('user_id')->constrained('m_user', 'user_id')->onDelete('cascade');
-            $table->string('nim')->unique();
-            $table->foreignId('prodi_id')->constrained('m_prodi', 'prodi_id');
-            $table->text('bidang_keahlian')->nullable();
+            $table->string('nim')->unique()->nullable();
+            $table->foreignId('prodi_id')->nullable()->constrained('m_prodi', 'prodi_id');
+            $table->foreignId('keahlian_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
+            $table->foreignId('minat_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
             $table->text('lokasi_preferensi')->nullable();
             $table->text('sertifikat')->nullable();
             $table->string('cv_file')->nullable();

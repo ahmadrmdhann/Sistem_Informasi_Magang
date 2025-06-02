@@ -30,7 +30,8 @@ class AuthController extends Controller
 
     public function register()
     {
-        return view('auth.register');
+        $prodi = DB::table('m_prodi')->get();
+        return view('auth.register', compact('prodi'));
     }
 
     public function postregister(Request $request)
@@ -41,15 +42,22 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $levelId = 2;
-        $status = 'active';
+        $levelId = 3;
 
         DB::table('m_user')->insert([
             'username' => $request->username,
+            'nama' => $request->nama,
             'level_id' => $levelId,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => $status,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('m_mahasiswa')->insert([
+            'user_id' => DB::getPdo()->lastInsertId(),
+            'nim' => $request->nim,
+            'prodi_id' => $request->prodi_id,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
