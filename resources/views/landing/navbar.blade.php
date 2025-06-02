@@ -4,7 +4,7 @@
             <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="h-8 mr-3">
         </a>
         <div class="hidden md:flex items-center justify-center flex-1 mx-auto">
-            <div class="flex items-center space-x-6 ml-26">
+            <div class="flex items-center space-x-6">
                 <a href="{{ url('/') }}" class="text-sm font-medium hover:text-blue-600 transition-colors">
                     Beranda
                 </a>
