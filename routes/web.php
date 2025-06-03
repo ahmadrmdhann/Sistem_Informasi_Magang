@@ -136,6 +136,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
             Route::put('/', [MahasiswaController::class, 'updateProfile'])->name('mahasiswa.profile.update');
             Route::put('/password', [MahasiswaController::class, 'updatePassword'])->name('mahasiswa.profile.password.update');
+            Route::post('/photo', [MahasiswaController::class, 'updatePhoto'])->name('mahasiswa.profile.photo.update');
         });
 
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');

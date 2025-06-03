@@ -21,6 +21,9 @@ return new class extends Migration
             $table->text('lokasi_preferensi')->nullable();
             $table->text('sertifikat')->nullable();
             $table->string('cv_file')->nullable();
+            $table->string('foto_profil')->nullable();
+            $table->text('tentang_saya')->nullable();
+            $table->string('no_telepon', 15)->nullable();
             $table->timestamps();
         });
     }
