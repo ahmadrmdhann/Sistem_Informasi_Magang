@@ -110,6 +110,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/edit', [MagangMahasiswaController::class, 'edit'])->name('pmm.edit');
             Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
             Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
+            Route::put('/pengajuan/{id}/dosen', [MagangMahasiswaController::class, 'updateDosen'])->name('pengajuan.updateDosen');
+
+
+
         });
         Route::prefix('keahlian')->group(function () {
             Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');

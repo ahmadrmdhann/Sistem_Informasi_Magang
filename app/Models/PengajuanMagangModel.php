@@ -15,18 +15,21 @@ class PengajuanMagangModel extends Model
         'lowongan_id',
         'status',
         'tanggal_pengajuan',
-        'dokumen_pendukung',
+        'dosen_id',
     ];
 
-    // Relasi ke mahasiswa
+
     public function mahasiswa()
     {
-        return $this->belongsTo(UserModel::class, 'mahasiswa_id', 'user_id');
+        return $this->belongsTo(MahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
     }
 
-    // Relasi ke lowongan
+
     public function lowongan()
     {
         return $this->belongsTo(LowonganModel::class, 'lowongan_id', 'lowongan_id');
+    }
+    public function dosen(){
+        return $this->belongsTo(DosenModel::class, 'dosen_id', 'dosen_id');
     }
 }

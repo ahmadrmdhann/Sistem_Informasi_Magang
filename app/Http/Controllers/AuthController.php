@@ -44,12 +44,14 @@ class AuthController extends Controller
 
         $levelId = 3;
 
+
         DB::table('m_user')->insert([
             'username' => $request->username,
             'nama' => $request->nama,
             'level_id' => $levelId,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -58,8 +60,7 @@ class AuthController extends Controller
             'user_id' => DB::getPdo()->lastInsertId(),
             'nim' => $request->nim,
             'prodi_id' => $request->prodi_id,
-            'created_at' => now(),
-            'updated_at' => now(),
+
         ]);
 
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');

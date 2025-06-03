@@ -87,7 +87,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Dokumen Pendukung
                             </label>
-                            
+
                             <div class="space-y-3">
                                 <div class="flex items-center p-3 border border-gray-200 rounded-lg bg-white">
                                     <div class="flex-shrink-0 text-gray-400">
@@ -156,65 +156,63 @@
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <div class="min-w-full inline-block align-middle">
-                            <div class="overflow-hidden border border-gray-200 rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200 bg-white">
-                                    <thead class="bg-gray-50">
+                    <div class="container mx-auto px-4 py-6">
+                        <h2 class="text-2xl font-semibold text-gray-700 mb-4">Status Pengajuan Magang</h2>
+
+                        @if ($pengajuans->isEmpty())
+                            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+                                <p>Belum ada pengajuan magang.</p>
+                            </div>
+                        @else
+                            <div class="overflow-x-auto bg-white rounded shadow">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-100">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Perusahaan</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Posisi</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pengajuan</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Perusahaan</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Posisi</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal Pengajuan</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
-                                        @forelse($pengajuans as $pengajuan)
+                                        @foreach ($pengajuans as $pengajuan)
                                             <tr class="hover:bg-gray-50">
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $pengajuan->partner_nama }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ $pengajuan->lowongan_judul }}</td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                    {{ \Carbon\Carbon::parse($pengajuan->created_at)->format('d M Y') }}
+                                                <td class="px-6 py-4 text-sm text-gray-800">
+                                                    {{ $pengajuan->lowongan->partner->nama ?? '-' }}
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                    @if($pengajuan->status == 'diterima')
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                            <i class="fas fa-check-circle mr-1"></i> Diterima
-                                                        </span>
-                                                    @elseif($pengajuan->status == 'ditolak')
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                            <i class="fas fa-times-circle mr-1"></i> Ditolak
-                                                        </span>
+                                                <td class="px-6 py-4 text-sm text-gray-800">
+                                                    {{ $pengajuan->lowongan->judul ?? '-' }}
+                                                </td>
+                                                <td class="px-6 py-4 text-sm text-gray-800">
+                                                    {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->format('d M Y') }}
+                                                </td>
+                                                <td class="px-6 py-4 text-sm">
+                                                    @if ($pengajuan->status == 'diterima')
+                                                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">Diterima</span>
+                                                    @elseif ($pengajuan->status == 'ditolak')
+                                                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">Ditolak</span>
                                                     @else
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                            <i class="fas fa-clock mr-1"></i> Dalam Proses
-                                                        </span>
+                                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-medium">Dalam
+                                                            Proses</span>
                                                     @endif
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                    <button type="button" class="text-blue-600 hover:text-blue-900">
+                                                <td class="px-6 py-4 text-sm text-gray-800">
+                                                    <a href="#" class="text-blue-600 hover:underline">
                                                         <i class="fas fa-eye mr-1"></i> Detail
-                                                    </button>
-                                                    @if($pengajuan->status == 'diterima')
-                                                    <a href="#" class="text-green-600 hover:text-green-900 ml-3">
-                                                        <i class="fas fa-download mr-1"></i> Unduh Surat
                                                     </a>
+                                                    @if ($pengajuan->status == 'diterima')
+                                                        <a href="#" class="ml-3 text-green-600 hover:underline">
+                                                            <i class="fas fa-download mr-1"></i> Unduh Surat
+                                                        </a>
                                                     @endif
                                                 </td>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                                    Belum ada pengajuan magang.
-                                                </td>
-                                            </tr>
-                                        @endforelse
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                    </div>
+                        @endif              </div>
                 </div>
             </div>
         </div>
@@ -257,7 +255,7 @@
                 formPengajuan.classList.add('hidden');
                 statusPengajuan.classList.remove('hidden');
             });
-            
+
             // File upload button functionality
             document.querySelectorAll('.text-blue-600.hover\\:text-blue-800').forEach(button => {
                 button.addEventListener('click', function() {

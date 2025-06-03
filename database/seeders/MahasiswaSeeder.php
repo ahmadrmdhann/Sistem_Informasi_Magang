@@ -24,6 +24,17 @@ class MahasiswaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'user_id' => 4, 
+                'nim' => '2341720090',
+                'prodi_id' => 1,
+                'bidang_keahlian' => 'Cooking',
+                'lokasi_preferensi' => 'Sumbawa',
+                'sertifikat' => 'Sertifikat A',
+                'cv_file' => 'cv_mahasiswa1.pdf',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
