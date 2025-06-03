@@ -12,6 +12,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
+use App\Http\Controllers\KeahlianController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -112,8 +113,16 @@ Route::middleware('auth')->group(function () {
             Route::put('/pengajuan/{id}/dosen', [MagangMahasiswaController::class, 'updateDosen'])->name('pengajuan.updateDosen');
 
 
+
         });
-        
+        Route::prefix('keahlian')->group(function () {
+            Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');
+            Route::get('/create', [KeahlianController::class, 'create'])->name('keahlian.create');
+            Route::post('/', [KeahlianController::class, 'store'])->name('keahlian.store');
+            Route::get('/{id}/edit', [KeahlianController::class, 'edit'])->name('keahlian.edit');
+            Route::put('/{id}', [KeahlianController::class, 'update'])->name('keahlian.update');
+            Route::delete('/{id}', [KeahlianController::class, 'destroy'])->name('keahlian.destroy');
+        });
     });
 
     // Dosen routes
@@ -125,6 +134,15 @@ Route::middleware('auth')->group(function () {
     // Mahasiswa routes
     Route::middleware('authorize:MHS')->prefix('mahasiswa')->group(function () {
         Route::get('/', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+        Route::get('/profile', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
+
+        Route::prefix('profile')->group(function () {
+            Route::get('/', [MahasiswaController::class, 'profile'])->name('mahasiswa.profile');
+            Route::put('/', [MahasiswaController::class, 'updateProfile'])->name('mahasiswa.profile.update');
+            Route::put('/password', [MahasiswaController::class, 'updatePassword'])->name('mahasiswa.profile.password.update');
+            Route::post('/photo', [MahasiswaController::class, 'updatePhoto'])->name('mahasiswa.profile.photo.update');
+        });
+
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
         Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
         Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');

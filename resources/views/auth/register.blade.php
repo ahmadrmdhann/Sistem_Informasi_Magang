@@ -31,11 +31,34 @@
             <form class="space-y-5" method="POST" action="{{ route('register') }}">
                 @csrf
                 <div>
-                    <label for="username" class="block mb-1 text-sm font-semibold text-gray-700">Nama Pengguna</label>
+                    <label for="username" class="block mb-1 text-sm font-semibold text-gray-700">Username</label>
                     <input id="username" name="username" type="text" required autofocus
+                        placeholder="Masukkan username Anda"
+                        class="form-input block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out shadow-sm" />
+                </div>
+                <div>
+                    <label for="nama" class="block mb-1 text-sm font-semibold text-gray-700">Nama Lengkap</label>
+                    <input id="nama" name="nama" type="text" required autofocus
                         placeholder="Masukkan nama pengguna Anda"
                         class="form-input block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out shadow-sm" />
                 </div>
+                <div>
+                    <label for="nim" class="block mb-1 text-sm font-semibold text-gray-700">NIM</label>
+                    <input id="nim" name="nim" type="text" required autofocus
+                        placeholder="Masukkan NIM pengguna Anda"
+                        class="form-input block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out shadow-sm" />
+                </div>
+                <div>
+                    <label for="prodi_id" class="block mb-1 text-sm font-semibold text-gray-700">Program Studi</label>
+                    <select id="prodi_id" name="prodi_id" required
+                        class="form-select block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out shadow-sm">
+                        <option value="">Pilih Program Studi</option>
+                        @foreach($prodi as $item)
+                            <option value="{{ $item->prodi_id }}">{{ $item->prodi_nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div>
                     <label for="email" class="block mb-1 text-sm font-semibold text-gray-700">Email</label>
                     <input id="email" name="email" type="email" required placeholder="you@example.com"

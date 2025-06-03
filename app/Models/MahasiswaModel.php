@@ -32,7 +32,9 @@ class MahasiswaModel extends Model
         'user_id',
         'nim',
         'prodi_id',
-        'bidang_keahlian',
+        'keahlian_id',
+        'minat_id',
+        'lokasi_preferensi',
         'sertifikat',
         'cv_file',
     ];
@@ -51,6 +53,22 @@ class MahasiswaModel extends Model
     public function prodi()
     {
         return $this->belongsTo(ProdiModel::class, 'prodi_id', 'prodi_id');
+    }
+
+    /**
+     * Get the keahlian that the mahasiswa has.
+     */
+    public function keahlian()
+    {
+        return $this->belongsTo(KeahlianModel::class, 'keahlian_id', 'keahlian_id');
+    }
+
+    /**
+     * Get the minat that the mahasiswa has.
+     */
+    public function minat()
+    {
+        return $this->belongsTo(KeahlianModel::class, 'minat_id', 'keahlian_id');
     }
 
     /**
