@@ -19,11 +19,13 @@ class KabupatenSeeder extends Seeder
         $header = fgetcsv($handle); // skip header, default delimiter koma
 
         while (($row = fgetcsv($handle)) !== false) {
-            if (count($row) < 3) continue; // skip baris tidak valid/kurang kolom
+            if (count($row) < 5) continue; // skip baris tidak valid/kurang kolom
             DB::table('m_kota_kabupaten')->insert([
                 'kabupaten_id' => $row[0],
                 'provinsi_id' => $row[1],
                 'nama' => trim($row[2], '"'),
+                'lat' => $row[3],
+                'lng' => $row[4]
             ]);
         }
         fclose($handle);

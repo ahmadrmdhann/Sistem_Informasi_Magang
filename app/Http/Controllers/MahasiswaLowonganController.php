@@ -11,10 +11,21 @@ class MahasiswaLowonganController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $mahasiswa = $user->mahasiswa;
+    
         $lowongans = LowonganModel::with(['partner', 'periode'])->latest()->get();
-        return view('dashboard.mahasiswa.lowongan.index', compact('lowongans'));
+        $applieds = [];
+    
+        if ($mahasiswa) {
+            $applieds = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+                ->pluck('lowongan_id')
+                ->toArray();
+        }
+    
+        return view('dashboard.mahasiswa.lowongan.index', compact('lowongans', 'applieds'));
     }
-
+    
     public function apply(Request $request, $lowongan_id)
     {
         // Ambil user yang login

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('kabupaten_id');
             $table->foreignId('provinsi_id')->constrained('m_provinsi', 'provinsi_id')->onDelete('cascade');
             $table->string('nama', 100);
+            $table->double('lat');
+            $table->double('lng');
             $table->timestamps();
         });
     }
