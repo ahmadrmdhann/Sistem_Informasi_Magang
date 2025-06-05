@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('prodi_id')->nullable()->constrained('m_prodi', 'prodi_id');
             $table->foreignId('keahlian_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
             $table->foreignId('minat_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
-            $table->text('lokasi_preferensi')->nullable();
+            $table->foreignId('lokasi_preferensi')->nullable()->constrained('m_kota_kabupaten', 'kabupaten_id');
             $table->text('sertifikat')->nullable();
             $table->string('cv_file')->nullable();
             $table->string('foto_profil')->nullable();

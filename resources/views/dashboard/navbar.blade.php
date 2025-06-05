@@ -14,8 +14,14 @@
             <button type="button"
                 class="user-dropdown-toggle flex items-center gap-3 focus:outline-none hover:bg-gray-50 px-3 py-2 rounded-full transition shadow-sm"
                 id="userDropdownToggle">
-                <img class="w-10 h-10 rounded-full border-2 border-blue-300 shadow object-cover"
-                    src="https://ui-avatars.com/api/?name=User&background=4F46E5&color=fff" alt="User Avatar">
+                @if(isset($mahasiswa) && $mahasiswa->foto_profil)
+                    <img class="w-10 h-10 rounded-full border-2 border-blue-300 shadow object-cover"
+                        src="{{ asset($mahasiswa->foto_profil) }}" alt="User Avatar">
+                @else
+                    <div class="w-10 h-10 rounded-full border-2 border-blue-300 shadow bg-blue-500 flex items-center justify-center">
+                        <i class="fa-solid fa-user text-white text-lg"></i>
+                    </div>
+                @endif
                 <div class="hidden md:block text-left">
                     <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->username }}</p>
                     <p class="text-xs text-gray-500">{{ Auth::user()->level->level_nama }}</p>

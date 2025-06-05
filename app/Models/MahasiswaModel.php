@@ -82,4 +82,12 @@ class MahasiswaModel extends Model
     {
         return $this->cv_file ? asset('storage/cv/' . $this->cv_file) : null;
     }
+
+    /**
+     * Get the lokasi preferensi that the mahasiswa has.
+     */
+    public function lokasiPreferensi()
+    {
+        return $this->belongsTo(KotaKabupatenModel::class, 'lokasi_preferensi', 'kabupaten_id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KeahlianModel;
 use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
+use App\Models\KotaKabupatenModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +25,8 @@ class MahasiswaController extends Controller
         $mahasiswa = MahasiswaModel::where('user_id', Auth::id())->firstOrFail();
         $prodis = ProdiModel::all();
         $keahlian = KeahlianModel::all();
-        return view('dashboard.mahasiswa.profile.index', compact('mahasiswa', 'prodis', 'keahlian'));
+        $kotaKabupaten = KotaKabupatenModel::orderBy('nama', 'asc')->get();
+        return view('dashboard.mahasiswa.profile.index', compact('mahasiswa', 'prodis', 'keahlian', 'kotaKabupaten'));
     }
 
     public function updateProfile(Request $request)
@@ -42,7 +44,7 @@ class MahasiswaController extends Controller
             'minat_id' => 'nullable|exists:m_keahlian,keahlian_id',
             'no_telepon' => 'nullable|string|max:15',
             'tentang_saya' => 'nullable|string|max:1000',
-            'lokasi_preferensi' => 'nullable|string|max:500',
+            'lokasi_preferensi' => 'nullable|exists:m_kota_kabupaten,kabupaten_id',
             'cv_file' => 'nullable|file|mimes:pdf|max:2048',
             'sertifikat' => 'nullable|string|max:1000',
         ], [
@@ -57,6 +59,7 @@ class MahasiswaController extends Controller
             'prodi_id.required' => 'Jurusan wajib dipilih.',
             'cv_file.mimes' => 'File CV harus berformat PDF.',
             'cv_file.max' => 'Ukuran file CV maksimal 2MB.',
+            'lokasi_preferensi.exists' => 'Lokasi preferensi yang dipilih tidak valid.',
         ]);
 
         try {

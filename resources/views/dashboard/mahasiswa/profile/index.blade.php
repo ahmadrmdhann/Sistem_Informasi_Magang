@@ -224,9 +224,18 @@
                                     <div class="space-y-1 sm:space-y-2">
                                         <label class="block text-xs sm:text-sm font-medium text-gray-700">Lokasi
                                             Preferensi</label>
-                                        <textarea name="lokasi_preferensi" rows="4"
-                                            class="w-full p-2 sm:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition"
-                                            placeholder="Lokasi yang diinginkan untuk magang...">{{ old('lokasi_preferensi', $mahasiswa->lokasi_preferensi) }}</textarea>
+                                        <select name="lokasi_preferensi"
+                                            class="w-full p-2 sm:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition @error('lokasi_preferensi') border-red-500 @enderror">
+                                            <option value="">Pilih Lokasi Preferensi</option>
+                                            @foreach($kotaKabupaten as $kota)
+                                                <option value="{{ $kota->kabupaten_id }}" {{ old('lokasi_preferensi', $mahasiswa->lokasi_preferensi) == $kota->kabupaten_id ? 'selected' : '' }}>
+                                                    {{ $kota->nama }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('lokasi_preferensi')
+                                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 
