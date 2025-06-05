@@ -4,10 +4,7 @@
     <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
         <div class="flex justify-between items-center mb-4 w-auto">
             <h2 class="text-2xl font-bold">Daftar Level</h2>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow" data-modal-target="createUserModal"
-                data-modal-toggle="createUserModal">
-                <i class="fas fa-plus mr-2"></i>Tambah Level
-            </button>
+            <!-- Tombol tambah level dihapus -->
         </div>
 
         @if (session('success'))
@@ -36,10 +33,10 @@
                         <th
                             class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">
                             Diperbarui</th>
-                        <th
+                        <!-- <th
                             class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl border-b border-gray-300">
                             Aksi</th>
-                    </tr>
+                    </tr> -->
                 </thead>
                 <tbody>
                     @forelse ($levels as $index => $level)
@@ -52,7 +49,7 @@
                                 {{ $level->created_at->format('d/m/Y H:i') }}</td>
                             <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">
                                 {{ $level->updated_at->format('d/m/Y H:i') }}</td>
-                            <td class="px-6 py-3 text-center border-b border-gray-200">
+                            <!-- <td class="px-6 py-3 text-center border-b border-gray-200">
                                 <div class="flex justify-center space-x-2">
                                     <button type="button"
                                         class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition-colors duration-150 editUserBtn"
@@ -69,7 +66,7 @@
                                         </button>
                                     </form>
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
                     @empty
                         <tr>

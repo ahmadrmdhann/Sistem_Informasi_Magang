@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+<!-- @extends('layouts.dashboard')
 
 @section('content')
     <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
@@ -69,4 +69,4 @@
             }
         });
     </script>
-@endsection
+@endsection -->
