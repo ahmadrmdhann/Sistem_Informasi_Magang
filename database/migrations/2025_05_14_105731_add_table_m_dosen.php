@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('m_user', 'user_id')->onDelete('cascade');
             $table->string('nidn')->unique();
             $table->text('bidang_minat')->nullable();
+            $table->string('foto_profil')->nullable();
             $table->timestamps();
         });
     }

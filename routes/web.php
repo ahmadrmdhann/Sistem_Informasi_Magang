@@ -128,6 +128,12 @@ Route::middleware('auth')->group(function () {
     // Dosen routes
     Route::middleware('authorize:DSN')->prefix('dosen')->group(function () {
         Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
+        Route::get('/', [DosenController::class, 'profile'])->name('dosen.profile');
+        Route::put('/', [DosenController::class, 'updateProfile'])->name('dosen.profile.update');
+        Route::post('/photo', [DosenController::class, 'updatePhoto'])->name('dosen.profile.photo.update');
+        Route::put('/password', [DosenController::class, 'updatePassword'])->name('dosen.profile.password.update');
+
+
         // Add more dosen routes here
     });
 
