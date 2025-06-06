@@ -13,6 +13,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
 use App\Http\Controllers\KeahlianController;
+use App\Http\Controllers\MahasiswaBimbingan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -133,6 +134,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/photo', [DosenController::class, 'updatePhoto'])->name('dosen.profile.photo.update');
         Route::put('/password', [DosenController::class, 'updatePassword'])->name('dosen.profile.password.update');
 
+        Route::prefix('mhsbimbingang')->group(function(){
+            Route::get('/',[MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
+        });
 
         // Add more dosen routes here
     });

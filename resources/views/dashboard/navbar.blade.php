@@ -49,24 +49,21 @@
                     <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
                 </div>
                 @if (Auth::user()->level_id === 1)
-                    <a href="#"
-                        class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition group">
-                        <div
+                    {{-- <a href="#" --}}
+                        {{-- class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition group"> --}}
+                        {{-- <div
                             class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition">
                             <i class="fa-solid fa-tachometer-alt text-blue-600"></i>
-                        </div>
-                        <div>
+                        </div> --}}
+                        {{-- <div>
                             <p class="font-medium">Profile</p>
                             <p class="text-xs text-gray-500">Edit your profile</p>
-                        </div>
-                    </a>
+                        </div> --}}
+                    {{-- </a> --}}
                 @elseif (Auth::user()->level_id === 3)
                     <a href="{{ route('mahasiswa.profile') }}"
                         class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition group">
-                        <div
-                            class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition">
-                            <i class="fa-solid fa-graduation-cap text-blue-600"></i>
-                        </div>
+                       
                         <div>
                             <p class="font-medium">Profile</p>
                             <p class="text-xs text-gray-500">Edit Your Profile</p>
@@ -75,10 +72,10 @@
                 @elseif (Auth::user()->level_id === 2)
                     <a href="{{ route('dosen.profile') }}"
                             class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-blue-50 rounded-lg transition group">
-                            <div
+                            {{-- <div
                                 class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition">
                                 <i class="fa-solid fa-user-tie text-blue-600"></i>
-                            </div>
+                            </div> --}}
                             <div>
                                 <p class="font-medium">Profile</p>
                                 <p class="text-xs text-gray-500">Edit your profile</p>
@@ -101,9 +98,9 @@
                     @csrf
                     <button type="submit"
                         class="flex items-center gap-2 px-4 py-3 w-full text-left text-gray-700 hover:bg-red-50 rounded-lg transition group">
-                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center group-hover:bg-red-200 transition">
+                        {{-- <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center group-hover:bg-red-200 transition">
                             <i class="fa-solid fa-right-from-bracket text-red-600"></i>
-                        </div>
+                        </div> --}}
                         <div>
                             <p class="font-medium">Logout</p>
                             <p class="text-xs text-gray-500">Sign out of your account</p>
