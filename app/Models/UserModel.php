@@ -51,5 +51,8 @@ class UserModel extends Authenticatable
     {
         return $this->hasOne(MahasiswaModel::class, 'user_id', 'user_id');
     }
-    
+    public function dosen()
+    {
+        return $this->hasOne(DosenModel::class, 'user_id', 'user_id');
+    }
 }

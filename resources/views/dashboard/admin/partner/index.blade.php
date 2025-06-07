@@ -27,8 +27,9 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tl-xl border-b border-r border-gray-300">No</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Nama</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Kontak</th>
-                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Bidang Industri</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Alamat</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Telepon</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Email</th>
                     <th class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">Alamat</th>
                     <th class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl border-b border-gray-300">Aksi</th>
                 </tr>
@@ -38,8 +39,9 @@
                     <tr class="even:bg-blue-50 hover:bg-blue-100 transition-colors">
                         <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $index + 1 }}</td>
                         <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->nama }}</td>
-                        <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->kontak }}</td>
-                        <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->bidang_industri }}</td>
+                        <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->alamat }}</td>
+                        <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->telepon }}</td>
+                        <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->email }}</td>
                         <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->alamat }}</td>
                         <td class="px-6 py-3 text-center border-b border-gray-200">
                             <div class="flex justify-center space-x-2">

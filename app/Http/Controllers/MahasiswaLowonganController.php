@@ -14,7 +14,7 @@ class MahasiswaLowonganController extends Controller
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
     
-        $lowongans = LowonganModel::with(['partner', 'periode'])->latest()->get();
+        $lowongans = LowonganModel::with(['partner', 'periode', 'lokasi'])->latest()->get();
         $applieds = [];
     
         if ($mahasiswa) {
