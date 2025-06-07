@@ -34,6 +34,15 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'username' => 'dosen',
+                'nama' => 'Moch. Dusirman, S.ST., M.Kom',
+                'level_id' => 2,
+                'email' => 'dosen2@example.com',
+                'password' => Hash::make('123456'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'username' => 'mahasiswa',
                 'nama' => 'Dandi Azrul Syahputra',
                 'level_id' => 3,

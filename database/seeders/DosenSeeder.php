@@ -21,6 +21,13 @@ class DosenSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'user_id' => 3, // Pastikan sesuai dengan id pada seeder m_user
+                'nidn' => '198092345',
+                'bidang_minat' => 'Sistem Informasi',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

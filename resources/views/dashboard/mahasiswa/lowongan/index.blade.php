@@ -27,7 +27,7 @@
                             <div class="text-gray-600 mb-1">
                                 <span class="font-medium">{{ $lowongan->partner->nama ?? '-' }}</span>
                                 <span class="mx-2">|</span>
-                                <span>{{ $lowongan->periode->nama_periode ?? '-' }}</span>
+                                <span>{{ $lowongan->periode->nama ?? '-' }}</span>
                             </div>
                             <div class="text-gray-500 text-sm mb-2">
                                 Lokasi: {{ $lowongan->lokasi }} &bull; Bidang: {{ $lowongan->bidang_keahlian }}
