@@ -17,18 +17,11 @@ class FeedbackController extends Controller
     public function create()
     {
         $user = Auth::user();
-        // Eager load relationships to avoid N+1 queries
-        // Assuming UserModel's primary key is 'id' and MahasiswaModel.user_id refers to it.
         $mahasiswa = MahasiswaModel::with(['user', 'prodi'])->where('user_id', $user->id)->first();
 
-        if (!$mahasiswa) {
-            // Flash a warning message instead of redirecting
-            session()->flash('warning', 'Profil mahasiswa tidak lengkap. Beberapa informasi mungkin tidak dapat ditampilkan. Harap lengkapi profil Anda melalui halaman profil untuk pengalaman terbaik.');
-            // $mahasiswa will be null, the view needs to handle this.
-        }
+        // View akan menangani jika $mahasiswa null atau profil tidak lengkap
+        // Pesan peringatan bisa ditampilkan langsung di view jika $mahasiswa tidak lengkap
 
-        // Mengambil riwayat feedback yang diberikan oleh mahasiswa ini
-        // FeedbackModel.mahasiswa_id refers to UserModel.id as per FeedbackModel's relation and comments.
         $riwayatFeedback = FeedbackModel::where('mahasiswa_id', $user->id)
             ->where('evaluator', 'mahasiswa')
             ->orderBy('tanggal', 'desc')
@@ -50,30 +43,24 @@ class FeedbackController extends Controller
             'skor_kualitas_bimbingan' => 'required|integer|min:1|max:10',
             'skor_beban_kerja' => 'required|integer|min:1|max:10',
             'skor_suasana_kerja' => 'required|integer|min:1|max:10',
-            // Tambahkan validasi untuk skor baru jika sudah ada di form
             'skor_pengembangan_hard_skills' => 'required|integer|min:1|max:10',
             'skor_pengembangan_soft_skills' => 'required|integer|min:1|max:10',
-            'pelajaran_terbaik' => 'required|string|max:1000',
-            'kritik_saran_perusahaan' => 'required|string|max:1000',
+            'pelajaran_terbaik' => 'required|string|max:2000',
+            'kritik_saran_perusahaan' => 'required|string|max:2000',
         ]);
 
         $user = Auth::user();
-        // This check ensures the user is a valid student (Mahasiswa)
-        // Even if $mahasiswa was null in create(), we re-fetch or check based on $user for storing.
-        // However, the form might be disabled or limited if profile was incomplete.
-        // For now, we assume if they can submit, their user_id is valid for feedback.
-        // If m_mahasiswa entry is strictly required to *submit* feedback, this check is important.
-        $mahasiswaDetails = MahasiswaModel::where('user_id', $user->id)->first();
+        // Pastikan user memiliki entri di m_mahasiswa
+        $mahasiswaExists = MahasiswaModel::where('user_id', $user->id)->exists();
 
-        if (!$mahasiswaDetails) {
-            // This case should ideally be prevented by disabling the form if profile is incomplete.
-            // Or, if feedback can be submitted with just user_id, this check might be adjusted.
-            return redirect()->back()->with('error', 'Tidak dapat menyimpan umpan balik karena profil mahasiswa tidak lengkap.');
+        if (!$mahasiswaExists) {
+            return redirect()->back()->with('error', 'Profil mahasiswa tidak ditemukan. Tidak dapat menyimpan umpan balik.');
         }
 
         FeedbackModel::create([
-            'mahasiswa_id' => $user->id, // Store the user_id from Auth
+            'mahasiswa_id' => $user->id, // Sesuai dengan relasi di FeedbackModel dan migrasi
             'evaluator' => 'mahasiswa',
+            'tanggal' => now(),
             'skor_kesesuaian_tugas' => $request->skor_kesesuaian_tugas,
             'skor_kualitas_bimbingan' => $request->skor_kualitas_bimbingan,
             'skor_beban_kerja' => $request->skor_beban_kerja,
@@ -82,7 +69,7 @@ class FeedbackController extends Controller
             'skor_pengembangan_soft_skills' => $request->skor_pengembangan_soft_skills,
             'pelajaran_terbaik' => $request->pelajaran_terbaik,
             'kritik_saran_perusahaan' => $request->kritik_saran_perusahaan,
-            'tanggal' => now(),
+            // 'komentar' tidak diisi karena sudah ada field spesifik untuk feedback kualitatif
         ]);
 
         return redirect()->route('mahasiswa.feedback.create', ['#riwayat'])->with('success', 'Umpan balik berhasil dikirim. Terima kasih atas masukan Anda!');
