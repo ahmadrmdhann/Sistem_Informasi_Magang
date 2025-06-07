@@ -85,24 +85,28 @@
                         </div>
                     @else
                         <p class="text-sm text-yellow-700 bg-yellow-100 border border-yellow-300 p-3 rounded-md">
-                            Informasi mahasiswa tidak lengkap. Harap lengkapi profil Anda melalui halaman profil untuk pengalaman terbaik.
+                            Informasi mahasiswa tidak lengkap. Harap lengkapi profil Anda melalui halaman profil untuk
+                            pengalaman terbaik.
                         </p>
                     @endif
                 </div>
 
                 {{-- Feedback Form --}}
-                <form action="{{ route('feedback.store') }}" method="POST" class="space-y-6 bg-white p-6 rounded-lg shadow-md">
+                <form action="{{ route('feedback.store') }}" method="POST"
+                    class="space-y-6 bg-white p-6 rounded-lg shadow-md">
                     @csrf
 
                     {{-- Skor Kesesuaian Tugas --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">1. Bagaimana kesesuaian tugas yang diberikan dengan bidang dan minat Anda? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">1. Bagaimana kesesuaian tugas yang
+                            diberikan dengan bidang dan minat Anda? <span class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_kesesuaian_tugas" value="{{ $i }}" class="sr-only" {{ old('skor_kesesuaian_tugas') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
@@ -112,13 +116,15 @@
 
                     {{-- Skor Kualitas Bimbingan --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">2. Bagaimana kualitas bimbingan yang Anda terima dari mentor/pembimbing lapangan? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">2. Bagaimana kualitas bimbingan yang
+                            Anda terima dari mentor/pembimbing lapangan? <span class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_kualitas_bimbingan" value="{{ $i }}" class="sr-only" {{ old('skor_kualitas_bimbingan') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
@@ -128,13 +134,15 @@
 
                     {{-- Skor Beban Kerja --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">3. Bagaimana Anda menilai beban kerja selama magang? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">3. Bagaimana Anda menilai beban kerja
+                            selama magang? <span class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_beban_kerja" value="{{ $i }}" class="sr-only" {{ old('skor_beban_kerja') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
@@ -144,13 +152,15 @@
 
                     {{-- Skor Suasana Kerja --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">4. Bagaimana suasana dan lingkungan kerja di tempat magang? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">4. Bagaimana suasana dan lingkungan
+                            kerja di tempat magang? <span class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_suasana_kerja" value="{{ $i }}" class="sr-only" {{ old('skor_suasana_kerja') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
@@ -160,52 +170,70 @@
 
                     {{-- Skor Pengembangan Hard Skills --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">5. Seberapa besar kontribusi magang ini terhadap pengembangan hard skills Anda? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">5. Seberapa besar kontribusi magang ini
+                            terhadap pengembangan hard skills Anda? <span class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_pengembangan_hard_skills" value="{{ $i }}" class="sr-only" {{ old('skor_pengembangan_hard_skills') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
                         </div>
-                        @error('skor_pengembangan_hard_skills') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        @error('skor_pengembangan_hard_skills') <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Skor Pengembangan Soft Skills --}}
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">6. Seberapa besar kontribusi magang ini terhadap pengembangan soft skills Anda (misal: komunikasi, kerjasama tim)? <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">6. Seberapa besar kontribusi magang ini
+                            terhadap pengembangan soft skills Anda (misal: komunikasi, kerjasama tim)? <span
+                                class="text-red-500">*</span></label>
                         <div class="flex flex-wrap gap-2 items-center">
                             <span class="text-xs text-gray-500 mr-2">1 = Paling Rendah</span>
                             @for ($i = 1; $i <= 10; $i++)
                                 <label class="rating-label cursor-pointer">
                                     <input type="radio" name="skor_pengembangan_soft_skills" value="{{ $i }}" class="sr-only" {{ old('skor_pengembangan_soft_skills') == $i ? 'checked' : '' }} required>
-                                    <span class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
+                                    <span
+                                        class="rating-button w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-blue-50 transition-colors duration-150">{{ $i }}</span>
                                 </label>
                             @endfor
                             <span class="text-xs text-gray-500 ml-2">10 = Paling Tinggi</span>
                         </div>
-                        @error('skor_pengembangan_soft_skills') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                        @error('skor_pengembangan_soft_skills') <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Pelajaran Terbaik --}}
                     <div class="mb-4">
-                        <label for="pelajaran_terbaik" class="block text-sm font-medium text-gray-700 mb-1">7. Apa yang paling kamu pelajari selama periode magang ini? (Hal baru, pengalaman berkesan, dll.) <span class="text-red-500">*</span></label>
-                        <textarea name="pelajaran_terbaik" id="pelajaran_terbaik" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('pelajaran_terbaik') border-red-500 @enderror" placeholder="Ceritakan pelajaran atau pengalaman terbaik Anda..." required>{{ old('pelajaran_terbaik') }}</textarea>
+                        <label for="pelajaran_terbaik" class="block text-sm font-medium text-gray-700 mb-1">7. Apa yang
+                            paling kamu pelajari selama periode magang ini? (Hal baru, pengalaman berkesan, dll.) <span
+                                class="text-red-500">*</span></label>
+                        <textarea name="pelajaran_terbaik" id="pelajaran_terbaik" rows="4"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('pelajaran_terbaik') border-red-500 @enderror"
+                            placeholder="Ceritakan pelajaran atau pengalaman terbaik Anda..."
+                            required>{{ old('pelajaran_terbaik') }}</textarea>
                         @error('pelajaran_terbaik') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- Kritik dan Saran --}}
                     <div class="mb-4">
-                        <label for="kritik_saran_perusahaan" class="block text-sm font-medium text-gray-700 mb-1">8. Masukan atau kritik membangun untuk perusahaan/tempat magang? <span class="text-red-500">*</span></label>
-                        <textarea name="kritik_saran_perusahaan" id="kritik_saran_perusahaan" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('kritik_saran_perusahaan') border-red-500 @enderror" placeholder="Sampaikan kritik atau saran Anda..." required>{{ old('kritik_saran_perusahaan') }}</textarea>
+                        <label for="kritik_saran_perusahaan" class="block text-sm font-medium text-gray-700 mb-1">8. Masukan
+                            atau kritik membangun untuk perusahaan/tempat magang? <span
+                                class="text-red-500">*</span></label>
+                        <textarea name="kritik_saran_perusahaan" id="kritik_saran_perusahaan" rows="4"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('kritik_saran_perusahaan') border-red-500 @enderror"
+                            placeholder="Sampaikan kritik atau saran Anda..."
+                            required>{{ old('kritik_saran_perusahaan') }}</textarea>
                         @error('kritik_saran_perusahaan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="mt-6">
-                        <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <button type="submit"
+                            class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Umpan Balik
                         </button>
                     </div>
@@ -221,40 +249,50 @@
                                 <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200">
                                     <div class="flex justify-between items-start mb-2">
                                         <p class="text-sm text-gray-500">
-                                            Dikirim pada: <span class="font-medium text-gray-700">{{ $feedback->tanggal->translatedFormat('l, d F Y H:i') }}</span> ({{ $feedback->tanggal->diffForHumans() }})
+                                            Dikirim pada: <span
+                                                class="font-medium text-gray-700">{{ $feedback->tanggal->translatedFormat('l, d F Y H:i') }}</span>
+                                            ({{ $feedback->tanggal->diffForHumans() }})
                                         </p>
                                     </div>
-                                    
+
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-sm mb-3">
-                                        <div><span class="font-medium text-gray-600">Kesesuaian Tugas:</span> <span class="text-gray-800">{{ $feedback->skor_kesesuaian_tugas }}/10</span></div>
-                                        <div><span class="font-medium text-gray-600">Kualitas Bimbingan:</span> <span class="text-gray-800">{{ $feedback->skor_kualitas_bimbingan }}/10</span></div>
-                                        <div><span class="font-medium text-gray-600">Beban Kerja:</span> <span class="text-gray-800">{{ $feedback->skor_beban_kerja }}/10</span></div>
-                                        <div><span class="font-medium text-gray-600">Suasana Kerja:</span> <span class="text-gray-800">{{ $feedback->skor_suasana_kerja }}/10</span></div>
-                                        <div><span class="font-medium text-gray-600">Pengembangan Hard Skills:</span> <span class="text-gray-800">{{ $feedback->skor_pengembangan_hard_skills }}/10</span></div>
-                                        <div><span class="font-medium text-gray-600">Pengembangan Soft Skills:</span> <span class="text-gray-800">{{ $feedback->skor_pengembangan_soft_skills }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Kesesuaian Tugas:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_kesesuaian_tugas }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Kualitas Bimbingan:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_kualitas_bimbingan }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Beban Kerja:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_beban_kerja }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Suasana Kerja:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_suasana_kerja }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Pengembangan Hard Skills:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_pengembangan_hard_skills }}/10</span></div>
+                                        <div><span class="font-medium text-gray-600">Pengembangan Soft Skills:</span> <span
+                                                class="text-gray-800">{{ $feedback->skor_pengembangan_soft_skills }}/10</span></div>
                                     </div>
 
                                     @if($feedback->pelajaran_terbaik)
                                         <div class="mb-2">
                                             <p class="text-sm font-medium text-gray-600 mb-1">Pelajaran Terbaik:</p>
-                                            <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded whitespace-pre-wrap">{{ $feedback->pelajaran_terbaik }}</p>
+                                            <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded whitespace-pre-wrap">
+                                                {{ $feedback->pelajaran_terbaik }}</p>
                                         </div>
                                     @endif
 
                                     @if($feedback->kritik_saran_perusahaan)
                                         <div>
                                             <p class="text-sm font-medium text-gray-600 mb-1">Kritik/Saran untuk Perusahaan:</p>
-                                            <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded whitespace-pre-wrap">{{ $feedback->kritik_saran_perusahaan }}</p>
+                                            <p class="text-sm text-gray-800 bg-gray-50 p-2 rounded whitespace-pre-wrap">
+                                                {{ $feedback->kritik_saran_perusahaan }}</p>
                                         </div>
                                     @endif
                                 </div>
                             @endforeach
                         </div>
-                        
+
                         {{-- Pagination Links --}}
                         @if ($riwayatFeedback->hasPages())
                             <div class="mt-6">
-                                {{ $riwayatFeedback->links() }} 
+                                {{ $riwayatFeedback->links() }}
                             </div>
                         @endif
                     @else
@@ -300,18 +338,18 @@
             // Style untuk rating button (jika diperlukan, bisa dipindah ke file CSS terpisah)
             const style = document.createElement('style');
             style.textContent = `
-                .rating-label input:checked + .rating-button {
-                    background-color: #3B82F6; /* bg-blue-500 */
-                    color: white;
-                    border-color: #2563EB; /* border-blue-600 */
-                }
-                .rating-button:hover {
-                    background-color: #EFF6FF; /* bg-blue-50 */
-                }
-                .rating-button {
-                    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-                }
-            `;
+                    .rating-label input:checked + .rating-button {
+                        background-color: #3B82F6; /* bg-blue-500 */
+                        color: white;
+                        border-color: #2563EB; /* border-blue-600 */
+                    }
+                    .rating-button:hover {
+                        background-color: #EFF6FF; /* bg-blue-50 */
+                    }
+                    .rating-button {
+                        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+                    }
+                `;
             document.head.appendChild(style);
         });
     </script>
