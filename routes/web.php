@@ -8,6 +8,7 @@ use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\MagangMahasiswaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
@@ -61,31 +62,31 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('level')->group(function () {
-            Route::get('/', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
-            Route::get('/create', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
-            Route::post('/', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
-            Route::get('/{id}/edit', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
-            Route::put('/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
-            Route::delete('/{id}', [App\Http\Controllers\LevelController::class, 'destroy'])->name('level.destroy');
+            Route::get('/', [LevelController::class, 'index'])->name('level.index');
+            Route::get('/create', [LevelController::class, 'create'])->name('level.create');
+            Route::post('/', [LevelController::class, 'store'])->name('level.store');
+            Route::get('/{id}/edit', [LevelController::class, 'edit'])->name('level.edit');
+            Route::put('/{id}', [LevelController::class, 'update'])->name('level.update');
+            Route::delete('/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
         });
 
         Route::prefix('user')->group(function () {
-            Route::get('/', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
-            Route::get('/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
-            Route::get('/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
-            Route::post('/', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
-            Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
-            Route::put('/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
-            Route::delete('/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
+            Route::get('/', [UserController::class, 'index'])->name('user.index');
+            Route::get('/create', [UserController::class, 'create'])->name('user.create');
+            Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+            Route::post('/', [UserController::class, 'store'])->name('user.store');
+            Route::get('/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+            Route::put('/{id}', [UserController::class, 'update'])->name('user.update');
+            Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
         });
 
         Route::prefix('partner')->group(function () {
-            Route::get('/', [App\Http\Controllers\PartnerController::class, 'index'])->name('partner.index');
-            Route::get('/create', [App\Http\Controllers\PartnerController::class, 'create'])->name('partner.create');
-            Route::post('/', [App\Http\Controllers\PartnerController::class, 'store'])->name('partner.store');
-            Route::get('/{id}/edit', [App\Http\Controllers\PartnerController::class, 'edit'])->name('partner.edit');
-            Route::put('/{id}', [App\Http\Controllers\PartnerController::class, 'update'])->name('partner.update');
-            Route::delete('/{id}', [App\Http\Controllers\PartnerController::class, 'destroy'])->name('partner.destroy');
+            Route::get('/', [PartnerController::class, 'index'])->name('partner.index');
+            Route::get('/create', [PartnerController::class, 'create'])->name('partner.create');
+            Route::post('/', [PartnerController::class, 'store'])->name('partner.store');
+            Route::get('/{id}/edit', [PartnerController::class, 'edit'])->name('partner.edit');
+            Route::put('/{id}', [PartnerController::class, 'update'])->name('partner.update');
+            Route::delete('/{id}', [PartnerController::class, 'destroy'])->name('partner.destroy');
         });
 
         Route::prefix('lowongan')->group(function () {
@@ -112,9 +113,6 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
             Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
             Route::put('/pengajuan/{id}/dosen', [MagangMahasiswaController::class, 'updateDosen'])->name('pengajuan.updateDosen');
-
-
-
         });
         Route::prefix('keahlian')->group(function () {
             Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');
