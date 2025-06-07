@@ -12,6 +12,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KeahlianController;
 use Illuminate\Support\Facades\Route;
 
@@ -111,9 +112,6 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
             Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
             Route::put('/pengajuan/{id}/dosen', [MagangMahasiswaController::class, 'updateDosen'])->name('pengajuan.updateDosen');
-
-
-
         });
         Route::prefix('keahlian')->group(function () {
             Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');
@@ -150,8 +148,10 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
-        Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
-        Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
+        Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan.index');
+        Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('mahasiswa.pengajuan.store');
+        Route::get('/feedback/create', [FeedbackController::class, 'create'])->name('mahasiswa.feedback.create');
+        Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
         // Add more mahasiswa routes here
     });
 

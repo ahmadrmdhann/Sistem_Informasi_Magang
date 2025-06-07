@@ -3,7 +3,7 @@
 @section('content')
     <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Pengajuan Magang</h1>
+            <h1 class="text-2xl font-bold text-gray-800">Pengajuan Magang Mandiri</h1>
             <p class="text-gray-600 mt-1">Ajukan permohonan magang ke perusahaan partner atau lihat status pengajuan Anda</p>
         </div>
 
@@ -42,12 +42,12 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label for="lowongan_id" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Pilih Lowongan/Perusahaan <span class="text-red-500">*</span>
+                                    Pilih Perusahaan <span class="text-red-500">*</span>
                                 </label>
                                 <select id="lowongan_id" name="lowongan_id"
                                     class="py-2.5 px-3 block w-full border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
                                     required>
-                                    <option value="">-- Pilih Lowongan --</option>
+                                    <option value="">-- Pilih Perusahaan --</option>
                                     @foreach($lowongans as $lowongan)
                                         <option value="{{ $lowongan->lowongan_id }}">
                                             {{ $lowongan->partner_nama }} - {{ $lowongan->judul }}
