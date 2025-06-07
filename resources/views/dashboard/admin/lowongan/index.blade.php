@@ -62,7 +62,9 @@
                                         </button>
                                         <button type="button"
                                             class="bg-purple-900 hover:bg-green-500 text-white px-3 py-1 rounded shadow transition-colors duration-150 showLowonganBtn"
-                                            data-lowongan='@json($lowongan)'>
+                                            data-lowongan='@json($lowongan)' data-partner-nama="{{ $lowongan->partner->nama ?? '-' }}"
+                                            data-lokasi-nama="{{ $lowongan->lokasi->kabupaten ?? '-' }}" data-periode-nama="{{ $lowongan->periode->nama ?? '-' }}"
+                                            data-keahlian-nama="{{ $lowongan->keahlian->nama ?? '-' }}">
                                             <i class="fas fa-edit mr-1"></i>show
                                         </button>
                                         <form action="{{ route('lowongan.destroy', $lowongan->lowongan_id) }}" method="POST"
@@ -112,13 +114,17 @@
                         <input type="text" name="judul" class="w-full border border-gray-300 rounded px-3 py-2" required>
                     </div>
                     <div class="mb-4">
-                        <label for="deskripsi" class="block text-gray-700">deskripsi</label>
-                        <input type="text" name="deskripsi" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        <label for="deskripsi" class="block text-gray-700">Deskripsi</label>
+                        <textarea name="deskripsi" id="deskripsi" rows="4" class="w-full border border-gray-300 rounded px-3 py-2 resize-y"
+                            required>{{ old('deskripsi') }}</textarea>
                     </div>
                     <div class="mb-4">
                         <label for="persyaratan" class="block text-gray-700">persyaratan</label>
                         <input type="text" name="persyaratan" class="w-full border border-gray-300 rounded px-3 py-2" required>
                     </div>
+                    <label for="lokasi" class="block text-sm font-medium text-gray-700 mb-1">
+                        Lokasi <span class="text-red-500">*</span>
+                    </label>
                     <select name="lokasi" id="lokasi" class="w-full px-3 py-2 border rounded-md @error('lokasi') border-red-500 @enderror"
                         required>
                         <option value="">Pilih Lokasi</option>
@@ -128,17 +134,18 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="mb-4">
-                        <label for="bidang_keahlian" class="block text-sm font-medium text-gray-700 mb-1">
-                            Bidang Keahlian <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="bidang_keahlian" id="bidang_keahlian"
-                            class="w-full px-3 py-2 border rounded-md @error('bidang_keahlian') border-red-500 @enderror"
-                            value="{{ old('bidang_keahlian') }}" placeholder="Masukkan bidang keahlian" required>
-                        @error('bidang_keahlian')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <label for="keahlian_id" class="block text-sm font-medium text-gray-700 mb-1">
+                        Keahlian <span class="text-red-500">*</span>
+                    </label>
+                    <select name="keahlian" id="keahlian" class="w-full px-3 py-2 border rounded-md @error('keahlian') border-red-500 @enderror"
+                        required>
+                        <option value="">Pilih Bidang Keahlian</option>
+                        @foreach($keahlians as $keahlian)
+                            <option value="{{ $keahlian->keahlian_id }}" {{ old('keahlian_id') == $keahlian->keahlian_id ? 'selected' : '' }}>
+                                {{ $keahlian->nama }}
+                            </option>
+                        @endforeach
+                    </select>
 
                     <div class="mb-4">
                         <label for="periode_id" class="block text-sm font-medium text-gray-700 mb-1">
@@ -186,11 +193,7 @@
                         </button>
                     </div>
 
-                    <div class="flex justify-end">
-                        <button type="button" data-modal-hide="createLowonganModal"
-                            class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Simpan</button>
-                    </div>
+
                 </form>
             </div>
         </div>

@@ -18,14 +18,12 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->text('persyaratan');
             $table->foreignId('lokasi')->constrained('m_kota_kabupaten', 'kabupaten_id')->nullable();
-            $table->text('bidang_keahlian');
+            $table->foreignId('keahlian')->constrained('m_keahlian', 'keahlian_id');
             $table->foreignId('periode_id')->constrained('m_periode', 'periode_id');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->timestamps();
         });
-
-        
     }
 
     /**
@@ -38,7 +36,6 @@ return new class extends Migration
             $table->dropColumn('kabupaten_id');
 
         });
-
         Schema::dropIfExists('m_lowongan');
     }
 };

@@ -15,7 +15,7 @@ class LowonganModel extends Model
         'deskripsi',
         'persyaratan',
         'lokasi',
-        'bidang_keahlian',
+        'keahlian',
         'periode_id',
         'tanggal_mulai',
         'tanggal_akhir',
@@ -34,5 +34,8 @@ class LowonganModel extends Model
     }
     public function lokasi(){
         return $this->belongsTo(LokasiModel::class, 'lokasi', 'kabupaten_id' );
+    }
+    public function keahlian(){
+        return $this->belongsTo(KeahlianModel::class, 'keahlian', 'keahlian_id');
     }
 }
