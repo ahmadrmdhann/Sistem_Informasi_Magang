@@ -13,12 +13,12 @@ class LowonganController extends Controller
 {
     public function index()
     {
-        $lowongans = LowonganModel::with(['partner', 'periode','lokasi', 'keahlian'])->latest()->get();
+        $lowongans = LowonganModel::with(['partner', 'kabupaten', 'keahlian', 'periode'])->get();
         $partners = PartnerModel::all();
         $periodes = PeriodeModel::all();
-        $lokasis = LokasiModel::all();
+        $kabupatens = LokasiModel::all();
         $keahlians = KeahlianModel::all();
-        return view('dashboard.admin.lowongan.index', compact('lowongans', 'partners', 'periodes', 'lokasis', 'keahlians'));
+        return view('dashboard.admin.lowongan.index', compact('lowongans', 'partners', 'periodes', 'kabupatens', 'keahlians'));
     }
 
     public function create()
