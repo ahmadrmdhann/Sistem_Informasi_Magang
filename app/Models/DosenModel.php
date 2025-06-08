@@ -42,6 +42,10 @@ class DosenModel extends Model
         return $this->belongsTo(UserModel::class, 'user_id', 'user_id');
     }
 
+    public function bidang()
+    {
+        return $this->belongsTo(KeahlianModel::class, 'bidang_minat', 'keahlian_id');
+    }
     /**
      * Get the full name of the dosen from the related user.
      */

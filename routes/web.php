@@ -15,6 +15,7 @@ use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
 use App\Http\Controllers\KeahlianController;
 use App\Http\Controllers\MahasiswaBimbingan;
+use App\Http\Controllers\UserDosenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -122,6 +123,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [KeahlianController::class, 'update'])->name('keahlian.update');
             Route::delete('/{id}', [KeahlianController::class, 'destroy'])->name('keahlian.destroy');
         });
+        Route::prefix('dosen')->group(function () {
+            Route::get('/', [UserDosenController::class, 'index'])->name('dosen.index');
+            Route::get('/create', [UserDosenController::class, 'create'])->name('dosen.create');
+            Route::post('/', [UserDosenController::class, 'store'])->name('dosen.store');
+            Route::get('/{id}/edit', [UserDosenController::class, 'edit'])->name('dosen.edit');
+            Route::put('/{id}', [UserDosenController::class, 'update'])->name('dosen.update');
+            Route::delete('/{id}', [UserDosenController::class, 'destroy'])->name('dosen.destroy');
+        });
+
     });
 
     // Dosen routes

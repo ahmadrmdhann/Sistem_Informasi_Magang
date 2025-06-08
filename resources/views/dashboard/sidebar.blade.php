@@ -60,6 +60,14 @@
                     </div>
                     <span class="text-sm">Manajemen Keahlian</span>
                 </a>
+                <a href="{{ route('dosen.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('keahlian.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('keahlian.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Dosen</span>
+                </a>
             </div>
 
             <div class="mb-4">
@@ -85,14 +93,14 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('lowongan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('lowongan.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-briefcase"></i>
+                        <i class="fa-solid fa-circle-check"></i>
                     </div>
                     <span class="text-sm">Manajemen Lowongan Magang</span>
                 </a>
                 <a href="{{ route('pmm.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group ">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-briefcase"></i>
+                        <i class="fa-solid fa-landmark"></i>
                     </div>
                     <span class="text-sm">Pengajuan Magang Mahasiswa</span>
                 </a>
@@ -151,7 +159,7 @@
                 <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Log Kegiatan
                 </p>
-                <a href="{{ route('mahasiswa.kegiatan')}}"
+                <a href=""
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
                         <i class="fa-solid fa-tasks"></i>

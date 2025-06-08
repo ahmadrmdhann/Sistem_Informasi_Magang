@@ -210,157 +210,222 @@
                 </div>
             </div>
         </div>
-        <div id="editLowonganModal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
-            <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-gray-700">Edit User</h3>
-                    <button type="button" data-modal-hide="editLowonganModal" class="text-gray-500 hover:text-gray-700">
-                        &times;
-                    </button>
+       {{-- Modal Show Lowongan --}}
+<div id="showLowonganModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-700">Detail Lowongan</h3>
+            <button type="button" data-modal-hide="showLowonganModal" class="text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+            <div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Partner</label>
+                    <p id="show_partner" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
                 </div>
 
-                <form id="editLowonganForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="lowongan_id" id="edit_lowongan_id">
-                    <select name="partner_id" id="partner_id"
-                        class="w-full px-3 py-2 border rounded-md @error('partner_id') border-red-500 @enderror" required>
-                        <option value="">Pilih Partner</option>
-                        @foreach($partners as $partner)
-                            <option value="{{ $partner->partner_id }}" {{ old('partner_id') == $partner->partner_id ? 'selected' : '' }}>
-                                {{ $partner->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <div class="mb-4">
-                        <label for="judul" class="block text-gray-700">judul</label>
-                        <input type="text" name="judul" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="deskripsi" class="block text-gray-700">deskripsi</label>
-                        <input type="text" name="deskripsi" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="persyaratan" class="block text-gray-700">persyaratan</label>
-                        <input type="text" name="persyaratan" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                    </div>
-                    <select name="lokasi" id="lokasi" class="w-full px-3 py-2 border rounded-md @error('lokasi') border-red-500 @enderror"
-                        required>
-                        <option value="">Pilih Lokasi</option>
-                        @foreach($lokasis as $lokasi)
-                            <option value="{{ $lokasi->kabupaten_id }}" {{ old('kabupaten_id') == $lokasi->kabupaten_id ? 'selected' : '' }}>
-                                {{ $lokasi->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <div class="mb-4">
-                        <label for="bidang_keahlian" class="block text-sm font-medium text-gray-700 mb-1">
-                            Bidang Keahlian <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="bidang_keahlian" id="bidang_keahlian"
-                            class="w-full px-3 py-2 border rounded-md @error('bidang_keahlian') border-red-500 @enderror"
-                            value="{{ old('bidang_keahlian') }}" placeholder="Masukkan bidang keahlian" required>
-                        @error('bidang_keahlian')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Judul</label>
+                    <p id="show_judul" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
 
-                    <div class="mb-4">
-                        <label for="periode_id" class="block text-sm font-medium text-gray-700 mb-1">
-                            Periode <span class="text-red-500">*</span>
-                        </label>
-                        <select name="periode_id" id="periode_id"
-                            class="w-full px-3 py-2 border rounded-md @error('periode_id') border-red-500 @enderror" required>
-                            <option value="">Pilih Periode</option>
-                            @foreach($periodes as $periode)
-                                <option value="{{ $periode->periode_id }}" {{ old('periode_id') == $periode->periode_id ? 'selected' : '' }}>
-                                    {{ $periode->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('periode_id')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700 mb-1">
-                            Tanggal Mulai <span class="text-red-500">*</span>
-                        </label>
-                        <input type="date" name="tanggal_mulai" id="tanggal_mulai"
-                            class="w-full px-3 py-2 border rounded-md @error('tanggal_mulai') border-red-500 @enderror"
-                            value="{{ old('tanggal_mulai') }}" required>
-                        @error('tanggal_mulai')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Lokasi</label>
+                    <p id="show_lokasi" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
 
-                    <div class="mb-4">
-                        <label for="tanggal_akhir" class="block text-sm font-medium text-gray-700 mb-1">
-                            Tanggal Akhir <span class="text-red-500">*</span>
-                        </label>
-                        <input type="date" name="tanggal_akhir" id="tanggal_akhir"
-                            class="w-full px-3 py-2 border rounded-md @error('tanggal_akhir') border-red-500 @enderror"
-                            value="{{ old('tanggal_akhir') }}" required>
-                        @error('tanggal_akhir')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="flex justify-end">
-                        <button type="button" data-modal-hide="editUserModal"
-                            class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    <!-- Modal -->
-    <div id="showLowonganModal"  class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md relative">
-            <!-- Tombol close -->
-            <button type="button" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl font-bold"
-                data-modal-hide="showLowonganModal">&times;</button>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Bidang Keahlian</label>
+                    <p id="show_keahlian" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
 
-            <h2 class="text-lg font-semibold mb-4 text-purple-800">Detail Lowongan</h2>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Periode</label>
+                    <p id="show_periode" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
+            </div>
 
-            <div class="mb-3">
-                <label class="font-medium">Partner</label>
-                <p id="show_partner" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Judul</label>
-                <p id="show_judul" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Deskripsi</label>
-                <p id="show_deskripsi" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Persyaratan</label>
-                <p id="show_persyaratan" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Lokasi</label>
-                <p id="show_lokasi" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Bidang Keahlian</label>
-                <p id="show_bidang_keahlian" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Periode</label>
-                <p id="show_periode" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Tanggal Mulai</label>
-                <p id="show_tanggal_mulai" class="text-gray-700"></p>
-            </div>
-            <div class="mb-3">
-                <label class="font-medium">Tanggal Akhir</label>
-                <p id="show_tanggal_akhir" class="text-gray-700"></p>
+            <div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
+                    <p id="show_tanggal_mulai" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Tanggal Akhir</label>
+                    <p id="show_tanggal_akhir" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded"></p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                    <p id="show_deskripsi" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded min-h-[100px]"></p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Persyaratan</label>
+                    <p id="show_persyaratan" class="mt-1 text-sm text-gray-900 bg-gray-50 p-2 rounded min-h-[100px]"></p>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+{{-- Modal Edit Lowongan --}}
+<div id="editLowonganModal" tabindex="-1" aria-hidden="true"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-3xl p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold text-gray-700">Edit Lowongan</h3>
+            <button type="button" data-modal-hide="editLowonganModal" class="text-gray-500 hover:text-gray-700">
+                &times;
+            </button>
+        </div>
+
+        <form id="editLowonganForm" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="lowongan_id" id="edit_lowongan_id">
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <label for="edit_partner_id" class="block text-sm font-medium text-gray-700">Partner</label>
+                        <select name="partner_id" id="edit_partner_id" class="mt-1 w-full rounded-md border-gray-300" required>
+                            <option value="">Pilih Partner</option>
+                            @foreach($partners as $partner)
+                                <option value="{{ $partner->partner_id }}">{{ $partner->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_judul" class="block text-sm font-medium text-gray-700">Judul</label>
+                        <input type="text" name="judul" id="edit_judul" class="mt-1 w-full rounded-md border-gray-300" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_lokasi" class="block text-sm font-medium text-gray-700">Lokasi</label>
+                        <select name="lokasi" id="edit_lokasi" class="mt-1 w-full rounded-md border-gray-300" required>
+                            <option value="">Pilih Lokasi</option>
+                            @foreach($lokasis as $lokasi)
+                                <option value="{{ $lokasi->kabupaten_id }}">{{ $lokasi->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_keahlian" class="block text-sm font-medium text-gray-700">Bidang Keahlian</label>
+                        <select name="keahlian" id="edit_keahlian" class="mt-1 w-full rounded-md border-gray-300" required>
+                            <option value="">Pilih Bidang Keahlian</option>
+                            @foreach($keahlians as $keahlian)
+                                <option value="{{ $keahlian->keahlian_id }}">{{ $keahlian->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_periode_id" class="block text-sm font-medium text-gray-700">Periode</label>
+                        <select name="periode_id" id="edit_periode_id" class="mt-1 w-full rounded-md border-gray-300" required>
+                            <option value="">Pilih Periode</option>
+                            @foreach($periodes as $periode)
+                                <option value="{{ $periode->periode_id }}">{{ $periode->nama }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-4">
+                        <label for="edit_tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
+                        <input type="date" name="tanggal_mulai" id="edit_tanggal_mulai" class="mt-1 w-full rounded-md border-gray-300" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_tanggal_akhir" class="block text-sm font-medium text-gray-700">Tanggal Akhir</label>
+                        <input type="date" name="tanggal_akhir" id="edit_tanggal_akhir" class="mt-1 w-full rounded-md border-gray-300" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+                        <textarea name="deskripsi" id="edit_deskripsi" rows="4" class="mt-1 w-full rounded-md border-gray-300" required></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="edit_persyaratan" class="block text-sm font-medium text-gray-700">Persyaratan</label>
+                        <textarea name="persyaratan" id="edit_persyaratan" rows="4" class="mt-1 w-full rounded-md border-gray-300" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-6">
+                <button type="button" data-modal-hide="editLowonganModal"
+                    class="mr-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                    Batal
+                </button>
+                <button type="submit"
+                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{-- Update the show modal JavaScript --}}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const showButtons = document.querySelectorAll(".showLowonganBtn");
+
+    showButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const lowongan = JSON.parse(btn.getAttribute("data-lowongan"));
+            
+            document.getElementById("show_partner").textContent = btn.getAttribute("data-partner-nama");
+            document.getElementById("show_judul").textContent = lowongan.judul;
+            document.getElementById("show_deskripsi").textContent = lowongan.deskripsi;
+            document.getElementById("show_persyaratan").textContent = lowongan.persyaratan;
+            document.getElementById("show_lokasi").textContent = btn.getAttribute("data-lokasi-nama");
+            document.getElementById("show_keahlian").textContent = btn.getAttribute("data-keahlian-nama");
+            document.getElementById("show_periode").textContent = btn.getAttribute("data-periode-nama");
+            document.getElementById("show_tanggal_mulai").textContent = 
+                new Date(lowongan.tanggal_mulai).toLocaleDateString('id-ID');
+            document.getElementById("show_tanggal_akhir").textContent = 
+                new Date(lowongan.tanggal_akhir).toLocaleDateString('id-ID');
+
+            document.getElementById("showLowonganModal").classList.remove("hidden");
+        });
+    });
+});
+
+// Update the edit modal JavaScript
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".editLowonganBtn");
+    const editForm = document.getElementById("editLowonganForm");
+
+    editButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const lowongan = JSON.parse(btn.getAttribute("data-lowongan"));
+
+            document.getElementById("edit_lowongan_id").value = lowongan.lowongan_id;
+            document.getElementById("edit_partner_id").value = lowongan.partner_id;
+            document.getElementById("edit_judul").value = lowongan.judul;
+            document.getElementById("edit_deskripsi").value = lowongan.deskripsi;
+            document.getElementById("edit_persyaratan").value = lowongan.persyaratan;
+            document.getElementById("edit_lokasi").value = lowongan.lokasi;
+            document.getElementById("edit_keahlian").value = lowongan.keahlian;
+            document.getElementById("edit_periode_id").value = lowongan.periode_id;
+            document.getElementById("edit_tanggal_mulai").value = lowongan.tanggal_mulai;
+            document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
+
+            editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
+            document.getElementById("editLowonganModal").classList.remove("hidden");
+        });
+    });
+});
+</script>
 
         <script>
             $(document).ready(function () {

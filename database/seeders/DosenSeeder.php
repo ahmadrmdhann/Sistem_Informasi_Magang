@@ -17,14 +17,14 @@ class DosenSeeder extends Seeder
             [
                 'user_id' => 2, // Pastikan sesuai dengan id pada seeder m_user
                 'nidn' => '198012345',
-                'bidang_minat' => 'Sistem Informasi',
+                'bidang_minat' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'user_id' => 3, // Pastikan sesuai dengan id pada seeder m_user
                 'nidn' => '198092345',
-                'bidang_minat' => 'Sistem Informasi',
+                'bidang_minat' => 5,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

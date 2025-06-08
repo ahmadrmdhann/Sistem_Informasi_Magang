@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('dosen_id');
             $table->foreignId('user_id')->constrained('m_user', 'user_id')->onDelete('cascade');
             $table->string('nidn')->unique();
-            $table->text('bidang_minat')->nullable();
+            $table->foreignId('bidang_minat')->constrained('m_keahlian', 'keahlian_id');
             $table->string('foto_profil')->nullable();
             $table->timestamps();
         });
@@ -28,4 +28,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('m_dosen');
     }
+   
 };
