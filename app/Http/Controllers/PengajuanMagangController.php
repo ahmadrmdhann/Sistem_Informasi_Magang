@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PengajuanMagangModel;
+use App\Models\PeriodeModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +19,11 @@ class PengajuanMagangController extends Controller
             ->select('m_lowongan.*', 'm_partner.nama as partner_nama')
             ->get();
 
-        $periodes = DB::table('m_periode')->get();
+        $periodes = PeriodeModel::all();
 
 
         $mahasiswa = auth()->user()->mahasiswa;
-        $pengajuans = PengajuanMagangModel::with(['mahasiswa', 'lowongan.partner'])
+        $pengajuans = PengajuanMagangModel::with(['mahasiswa', 'lowongan.partner', ])
         ->where('mahasiswa_id', $mahasiswa->mahasiswa_id)
         ->orderByDesc('created_at')
         ->get();

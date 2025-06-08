@@ -30,7 +30,7 @@
                                 <span>{{ $lowongan->periode->nama ?? '-' }}</span>
                             </div>
                             <div class="text-gray-500 text-sm mb-2">
-                                Lokasi: {{ $lowongan->lokasi }} &bull; Bidang: {{ $lowongan->bidang_keahlian }}
+                                Lokasi: {{ $lowongan->kabupaten->nama }} &bull; Bidang: {{ $lowongan->keahlian->nama }}
                             </div>
                             <div class="text-gray-700 text-sm mb-2">
                                 <span class="font-semibold">Periode:</span>

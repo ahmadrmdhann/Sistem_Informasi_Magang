@@ -36,7 +36,6 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Perusahaan</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Posisi</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periode</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pengajuan</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
@@ -52,9 +51,6 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-900">
                                         {{ $pengajuan->lowongan->judul ?? '-' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">
-                                        {{ $pengajuan->periode->nama ?? '-' }}
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-900">
                                         {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->format('d M Y') }}
