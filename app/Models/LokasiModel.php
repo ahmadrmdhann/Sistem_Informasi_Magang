@@ -15,8 +15,22 @@ class LokasiModel extends Model
     protected $fillable = [
         'nama',
         'provinsi_id',
+        'lat',
+        'lng'
     ];
-    public function lowongan(){
-        return $this->BelongsTo(LowonganModel::class, '');
+
+    protected $casts = [
+        'lat' => 'double',
+        'lng' => 'double'
+    ];
+
+    public function lowongan()
+    {
+        return $this->hasMany(LowonganModel::class, 'kabupaten_id', 'kabupaten_id');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(MahasiswaModel::class, 'lokasi_preferensi', 'kabupaten_id');
     }
 }

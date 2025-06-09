@@ -32,7 +32,7 @@ class LowonganModel extends Model
     {
         return $this->belongsTo(PeriodeModel::class, 'periode_id', 'periode_id');
     }
-    public function kabupaten(){
+    public function lokasi(){
         return $this->belongsTo(LokasiModel::class, 'kabupaten_id', 'kabupaten_id' );
     }
     public function keahlian(){

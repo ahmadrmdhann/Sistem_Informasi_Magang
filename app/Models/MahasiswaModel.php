@@ -84,10 +84,18 @@ class MahasiswaModel extends Model
     }
 
     /**
+     * Get the lokasi that the mahasiswa has.
+     */
+    public function lokasi()
+    {
+        return $this->belongsTo(LokasiModel::class, 'lokasi_preferensi', 'kabupaten_id');
+    }
+
+    /**
      * Get the lokasi preferensi that the mahasiswa has.
      */
     public function lokasiPreferensi()
     {
-        return $this->belongsTo(KotaKabupatenModel::class, 'lokasi_preferensi', 'kabupaten_id');
+        return $this->belongsTo(LokasiModel::class, 'lokasi_preferensi', 'kabupaten_id');
     }
 }

@@ -13,7 +13,7 @@ class LowonganController extends Controller
 {
     public function index()
     {
-        $lowongans = LowonganModel::with(['partner', 'kabupaten', 'keahlian', 'periode'])->get();
+        $lowongans = LowonganModel::with(['partner', 'lokasi', 'keahlian', 'periode'])->get();
         $partners = PartnerModel::all();
         $periodes = PeriodeModel::all();
         $kabupatens = LokasiModel::all();

@@ -113,9 +113,6 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [MagangMahasiswaController::class, 'update'])->name('pmm.update');
             Route::post('/{id}/status', [MagangMahasiswaController::class, 'updateStatus'])->name('pmm.updateStatus');
             Route::put('/pengajuan/{id}/dosen', [MagangMahasiswaController::class, 'updateDosen'])->name('pengajuan.updateDosen');
-
-
-
         });
         Route::prefix('keahlian')->group(function () {
             Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');
@@ -167,9 +164,9 @@ Route::middleware('auth')->group(function () {
         // Add more mahasiswa routes here
     });
 
-    Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
-        Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
-        Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
+        Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
+            Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
+            Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
+            Route::get('/rekomendasi', [App\Http\Controllers\RekomendasiController::class, 'index'])->name('mahasiswa.rekomendasi');
+        });
     });
-
-});
