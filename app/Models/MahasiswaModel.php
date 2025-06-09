@@ -37,6 +37,7 @@ class MahasiswaModel extends Model
         'lokasi_preferensi',
         'sertifikat',
         'cv_file',
+        'ipk'
     ];
 
     /**

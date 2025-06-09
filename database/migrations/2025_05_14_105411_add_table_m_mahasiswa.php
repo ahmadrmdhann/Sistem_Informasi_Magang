@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('foto_profil')->nullable();
             $table->text('tentang_saya')->nullable();
             $table->string('no_telepon', 15)->nullable();
+            $table->decimal('ipk', 4, 2)->nullable();
             $table->timestamps();
         });
     }

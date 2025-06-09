@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IpkController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
@@ -130,6 +131,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [UserDosenController::class, 'update'])->name('admin.dosen.update');
             Route::delete('/{id}', [UserDosenController::class, 'destroy'])->name('admin.dosen.destroy');
         });
+        Route::prefix('ipk')->group(function () {
+            Route::get('/', [IpkController::class, 'index'])->name('ipk.index');
+            Route::get('/create', [IpkController::class, 'create'])->name('ipk.create');
+            Route::post('/', [IpkController::class, 'store'])->name('ipk.store');
+            Route::get('/{id}/edit', [IpkController::class, 'edit'])->name('ipk.edit');
+            Route::put('/{id}', [IpkController::class, 'update'])->name('ipk.update');
+            Route::delete('/{id}', [IpkController::class, 'destroy'])->name('ipk.destroy');
+        });
+
     });
 
     // Dosen routes
