@@ -159,7 +159,11 @@ Route::middleware('auth')->group(function () {
             Route::put('/', [MahasiswaController::class, 'updateProfile'])->name('mahasiswa.profile.update');
             Route::put('/password', [MahasiswaController::class, 'updatePassword'])->name('mahasiswa.profile.password.update');
             Route::post('/photo', [MahasiswaController::class, 'updatePhoto'])->name('mahasiswa.profile.photo.update');
-            Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
+        });
+
+        Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
+        Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
+        Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
         // Add more mahasiswa routes here
     });
 
@@ -167,5 +171,5 @@ Route::middleware('auth')->group(function () {
         Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
         Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
     });
-});
+
 });

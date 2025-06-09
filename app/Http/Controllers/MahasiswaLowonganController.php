@@ -9,33 +9,65 @@ use App\Models\PengajuanMagangModel;
 
 class MahasiswaLowonganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         $mahasiswa = $user->mahasiswa;
-    
-        $lowongans = LowonganModel::with(['partner', 'periode', 'kabupaten'])->latest()->get();
+
+        // ----------- CEK KELENGKAPAN PROFIL ---------
+        $profileIncomplete = false;
+        $profileWarning = [];
+        if (!$mahasiswa) {
+            $profileIncomplete = true;
+            $profileWarning[] = "Data mahasiswa belum ditemukan.";
+        } else {
+            if (!$mahasiswa->cv_file) $profileWarning[] = "CV belum diunggah.";
+            if (!$mahasiswa->keahlian_id) $profileWarning[] = "Keahlian belum dipilih.";
+            if (!$mahasiswa->prodi_id) $profileWarning[] = "Prodi belum dipilih.";
+            $profileIncomplete = count($profileWarning) > 0;
+        }
+
+        // ----------- SEARCH LOWONGAN ------------
+        $q = $request->input('q');
+        $lowongans = LowonganModel::with(['partner', 'periode', 'kabupaten', 'keahlian'])
+            ->when($q, function ($query) use ($q) {
+                $query->where('judul', 'like', "%$q%")
+                    ->orWhereHas('partner', function($q2) use ($q) {
+                        $q2->where('nama', 'like', "%$q%");
+                    })
+                    ->orWhereHas('keahlian', function($q3) use ($q) {
+                        $q3->where('nama', 'like', "%$q%");
+                    });
+            })
+            ->latest()
+            ->get();
+
+        // ----------- DATA APPLIED --------------
         $applieds = [];
-    
         if ($mahasiswa) {
             $applieds = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)
                 ->pluck('lowongan_id')
                 ->toArray();
         }
-    
-        return view('dashboard.mahasiswa.lowongan.index', compact('lowongans', 'applieds'));
+
+        return view('dashboard.mahasiswa.lowongan.index', compact(
+            'lowongans', 'applieds', 'profileIncomplete', 'profileWarning', 'q'
+        ));
     }
-    
+
     public function apply(Request $request, $lowongan_id)
     {
         // Ambil user yang login
         $user = Auth::user();
-       
-        // Ambil relasi mahasiswa dari user
         $mahasiswa = $user->mahasiswa;
 
         if (!$mahasiswa) {
             return redirect()->back()->with('error', 'Akun Anda tidak terhubung ke data mahasiswa.');
+        }
+
+        // Cegah apply jika profil belum lengkap
+        if (!$mahasiswa->cv_file || !$mahasiswa->keahlian_id || !$mahasiswa->prodi_id) {
+            return redirect()->back()->with('error', 'Lengkapi profile (CV, keahlian, prodi) sebelum apply.');
         }
 
         $mahasiswa_id = $mahasiswa->mahasiswa_id;
@@ -54,7 +86,7 @@ class MahasiswaLowonganController extends Controller
         if ($sudahApply) {
             return redirect()->back()->with('error', 'Kamu sudah pernah mengajukan ke lowongan ini.');
         }
-        
+
         // Simpan pengajuan
         try {
             PengajuanMagangModel::create([
