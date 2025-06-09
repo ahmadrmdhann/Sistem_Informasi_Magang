@@ -9,6 +9,7 @@ use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\MagangMahasiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\UserDosenController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
@@ -116,12 +117,20 @@ Route::middleware('auth')->group(function () {
 
         });
         Route::prefix('keahlian')->group(function () {
-            Route::get('/', [\App\Http\Controllers\KeahlianController::class, 'index'])->name('keahlian.index');
-            Route::get('/create', [\App\Http\Controllers\KeahlianController::class, 'create'])->name('keahlian.create');
-            Route::post('/', [\App\Http\Controllers\KeahlianController::class, 'store'])->name('keahlian.store');
-            Route::get('/{id}/edit', [\App\Http\Controllers\KeahlianController::class, 'edit'])->name('keahlian.edit');
-            Route::put('/{id}', [\App\Http\Controllers\KeahlianController::class, 'update'])->name('keahlian.update');
-            Route::delete('/{id}', [\App\Http\Controllers\KeahlianController::class, 'destroy'])->name('keahlian.destroy');
+            Route::get('/', [KeahlianController::class, 'index'])->name('keahlian.index');
+            Route::get('/create', [KeahlianController::class, 'create'])->name('keahlian.create');
+            Route::post('/', [KeahlianController::class, 'store'])->name('keahlian.store');
+            Route::get('/{id}/edit', [KeahlianController::class, 'edit'])->name('keahlian.edit');
+            Route::put('/{id}', [KeahlianController::class, 'update'])->name('keahlian.update');
+            Route::delete('/{id}', [KeahlianController::class, 'destroy'])->name('keahlian.destroy');
+        });
+        Route::prefix('dosen')->group(function () {
+            Route::get('/', [UserDosenController::class, 'index'])->name('admin.dosen.index');
+            Route::get('/create', [UserDosenController::class, 'create'])->name('admin.dosen.create');
+            Route::post('/', [UserDosenController::class, 'store'])->name('admin.dosen.store');
+            Route::get('/{id}/edit', [UserDosenController::class, 'edit'])->name('admin.dosen.edit');
+            Route::put('/{id}', [UserDosenController::class, 'update'])->name('admin.dosen.update');
+            Route::delete('/{id}', [UserDosenController::class, 'destroy'])->name('admin.dosen.destroy');
         });
     });
 

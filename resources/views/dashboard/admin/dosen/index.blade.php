@@ -59,7 +59,7 @@
                                         data-dosen='@json($dosen)'>
                                         <i class="fas fa-edit mr-1"></i>Edit
                                     </button>
-                                    <form action="{{ route('dosen.destroy', $dosen->dosen_id) }}" method="POST"
+                                    <form action="{{ route('admin.dosen.destroy', $dosen->dosen_id) }}" method="POST"
                                         class="delete-dosen-form">
                                         @csrf
                                         @method('DELETE')
@@ -92,7 +92,7 @@
                 </button>
             </div>
 
-            <form action="{{ route('dosen.store') }}" method="POST">
+            <form action="{{ route('admin.dosen.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="user_id" class="block text-gray-700">Pilih User</label>

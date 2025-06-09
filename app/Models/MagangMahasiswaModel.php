@@ -31,4 +31,8 @@ class MagangMahasiswaModel extends Model
     {
         return $this->belongsTo(PeriodeModel::class, 'periode_id', 'periode_id');
     }
+    public function mahasiswa()
+{
+    return $this->belongsTo(MahasiswaModel::class, 'mahasiswa_id', 'mahasiswa_id');
+}
 }

@@ -9,11 +9,20 @@ use Illuminate\Http\Request;
 class MagangMahasiswaController extends Controller
 {
     public function index()
-    {
-        $pengajuans = PengajuanMagangModel::with(['mahasiswa', 'lowongan.partner', 'dosen'])->orderByDesc('created_at')->get();
-        $dosens = DosenModel::with('user')->get();
-        return view('dashboard.admin.pmm.index', compact('pengajuans', 'dosens'));
-    }
+{
+    $pengajuans = PengajuanMagangModel::with([
+        'mahasiswa.prodi',
+        'mahasiswa.keahlian',
+        'mahasiswa.minat',
+        'mahasiswa.lokasiPreferensi',
+        'lowongan.partner',
+        'dosen'
+    ])->orderByDesc('created_at')->get();
+
+    $dosens = DosenModel::with('user')->get();
+
+    return view('dashboard.admin.pmm.index', compact('pengajuans', 'dosens'));
+}
 
     public function updateStatus(Request $request, $id)
 {

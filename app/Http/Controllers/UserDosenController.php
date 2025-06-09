@@ -101,10 +101,10 @@ class UserDosenController extends Controller
             $dosen = DosenModel::findOrFail($id);
             $dosen->update($validated);
 
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('success', 'Data dosen berhasil diperbarui');
         } catch (\Exception $e) {
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('error', 'Terjadi kesalahan saat memperbarui data dosen');
         }
     }
@@ -121,10 +121,10 @@ class UserDosenController extends Controller
             $dosen = DosenModel::findOrFail($id);
             $dosen->delete();
 
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('success', 'Data dosen berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('error', 'Terjadi kesalahan saat menghapus data dosen');
         }
     }
