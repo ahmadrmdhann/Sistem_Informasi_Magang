@@ -17,9 +17,14 @@ class RekomendasiController extends Controller
     public function index()
     {
         try {
-            $mahasiswa = MahasiswaModel::with(['lokasiPreferensi', 'keahlian', 'minat'])
-                ->where('user_id', Auth::id())
-                ->first();
+            // Get mahasiswa data with all necessary relationships
+            $mahasiswa = MahasiswaModel::with([
+                'lokasiPreferensi',
+                'keahlian',
+                'minat',
+                'user',
+                'prodi'
+            ])->where('user_id', Auth::id())->first();
 
             if (!$mahasiswa) {
                 return view('dashboard.mahasiswa.rekomendasi.index', [
@@ -31,8 +36,13 @@ class RekomendasiController extends Controller
                 ]);
             }
 
-            $lowongan = LowonganModel::with(['lokasi', 'keahlian', 'partner'])
-                ->get();
+            // Load lowongan with all necessary relationships
+            $lowongan = LowonganModel::with([
+                'kabupaten',
+                'keahlian',
+                'partner',
+                'periode'
+            ])->get();
 
             if ($lowongan->isEmpty()) {
                 return view('dashboard.mahasiswa.rekomendasi.index', [
@@ -44,7 +54,7 @@ class RekomendasiController extends Controller
                 ]);
             }
 
-            // Check if student has location preference
+            // Check mahasiswa profile completeness
             if (!$mahasiswa->lokasi_preferensi || !$mahasiswa->lokasiPreferensi) {
                 return view('dashboard.mahasiswa.rekomendasi.index', [
                     'mahasiswa' => $mahasiswa,
@@ -55,11 +65,8 @@ class RekomendasiController extends Controller
                 ]);
             }
 
-            // Calculate recommendations using both methods
             $mooraResults = $this->calculateMOORA($mahasiswa, $lowongan);
             $electreResults = $this->calculateELECTRE($mahasiswa, $lowongan);
-
-            // Combine results
             $recommendations = $this->combineResults($mooraResults, $electreResults);
 
             return view('dashboard.mahasiswa.rekomendasi.index', compact(
@@ -68,7 +75,6 @@ class RekomendasiController extends Controller
                 'mooraResults',
                 'electreResults'
             ));
-
         } catch (\Exception $e) {
             Log::error('Error in recommendation system: ' . $e->getMessage());
 
@@ -84,175 +90,143 @@ class RekomendasiController extends Controller
 
     private function calculateMOORA($mahasiswa, $lowongan)
     {
-        $alternatives = [];
-        $criteria = [];
+        try {
+            $alternatives = [];
+            $criteria = [];
 
-        foreach ($lowongan as $job) {
-            $distance = $this->calculateDistance($mahasiswa, $job);
-            $skillMatch = $this->calculateSkillMatch($mahasiswa, $job);
-            $interestMatch = $this->calculateInterestMatch($mahasiswa, $job);
+            foreach ($lowongan as $job) {
+                $distance = $this->calculateDistance($mahasiswa, $job);
+                $skillMatch = $this->calculateSkillMatch($mahasiswa, $job);
+                $interestMatch = $this->calculateInterestMatch($mahasiswa, $job);
 
-            $alternatives[$job->lowongan_id] = [
-                'lowongan' => $job,
-                'distance' => $distance,
-                'skill_match' => $skillMatch,
-                'interest_match' => $interestMatch
+                $alternatives[$job->lowongan_id] = [
+                    'lowongan' => $job,
+                    'distance' => $distance,
+                    'skill_match' => $skillMatch,
+                    'interest_match' => $interestMatch
+                ];
+
+                $criteria['distance'][] = $distance;
+                $criteria['skill_match'][] = $skillMatch;
+                $criteria['interest_match'][] = $interestMatch;
+            }
+
+            if (empty($alternatives)) {
+                return [];
+            }
+
+            $normalizedMatrix = $this->normalizeMatrix($criteria);
+
+            $weights = [
+                'distance' => 0.4,
+                'skill_match' => 0.35,
+                'interest_match' => 0.25
             ];
 
-            $criteria['distance'][] = $distance;
-            $criteria['skill_match'][] = $skillMatch;
-            $criteria['interest_match'][] = $interestMatch;
+            $scores = [];
+            $i = 0;
+            foreach ($alternatives as $id => $alt) {
+                $score = 0;
+                $score -= $weights['distance'] * $normalizedMatrix['distance'][$i];
+                $score += $weights['skill_match'] * $normalizedMatrix['skill_match'][$i];
+                $score += $weights['interest_match'] * $normalizedMatrix['interest_match'][$i];
+
+                $scores[$id] = [
+                    'lowongan' => $alt['lowongan'],
+                    'score' => $score,
+                    'criteria' => [
+                        'distance' => $alt['distance'],
+                        'skill_match' => $alt['skill_match'],
+                        'interest_match' => $alt['interest_match']
+                    ]
+                ];
+                $i++;
+            }
+
+            uasort($scores, function ($a, $b) {
+                return $b['score'] <=> $a['score'];
+            });
+
+            return array_slice($scores, 0, 3, true);
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        // Normalize matrix
-        $normalizedMatrix = $this->normalizeMatrix($criteria);
-
-        // Apply weights (distance: lower is better, others: higher is better)
-        $weights = [
-            'distance' => 0.4,      // 40% weight, minimize
-            'skill_match' => 0.35,  // 35% weight, maximize
-            'interest_match' => 0.25 // 25% weight, maximize
-        ];
-
-        $scores = [];
-        $i = 0;
-        foreach ($alternatives as $id => $alt) {
-            $score = 0;
-            // Distance (minimize - subtract)
-            $score -= $weights['distance'] * $normalizedMatrix['distance'][$i];
-            // Skill match (maximize - add)
-            $score += $weights['skill_match'] * $normalizedMatrix['skill_match'][$i];
-            // Interest match (maximize - add)
-            $score += $weights['interest_match'] * $normalizedMatrix['interest_match'][$i];
-
-            $scores[$id] = [
-                'lowongan' => $alt['lowongan'],
-                'score' => $score,
-                'criteria' => [
-                    'distance' => $alt['distance'],
-                    'skill_match' => $alt['skill_match'],
-                    'interest_match' => $alt['interest_match']
-                ]
-            ];
-            $i++;
-        }
-
-        // Sort by score (descending)
-        uasort($scores, function ($a, $b) {
-            return $b['score'] <=> $a['score'];
-        });
-
-        // Limit to top 3 results for MOORA
-        return array_slice($scores, 0, 3, true);
     }
 
     private function calculateELECTRE($mahasiswa, $lowongan)
     {
-        $alternatives = [];
+        try {
+            $alternatives = [];
 
-        foreach ($lowongan as $job) {
-            $distance = $this->calculateDistance($mahasiswa, $job);
-            $skillMatch = $this->calculateSkillMatch($mahasiswa, $job);
-            $interestMatch = $this->calculateInterestMatch($mahasiswa, $job);
+            foreach ($lowongan as $job) {
+                $distance = $this->calculateDistance($mahasiswa, $job);
+                $skillMatch = $this->calculateSkillMatch($mahasiswa, $job);
+                $interestMatch = $this->calculateInterestMatch($mahasiswa, $job);
 
-            $alternatives[$job->lowongan_id] = [
-                'lowongan' => $job,
-                'criteria' => [
-                    'distance' => $distance,
-                    'skill_match' => $skillMatch,
-                    'interest_match' => $interestMatch
-                ]
+                $alternatives[$job->lowongan_id] = [
+                    'lowongan' => $job,
+                    'criteria' => [
+                        'distance' => $distance,
+                        'skill_match' => $skillMatch,
+                        'interest_match' => $interestMatch
+                    ]
+                ];
+            }
+
+            if (empty($alternatives) || count($alternatives) < 2) {
+                return [];
+            }
+
+            $weights = [
+                'distance' => 0.4,
+                'skill_match' => 0.35,
+                'interest_match' => 0.25
             ];
+
+            $concordanceMatrix = $this->calculateConcordanceMatrix($alternatives, $weights);
+            $discordanceMatrix = $this->calculateDiscordanceMatrix($alternatives);
+            $dominanceMatrix = $this->calculateDominanceMatrix($concordanceMatrix, $discordanceMatrix);
+            $scores = $this->calculateElectreScores($alternatives, $dominanceMatrix);
+
+            return array_slice($scores, 0, 3, true);
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        // ELECTRE IV implementation
-        $weights = [
-            'distance' => 0.4,
-            'skill_match' => 0.35,
-            'interest_match' => 0.25
-        ];
-
-        $concordanceMatrix = $this->calculateConcordanceMatrix($alternatives, $weights);
-        $discordanceMatrix = $this->calculateDiscordanceMatrix($alternatives);
-
-        // Calculate dominance matrix
-        $dominanceMatrix = $this->calculateDominanceMatrix($concordanceMatrix, $discordanceMatrix);
-
-        // Calculate final scores based on dominance
-        $scores = $this->calculateElectreScores($alternatives, $dominanceMatrix);
-
-        // Limit to top 3 results for ELECTRE
-        return array_slice($scores, 0, 3, true);
     }
 
     private function calculateDistance($mahasiswa, $lowongan)
     {
-        // Check if both location objects exist and have lat/lng properties
-        if (!$mahasiswa->lokasiPreferensi || 
-            !$lowongan->lokasi || 
-            !isset($mahasiswa->lokasiPreferensi->lat) || 
-            !isset($mahasiswa->lokasiPreferensi->lng) ||
-            !isset($lowongan->lokasi->lat) || 
-            !isset($lowongan->lokasi->lng)) {
-            
-            Log::warning("Missing location data for distance calculation", [
-                'mahasiswa_lokasi_preferensi' => $mahasiswa->lokasi_preferensi,
-                'mahasiswa_has_lokasi' => $mahasiswa->lokasiPreferensi ? 'yes' : 'no',
-                'lowongan_kabupaten_id' => $lowongan->kabupaten_id,
-                'lowongan_has_lokasi' => $lowongan->lokasi ? 'yes' : 'no',
-                'mahasiswa_lat' => $mahasiswa->lokasiPreferensi->lat ?? 'null',
-                'mahasiswa_lng' => $mahasiswa->lokasiPreferensi->lng ?? 'null',
-                'lowongan_lat' => $lowongan->lokasi->lat ?? 'null',
-                'lowongan_lng' => $lowongan->lokasi->lng ?? 'null',
-            ]);
-            
-            return 200; // Maximum penalty if location data is missing
-        }
-
-        $fromLat = $mahasiswa->lokasiPreferensi->lat;
-        $fromLng = $mahasiswa->lokasiPreferensi->lng;
-        $toLat = $lowongan->lokasi->lat;
-        $toLng = $lowongan->lokasi->lng;
-
-        // Validate coordinates
-        if (!is_numeric($fromLat) || !is_numeric($fromLng) ||
-            !is_numeric($toLat) || !is_numeric($toLng) ||
-            abs($fromLat) > 90 || abs($toLat) > 90 ||
-            abs($fromLng) > 180 || abs($toLng) > 180) {
-            
-            Log::warning("Invalid coordinates", [
-                'fromLat' => $fromLat,
-                'fromLng' => $fromLng,
-                'toLat' => $toLat,
-                'toLng' => $toLng
-            ]);
-            
-            return 200; // Invalid coordinates
-        }
-
         try {
-            // Use OpenRouteService API to get actual distance
-            $response = Http::timeout(10)->get("https://api.openrouteservice.org/v2/directions/driving-car", [
-                'api_key' => $this->openRouteApiKey,
-                'start' => "{$fromLng},{$fromLat}",
-                'end' => "{$toLng},{$toLat}"
-            ]);
-
-            if ($response->successful()) {
-                $data = $response->json();
-                if (isset($data['features'][0]['properties']['segments'][0]['distance'])) {
-                    $distanceKm = $data['features'][0]['properties']['segments'][0]['distance'] / 1000;
-                    return round($distanceKm, 2);
-                }
-            } else {
-                Log::warning("OpenRouteService API failed: " . $response->body());
+            if (
+                !$mahasiswa->lokasiPreferensi ||
+                !$lowongan->kabupaten ||
+                is_null($mahasiswa->lokasiPreferensi->lat) ||
+                is_null($mahasiswa->lokasiPreferensi->lng) ||
+                is_null($lowongan->kabupaten->lat) ||
+                is_null($lowongan->kabupaten->lng)
+            ) {
+                return 200; // Maximum penalty if location data is missing
             }
-        } catch (\Exception $e) {
-            Log::error("Route API error: " . $e->getMessage());
-        }
 
-        // Fallback to Haversine formula if API fails
-        return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
+            $fromLat = (float) $mahasiswa->lokasiPreferensi->lat;
+            $fromLng = (float) $mahasiswa->lokasiPreferensi->lng;
+            $toLat = (float) $lowongan->kabupaten->lat;
+            $toLng = (float) $lowongan->kabupaten->lng;
+
+            // Validate coordinates
+            if (
+                !is_numeric($fromLat) || !is_numeric($fromLng) ||
+                !is_numeric($toLat) || !is_numeric($toLng) ||
+                abs($fromLat) > 90 || abs($toLat) > 90 ||
+                abs($fromLng) > 180 || abs($toLng) > 180
+            ) {
+                return 200; // Invalid coordinates
+            }
+
+            return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
+        } catch (\Exception $e) {
+            return 200; // Return maximum penalty on error
+        }
     }
 
     private function haversineDistance($lat1, $lng1, $lat2, $lng2)
@@ -270,32 +244,40 @@ class RekomendasiController extends Controller
 
     private function calculateSkillMatch($mahasiswa, $lowongan)
     {
-        if (!$mahasiswa->keahlian_id || !$lowongan->keahlian_id) {
+        try {
+            if (is_null($mahasiswa->keahlian_id) || is_null($lowongan->keahlian_id)) {
+                return 0;
+            }
+
+            // Direct match
+            if ($mahasiswa->keahlian_id == $lowongan->keahlian_id) {
+                return 100;
+            }
+
+            // Partial match based on skill similarity
+            return 30; // Base compatibility score
+        } catch (\Exception $e) {
             return 0;
         }
-
-        // Direct match
-        if ($mahasiswa->keahlian_id == $lowongan->keahlian_id) {
-            return 100;
-        }
-
-        // Partial match based on skill similarity
-        return 30; // Base compatibility score
     }
 
     private function calculateInterestMatch($mahasiswa, $lowongan)
     {
-        if (!$mahasiswa->minat_id || !$lowongan->keahlian_id) {
+        try {
+            if (is_null($mahasiswa->minat_id) || is_null($lowongan->keahlian_id)) {
+                return 0;
+            }
+
+            // Direct match between interest and job skill requirement
+            if ($mahasiswa->minat_id == $lowongan->keahlian_id) {
+                return 100;
+            }
+
+            // Partial match
+            return 20;
+        } catch (\Exception $e) {
             return 0;
         }
-
-        // Direct match
-        if ($mahasiswa->minat_id == $lowongan->keahlian_id) {
-            return 100;
-        }
-
-        // Partial match
-        return 20;
     }
 
     private function normalizeMatrix($criteria)
@@ -452,31 +434,85 @@ class RekomendasiController extends Controller
 
     private function combineResults($mooraResults, $electreResults)
     {
-        $combined = [];
-        $mooraRanks = array_keys($mooraResults);
-        $electreRanks = array_keys($electreResults);
+        try {
+            if (empty($mooraResults) && empty($electreResults)) {
+                return [];
+            }
 
-        foreach ($mooraRanks as $rank => $id) {
-            $electreRank = array_search($id, $electreRanks);
-            $averageRank = ($rank + $electreRank) / 2;
+            $combined = [];
 
-            $combined[$id] = [
-                'lowongan' => $mooraResults[$id]['lowongan'],
-                'moora_score' => $mooraResults[$id]['score'],
-                'electre_score' => $electreResults[$id]['score'],
-                'moora_rank' => $rank + 1,
-                'electre_rank' => $electreRank + 1,
-                'average_rank' => $averageRank,
-                'criteria' => $mooraResults[$id]['criteria']
-            ];
+            // If we only have MOORA results
+            if (!empty($mooraResults) && empty($electreResults)) {
+                $rank = 1;
+                foreach ($mooraResults as $result) {
+                    $combined[] = [
+                        'lowongan' => $result['lowongan'],
+                        'moora_score' => $result['score'],
+                        'electre_score' => 0,
+                        'moora_rank' => $rank,
+                        'electre_rank' => 'N/A',
+                        'average_rank' => $rank,
+                        'criteria' => $result['criteria']
+                    ];
+                    $rank++;
+                }
+                return array_slice($combined, 0, 3);
+            }
+
+            // If we only have ELECTRE results
+            if (empty($mooraResults) && !empty($electreResults)) {
+                $rank = 1;
+                foreach ($electreResults as $result) {
+                    $combined[] = [
+                        'lowongan' => $result['lowongan'],
+                        'moora_score' => 0,
+                        'electre_score' => $result['score'],
+                        'moora_rank' => 'N/A',
+                        'electre_rank' => $rank,
+                        'average_rank' => $rank,
+                        'criteria' => $result['criteria']
+                    ];
+                    $rank++;
+                }
+                return array_slice($combined, 0, 3);
+            }
+
+            // Combine both results
+            $mooraRanks = array_keys($mooraResults);
+            $electreRanks = array_keys($electreResults);
+
+            foreach ($mooraRanks as $mooraIndex => $lowonganId) {
+                $electreIndex = array_search($lowonganId, $electreRanks);
+
+                if ($electreIndex === false) {
+                    $electreIndex = count($electreRanks);
+                    $electreRank = count($electreRanks) + 1;
+                } else {
+                    $electreRank = $electreIndex + 1;
+                }
+
+                $mooraRank = $mooraIndex + 1;
+                $averageRank = ($mooraIndex + $electreIndex) / 2;
+
+                $combined[] = [
+                    'lowongan' => $mooraResults[$lowonganId]['lowongan'],
+                    'moora_score' => $mooraResults[$lowonganId]['score'],
+                    'electre_score' => isset($electreResults[$lowonganId]) ? $electreResults[$lowonganId]['score'] : 0,
+                    'moora_rank' => $mooraRank,
+                    'electre_rank' => $electreRank,
+                    'average_rank' => $averageRank,
+                    'criteria' => $mooraResults[$lowonganId]['criteria']
+                ];
+            }
+
+            // Sort by average rank (ascending - lower is better)
+            usort($combined, function ($a, $b) {
+                return $a['average_rank'] <=> $b['average_rank'];
+            });
+
+            return array_slice($combined, 0, 3);
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        // Sort by average rank
-        uasort($combined, function ($a, $b) {
-            return $a['average_rank'] <=> $b['average_rank'];
-        });
-
-        // Limit to top 3 recommendations
-        return array_slice($combined, 0, 3, true);
     }
 }
