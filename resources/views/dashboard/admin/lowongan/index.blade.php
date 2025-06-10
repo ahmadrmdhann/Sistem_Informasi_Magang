@@ -40,6 +40,9 @@
                                         class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">
                                         Tanggal Akhir</th>
                                     <th
+                                        class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">
+                                        Kuota</th> <!-- Tambahkan ini -->
+                                    <th
                                         class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl border-b border-gray-300">
                                         Aksi</th>
                                 </tr>
@@ -53,6 +56,7 @@
                                                                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $lowongan->periode->nama }}</td>
                                                                             <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($lowongan->tanggal_mulai)->format('d/m/Y') }}</td>
                                                                             <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($lowongan->tanggal_akhir)->format('d/m/Y') }}</td>
+                                                                            <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ $lowongan->kuota }}</td> <!-- Tambahkan ini -->
                                                                             <td class="px-6 py-3 text-center border-b border-gray-200">
                                                                                 <div class="flex justify-center space-x-2">
                                                                                     <button type="button"
@@ -81,7 +85,7 @@
                                                                         </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-3 text-center text-gray-500">Tidak ada data Lowongan</td>
+                                        <td colspan="8" class="px-6 py-3 text-center text-gray-500">Tidak ada data Lowongan</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -162,6 +166,11 @@
                                 @error('periode_id')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label for="kuota" class="block text-gray-700">Kuota</label>
+                                <input type="number" name="kuota" id="kuota" class="w-full border border-gray-300 rounded px-3 py-2 resize-y"
+                                    required value="{{ old('kuota') }}">
                             </div>
                             <div class="mb-4">
                                 <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700 mb-1">
@@ -267,6 +276,11 @@
                             <label class="block text-gray-700">Tanggal Akhir</label>
                             <p id="show_tanggal_akhir" class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50"></p>
                         </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700">Kuota</label>
+                            <p id="show_kuota" class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -358,6 +372,11 @@
                                 class="w-full border border-gray-300 rounded px-3 py-2" required>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="edit_kuota" class="block text-gray-700">Kuota</label>
+                            <input type="number" name="kuota" id="edit_kuota" class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        </div>
+
                         <div class="mt-6">
                             <button type="submit"
                                 class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium">
@@ -390,6 +409,7 @@
                         new Date(lowongan.tanggal_mulai).toLocaleDateString('id-ID');
                     document.getElementById("show_tanggal_akhir").textContent =
                         new Date(lowongan.tanggal_akhir).toLocaleDateString('id-ID');
+                    document.getElementById("show_kuota").textContent = lowongan.kuota;
 
                     document.getElementById("showLowonganModal").classList.remove("hidden");
                 });
@@ -423,6 +443,7 @@
                     document.getElementById("edit_periode_id").value = lowongan.periode_id;
                     document.getElementById("edit_tanggal_mulai").value = lowongan.tanggal_mulai;
                     document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
+                    document.getElementById("edit_kuota").value = lowongan.kuota;
 
                     editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
                     document.getElementById("editLowonganModal").classList.remove("hidden");
@@ -508,10 +529,11 @@
                                 document.getElementById("edit_deskripsi").value = lowongan.deskripsi;
                                 document.getElementById("edit_persyaratan").value = lowongan.persyaratan;
                                 document.getElementById("edit_lokasi").value = lowongan.kabupaten_id;
-                                document.getElementById("edit_keahlian").value = lowongan.keahlian_id;
+                                document.getElementById("edit_keahlian").value = lowongan.keahlian_id; // field ID, bukan relasi
                                 document.getElementById("edit_periode_id").value = lowongan.periode_id;
                                 document.getElementById("edit_tanggal_mulai").value = lowongan.tanggal_mulai;
                                 document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
+                                document.getElementById("edit_kuota").value = lowongan.kuota;
 
                                 editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
                                 document.getElementById("editLowonganModal").classList.remove("hidden");

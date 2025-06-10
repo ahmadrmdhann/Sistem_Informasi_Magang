@@ -40,11 +40,23 @@ class LowonganController extends Controller
             'lokasi'          => 'required|exists:m_kota_kabupaten,kabupaten_id',
             'keahlian'        => 'required|exists:m_keahlian,keahlian_id',
             'periode_id'      => 'required|exists:m_periode,periode_id',
+            'kuota'           => 'required|integer|min:1',
             'tanggal_mulai'   => 'required|date',
             'tanggal_akhir'   => 'required|date|after_or_equal:tanggal_mulai',
         ]);
 
-        LowonganModel::create($request->all());
+        LowonganModel::create([
+            'partner_id'      => $request->partner_id,
+            'judul'           => $request->judul,
+            'deskripsi'       => $request->deskripsi,
+            'persyaratan'     => $request->persyaratan,
+            'kabupaten_id'    => $request->lokasi,
+            'keahlian_id'     => $request->keahlian,
+            'periode_id'      => $request->periode_id,
+            'kuota'           => $request->kuota,
+            'tanggal_mulai'   => $request->tanggal_mulai,
+            'tanggal_akhir'   => $request->tanggal_akhir,
+        ]);
 
         return redirect()->route('lowongan.index')->with('success', 'Lowongan berhasil ditambahkan.');
     }
@@ -73,14 +85,26 @@ class LowonganController extends Controller
             'deskripsi'       => 'required|string',
             'persyaratan'     => 'required|string',
             'lokasi'          => 'required|exists:m_kota_kabupaten,kabupaten_id',
-            'bidang_keahlian' => 'required|exists:m_keahlian,keahlian_id',
+            'keahlian'        => 'required|exists:m_keahlian,keahlian_id',
             'periode_id'      => 'required|exists:m_periode,periode_id',
+            'kuota'           => 'required|integer|min:1',
             'tanggal_mulai'   => 'required|date',
             'tanggal_akhir'   => 'required|date|after_or_equal:tanggal_mulai',
         ]);
 
         $lowongan = LowonganModel::findOrFail($id);
-        $lowongan->update($request->all());
+        $lowongan->update([
+            'partner_id'      => $request->partner_id,
+            'judul'           => $request->judul,
+            'deskripsi'       => $request->deskripsi,
+            'persyaratan'     => $request->persyaratan,
+            'kabupaten_id'    => $request->lokasi,
+            'keahlian_id'     => $request->keahlian,
+            'periode_id'      => $request->periode_id,
+            'kuota'           => $request->kuota,
+            'tanggal_mulai'   => $request->tanggal_mulai,
+            'tanggal_akhir'   => $request->tanggal_akhir,
+        ]);
 
         return redirect()->route('lowongan.index')->with('success', 'Lowongan berhasil diperbarui.');
     }

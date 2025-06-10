@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('kabupaten_id')->constrained('m_kota_kabupaten', 'kabupaten_id');
             $table->foreignId('keahlian_id')->constrained('m_keahlian', 'keahlian_id');
             $table->foreignId('periode_id')->constrained('m_periode', 'periode_id');
+            $table->integer('kuota');
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
             $table->timestamps();

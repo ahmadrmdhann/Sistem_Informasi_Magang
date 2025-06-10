@@ -17,6 +17,7 @@ class LowonganModel extends Model
         'kabupaten_id',
         'keahlian_id',
         'periode_id',
+        'kuota',
         'tanggal_mulai',
         'tanggal_akhir',
     ];

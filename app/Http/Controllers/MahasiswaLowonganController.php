@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LowonganModel;
 use App\Models\PengajuanMagangModel;
+use Carbon\Carbon;
 
 class MahasiswaLowonganController extends Controller
 {
@@ -29,7 +30,10 @@ class MahasiswaLowonganController extends Controller
 
         // ----------- SEARCH LOWONGAN ------------
         $q = $request->input('q');
+        $today = Carbon::today()->toDateString();
         $lowongans = LowonganModel::with(['partner', 'periode', 'kabupaten', 'keahlian'])
+            ->where('kuota', '>', 0)
+            ->where('tanggal_akhir', '>=', $today) // Tambahkan filter tanggal akhir
             ->when($q, function ($query) use ($q) {
                 $query->where('judul', 'like', "%$q%")
                     ->orWhereHas('partner', function($q2) use ($q) {

@@ -22,10 +22,12 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3171, // Jakarta Pusat
                 'keahlian_id'     => 1,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(7)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(3)->format('Y-m-d'),
                 'created_at'      => now(),
                 'updated_at'      => now(),
+
             ],
             [
                 'partner_id'      => 2,
@@ -35,6 +37,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3273, // Kota Bandung
                 'keahlian_id'     => 4,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(14)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(4)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -48,6 +51,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3578, // Kota Surabaya
                 'keahlian_id'     => 7,
                 'periode_id'      => 2,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(10)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(3)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -61,6 +65,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3471, // Kota Yogyakarta
                 'keahlian_id'     => 8,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(21)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(5)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -74,6 +79,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 1271, // Kota Medan
                 'keahlian_id'     => 3,
                 'periode_id'      => 2,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(5)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(3)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -87,6 +93,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3374, // Kota Semarang
                 'keahlian_id'     => 9,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(12)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(4)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -100,6 +107,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 7371, // Kota Makassar
                 'keahlian_id'     => 10,
                 'periode_id'      => 2,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(18)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(6)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -113,6 +121,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 5171, // Kota Denpasar
                 'keahlian_id'     => 2,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(8)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(3)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -126,6 +135,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 1671, // Kota Palembang
                 'keahlian_id'     => 11,
                 'periode_id'      => 2,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(15)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(4)->format('Y-m-d'),
                 'created_at'      => now(),
@@ -139,6 +149,7 @@ class LowonganSeeder extends Seeder
                 'kabupaten_id'    => 3573, // Kota Malang
                 'keahlian_id'     => 12,
                 'periode_id'      => 1,
+                'kuota'           => 5,
                 'tanggal_mulai'   => Carbon::now()->addDays(25)->format('Y-m-d'),
                 'tanggal_akhir'   => Carbon::now()->addMonths(5)->format('Y-m-d'),
                 'created_at'      => now(),
