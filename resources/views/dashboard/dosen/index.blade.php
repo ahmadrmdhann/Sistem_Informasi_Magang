@@ -138,10 +138,10 @@
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($review->activity_date)->format('d/m/Y') }}</td>
                                     <td class="py-3 px-4">
                                         <span class="px-2 py-1 rounded-full text-xs font-semibold
-                                            {{ $review->latestReview->status === 'approved' ? 'bg-green-100 text-green-700' :
-                                                ($review->latestReview->status === 'needs_revision' ? 'bg-yellow-100 text-yellow-700' :
+                                            {{ optional($review->latestReview)->status === 'approved' ? 'bg-green-100 text-green-700' :
+                                                (optional($review->latestReview)->status === 'needs_revision' ? 'bg-yellow-100 text-yellow-700' :
                                                 'bg-gray-100 text-gray-700') }}">
-                                            {{ ucfirst($review->latestReview->status ?? '-') }}
+                                            {{ ucfirst(optional($review->latestReview)->status ?? '-') }}
                                         </span>
                                     </td>
                                 </tr>

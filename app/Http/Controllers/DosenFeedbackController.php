@@ -32,13 +32,13 @@ class DosenFeedbackController extends Controller
         // Get supervised students with completed internships
         $supervisedStudents = MahasiswaModel::whereHas('PengajuanMagang', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         })->with('user')->get();
 
         // Get partners from supervised students' internships
         $partners = PartnerModel::whereHas('lowongans.pengajuanMagang', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         })->get();
 
         // Get available feedback forms
@@ -53,7 +53,7 @@ class DosenFeedbackController extends Controller
             'answers.question'
         ])->whereHas('pengajuan', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         });
 
         // Apply filters
@@ -123,7 +123,7 @@ class DosenFeedbackController extends Controller
             'answers.question'
         ])->whereHas('pengajuan', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         })->findOrFail($responseId);
 
         // Group answers by question type for better display
@@ -164,9 +164,9 @@ class DosenFeedbackController extends Controller
             'answers.question'
         ])->whereHas('pengajuan', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         })->whereBetween('submitted_at', [$dateFrom, $dateTo])
-          ->get();
+            ->get();
 
         // Calculate analytics
         $analytics = [
@@ -203,7 +203,7 @@ class DosenFeedbackController extends Controller
             'answers.question'
         ])->whereHas('pengajuan', function ($query) use ($dosen) {
             $query->where('dosen_id', $dosen->dosen_id)
-                  ->where('status', 'diterima');
+                ->where('status', 'diterima');
         });
 
         // Apply same filters as index
@@ -233,15 +233,15 @@ class DosenFeedbackController extends Controller
 
         // Generate CSV
         $filename = 'feedback_mahasiswa_' . now()->format('Y-m-d_H-i-s') . '.csv';
-        
+
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
-        $callback = function() use ($feedbackResponses) {
+        $callback = function () use ($feedbackResponses) {
             $file = fopen('php://output', 'w');
-            
+
             // CSV Headers
             fputcsv($file, [
                 'Tanggal Submit',
@@ -257,7 +257,7 @@ class DosenFeedbackController extends Controller
             // CSV Data
             foreach ($feedbackResponses as $response) {
                 $avgRating = $response->answers->where('rating_value', '!=', null)->avg('rating_value');
-                
+
                 fputcsv($file, [
                     $response->submitted_at->format('d/m/Y H:i'),
                     $response->mahasiswa->user->nama,
@@ -300,7 +300,7 @@ class DosenFeedbackController extends Controller
                 $allRatings = $responses->flatMap(function ($response) {
                     return $response->answers->whereNotNull('rating_value')->pluck('rating_value');
                 });
-                
+
                 return $allRatings->avg();
             })->filter();
     }

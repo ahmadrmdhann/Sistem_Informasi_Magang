@@ -26,6 +26,17 @@ class DosenController extends Controller
         $pengajuanDitolak = (clone $pengajuanQuery)->where('status', 'ditolak')->count();
         $pengajuanDiajukan = $pengajuanBaru;
         $pengajuanTerbaru = $pengajuanQuery->orderByDesc('created_at')->take(5)->get();
+        $feedbackTerbaru = \App\Models\FeedbackResponseModel::with([
+            'mahasiswa.user',
+            'pengajuan.lowongan.partner',
+        ])
+            ->whereHas('pengajuan', function ($q) use ($dosen) {
+                $q->where('dosen_id', $dosen->dosen_id)
+                    ->where('status', 'diterima');
+            })
+            ->orderByDesc('submitted_at')
+            ->take(5)
+            ->get();
         // Review Kegiatan Mahasiswa Bimbingan Terbaru
         $reviewKegiatanTerbaru = \App\Models\ActivityLogModel::with([
             'mahasiswa.user',
@@ -47,6 +58,7 @@ class DosenController extends Controller
             'pengajuanDitolak',
             'pengajuanDiajukan',
             'pengajuanTerbaru',
+            'feedbackTerbaru',
             'reviewKegiatanTerbaru'
         ));
     }

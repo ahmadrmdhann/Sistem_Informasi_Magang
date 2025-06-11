@@ -81,7 +81,8 @@ class ActivityLogModel extends Model
      */
     public function latestReview(): HasOne
     {
-        return $this->hasOne(ActivityReviewModel::class, 'activity_log_id', 'activity_log_id')->latestOfMany();
+        return $this->hasOne(ActivityReviewModel::class, 'activity_id', 'activity_id')
+                    ->latest('reviewed_at');
     }
 
     /**
