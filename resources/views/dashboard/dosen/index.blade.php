@@ -112,11 +112,11 @@
                 </div>
             </div>
 
-            <!-- Feedback Mahasiswa Bimbingan Terbaru -->
+            <!-- Review Kegiatan Mahasiswa Bimbingan Terbaru -->
             <div class="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold">Feedback Mahasiswa Bimbingan Terbaru</h2>
-                    <a href="{{ route('dosen.feedback-mahasiswa.index') }}" class="text-blue-600 hover:underline text-base font-semibold">Lihat Semua</a>
+                    <h2 class="text-lg font-bold">Review Kegiatan Mahasiswa Bimbingan Terbaru</h2>
+                    <a href="{{ route('dosen.review-kegiatan.index') }}" class="text-blue-600 hover:underline text-base font-semibold">Lihat Semua</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white rounded-lg overflow-hidden shadow">
@@ -126,21 +126,28 @@
                                 <th class="py-3 px-4 text-left font-semibold text-gray-700">Lowongan</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-700">Mitra</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-700">Tanggal</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-700">Rating</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-700">Status Review</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($feedbackTerbaru as $feedback)
+                            @forelse($reviewKegiatanTerbaru as $review)
                                 <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
-                                    <td class="py-3 px-4">{{ $feedback->mahasiswa->user->nama ?? '-' }}</td>
-                                    <td class="py-3 px-4">{{ $feedback->pengajuan->lowongan->judul ?? '-' }}</td>
-                                    <td class="py-3 px-4">{{ $feedback->pengajuan->lowongan->partner->nama ?? '-' }}</td>
-                                    <td class="py-3 px-4">{{ \Carbon\Carbon::parse($feedback->submitted_at)->format('d/m/Y') }}</td>
-                                    <td class="py-3 px-4">{{ $feedback->rating ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ $review->mahasiswa->user->nama ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ $review->pengajuan->lowongan->judul ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ $review->pengajuan->lowongan->partner->nama ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ \Carbon\Carbon::parse($review->activity_date)->format('d/m/Y') }}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                            {{ $review->latestReview->status === 'approved' ? 'bg-green-100 text-green-700' :
+                                                ($review->latestReview->status === 'needs_revision' ? 'bg-yellow-100 text-yellow-700' :
+                                                'bg-gray-100 text-gray-700') }}">
+                                            {{ ucfirst($review->latestReview->status ?? '-') }}
+                                        </span>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Belum ada feedback terbaru</td>
+                                    <td colspan="5" class="py-4 px-4 text-center text-gray-500">Belum ada review kegiatan terbaru</td>
                                 </tr>
                             @endforelse
                         </tbody>
