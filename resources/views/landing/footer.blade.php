@@ -118,9 +118,9 @@
                             </div>
                             <div>
                                 <div class="text-white font-medium">Telepon</div>
-                                <a href="tel:+62341123456"
+                                <a href="#"
                                     class="text-gray-300 text-sm hover:text-green-400 transition-colors duration-200">
-                                    +62 341 123 456
+                                    (0341) 404424
                                 </a>
                             </div>
                         </li>
@@ -130,9 +130,9 @@
                             </div>
                             <div>
                                 <div class="text-white font-medium">Email</div>
-                                <a href="mailto:info@jtisisforma.ac.id"
+                                <a href="mailto:humas@polinema.ac.id"
                                     class="text-gray-300 text-sm hover:text-purple-400 transition-colors duration-200">
-                                    info@jtisisforma.ac.id
+                                    humas@polinema.ac.id
                                 </a>
                             </div>
                         </li>
@@ -164,7 +164,7 @@
                         All rights reserved.
                     </p>
                     <p class="text-gray-400 text-xs mt-1">
-                        Developed with ❤️ by JTI Team
+                        Developed with ❤️ by Kelompok 3
                     </p>
                 </div>
 

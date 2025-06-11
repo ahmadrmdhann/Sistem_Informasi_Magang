@@ -33,25 +33,6 @@
                     Wujudkan pengalaman magang yang bermakna bagi semua pihak.
                 </p>
 
-                <!-- Feature Pills -->
-                <div class="flex flex-wrap gap-3 mt-6">
-                    <span
-                        class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium">
-                        <i class="fa-solid fa-check mr-2"></i>
-                        Mudah Digunakan
-                    </span>
-                    <span
-                        class="inline-flex items-center px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-sm font-medium">
-                        <i class="fa-solid fa-shield-alt mr-2"></i>
-                        Aman & Terpercaya
-                    </span>
-                    <span
-                        class="inline-flex items-center px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-sm font-medium">
-                        <i class="fa-solid fa-clock mr-2"></i>
-                        24/7 Support
-                    </span>
-                </div>
-
                 <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 mt-8">
                     @if (!Auth::check())
@@ -104,18 +85,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="flex justify-center mt-16">
-            <div class="animate-bounce">
-                <a href="#fitur" class="text-blue-600 hover:text-blue-700 transition-colors duration-200">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </a>
             </div>
         </div>
     </div>
