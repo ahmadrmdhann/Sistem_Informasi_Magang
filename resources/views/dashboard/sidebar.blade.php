@@ -177,7 +177,7 @@
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
                         <i class="fa-solid fa-file-alt"></i>
                     </div>
-                    <span class="text-sm">Pengajuan Mandiri</span>
+                    <span class="text-sm">Status</span>
                 </a>
             </div>
 
