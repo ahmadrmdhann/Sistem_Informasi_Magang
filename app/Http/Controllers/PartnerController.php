@@ -22,12 +22,12 @@ class PartnerController extends Controller
     {
         $request->validate([
             'nama'    => 'required|string|max:255',
-            'kontak'  => 'nullable|string|max:50',
-            'bidang_industri' => 'nullable|string|max:100',
             'alamat'  => 'nullable|string|max:255',
+            'telepon'  => 'nullable|string|max:50',
+            'email'  => 'nullable|email|max:100',
         ]);
 
-        PartnerModel::create($request->only(['nama', 'kontak', 'bidang_industri', 'alamat']));
+        PartnerModel::create($request->only(['nama', 'telepon', 'email', 'alamat']));
 
 
         return redirect()->route('partner.index')->with('success', 'Mitra berhasil ditambahkan.');
@@ -43,8 +43,8 @@ class PartnerController extends Controller
     {
         $request->validate([
             'nama'    => 'required|string|max:255',
-            'kontak'  => 'nullable|string|max:50',
-            'bidang_industri' => 'nullable|string|max:100',
+            'telepon'  => 'nullable|string|max:50',
+            'email'  => 'nullable|email|max:100',
             'alamat'  => 'nullable|string|max:255',
         ]);
 

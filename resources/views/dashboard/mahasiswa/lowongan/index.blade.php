@@ -126,7 +126,7 @@
             document.querySelectorAll(".openApplyModalBtn").forEach(button => {
                 button.addEventListener("click", () => {
                     const lowonganId = button.getAttribute("data-id");
-                    applyForm.action = `/Sistem_Informasi_Magang/public/mahasiswa/lowongan/${lowonganId}/apply`;
+                    applyForm.action = `/mahasiswa/lowongan/${lowonganId}/apply`;
                     modal.classList.remove("hidden");
                     modal.classList.add("flex");
                 });
