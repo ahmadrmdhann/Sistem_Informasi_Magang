@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
     // Admin routes
     Route::middleware(['auth', 'authorize:ADM'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
         Route::get('/dashboard-analytics', [AdminController::class, 'index'])->name('admin.dashboard');
 
         Route::prefix('prodi')->group(function () {
@@ -160,11 +160,11 @@ Route::middleware('auth')->group(function () {
 
     // Dosen routes
     Route::middleware('authorize:DSN')->prefix('dosen')->group(function () {
-        Route::get('/', [DosenController::class, 'index'])->name('dosen.index');
-        Route::get('/', [DosenController::class, 'profile'])->name('dosen.profile');
-        Route::put('/', [DosenController::class, 'updateProfile'])->name('dosen.profile.update');
-        Route::post('/photo', [DosenController::class, 'updatePhoto'])->name('dosen.profile.photo.update');
-        Route::put('/password', [DosenController::class, 'updatePassword'])->name('dosen.profile.password.update');
+        Route::get('/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard');
+        Route::get('/profile', [DosenController::class, 'profile'])->name('dosen.profile');
+        Route::put('/profile', [DosenController::class, 'updateProfile'])->name('dosen.profile.update');
+        Route::post('/profile/photo', [DosenController::class, 'updatePhoto'])->name('dosen.profile.photo.update');
+        Route::put('/profile/password', [DosenController::class, 'updatePassword'])->name('dosen.profile.password.update');
         // Activity Review routes
         Route::prefix('review-kegiatan')->group(function () {
             Route::get('/', [App\Http\Controllers\DosenReviewKegiatanController::class, 'index'])->name('dosen.review-kegiatan.index');
@@ -184,7 +184,7 @@ Route::middleware('auth')->group(function () {
         });
 
         // Add more dosen routes here
-        Route::prefix('mhsbimbingang')->group(function () {
+        Route::prefix('mhsbimbingan')->group(function () {
             Route::get('/', [MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
         });
 

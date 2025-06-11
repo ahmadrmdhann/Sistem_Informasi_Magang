@@ -21,7 +21,6 @@
                     <div>
                         <p class="font-semibold text-red-800">Maaf, ada {{ $pengajuanDitolak }} pengajuan magang kamu yang
                             ditolak.</p>
-                        <p class="text-sm text-red-700">Cek alasan penolakan dan ajukan kembali jika diperlukan.</p>
                     </div>
                 </div>
             @endif
@@ -35,14 +34,14 @@
                 </div>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6">Dashboard Mahasiswa</h1>
+            <h1 class="text-2xl font-bold mb-6">Selamat Datang, {{ Auth::user()->nama }}</h1>
             @if(isset($error))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                     <p>Error: {{ $error }}</p>
                 </div>
             @endif
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
+                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500 transition hover:shadow-lg hover:bg-blue-50">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-blue-100 mr-4">
                             <i class="fas fa-briefcase text-blue-500 text-xl"></i>
@@ -53,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
+                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500 transition hover:shadow-lg hover:bg-green-50">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-green-100 mr-4">
                             <i class="fas fa-check-circle text-green-500 text-xl"></i>
@@ -64,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500">
+                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-yellow-500 transition hover:shadow-lg hover:bg-yellow-50">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-yellow-100 mr-4">
                             <i class="fas fa-clock text-yellow-500 text-xl"></i>
@@ -75,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500">
+                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500 transition hover:shadow-lg hover:bg-red-50">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-red-100 mr-4">
                             <i class="fas fa-times-circle text-red-500 text-xl"></i>
@@ -86,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-indigo-500">
+                <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-indigo-500 transition hover:shadow-lg hover:bg-indigo-50">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-indigo-100 mr-4">
                             <i class="fas fa-briefcase text-indigo-500 text-xl"></i>
@@ -143,6 +142,7 @@
                 </div>
                 <div class="space-y-4">
                     @forelse($popularLowongan as $index => $lowongan)
+                    @if($lowongan->total_pendaftar > 0)
                         <div class="flex items-center p-4 {{ $index % 2 == 0 ? 'bg-gray-50' : 'bg-white' }} rounded-lg transition hover:bg-blue-50">
                             <div
                                 class="flex-shrink-0 mr-4 w-12 h-12 flex items-center justify-center bg-blue-100 text-blue-700 font-bold rounded-full text-lg">
@@ -158,11 +158,39 @@
                                 </span>
                             </div>
                         </div>
+                    @endif
                     @empty
                         <p class="text-center text-gray-500 py-4">Belum ada data lowongan</p>
                     @endforelse
                 </div>
             </div>
-        </div>
-    </div>
+
+            <!-- To-Do List / Checklist -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-lg font-bold mb-4">Checklist Mahasiswa</h2>
+                <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                    <li class="flex items-center"><i class="fas fa-user-edit text-blue-400 mr-2"></i> Lengkapi profil dan unggah CV</li>
+                    <li class="flex items-center"><i class="fas fa-briefcase text-green-400 mr-2"></i> Ajukan magang ke lowongan yang sesuai</li>
+                    <li class="flex items-center"><i class="fas fa-tasks text-yellow-400 mr-2"></i> Catat kegiatan magang secara rutin</li>
+                    <li class="flex items-center"><i class="fas fa-star text-purple-400 mr-2"></i> Isi feedback/penilaian setelah magang selesai</li>
+                </ul>
+            </div>
+
+            <!-- Rekomendasi Lowongan -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-lg font-bold mb-4">Rekomendasi Lowongan Untukmu</h2>
+                <ul class="space-y-3">
+                    @forelse($rekomendasiLowongan ?? [] as $lowongan)
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition">
+                            <div>
+                                <span class="font-semibold text-blue-700">{{ is_object($lowongan) && isset($lowongan->judul) ? $lowongan->judul : '-' }}</span>
+                                <span class="text-xs text-gray-500 ml-2">{{ $lowongan->partner->nama ?? '-' }}</span>
+                            </div>
+                            <a href="{{ route('mahasiswa.lowongan.index', $lowongan->lowongan_id) }}" class="text-blue-600 hover:underline text-base font-semibold">Lihat Detail</a>
+                        </li>
+                    @empty
+                        <li class="text-gray-400">Belum ada rekomendasi lowongan</li>
+                    @endforelse
+                </ul>
+            </div>
 @endsection

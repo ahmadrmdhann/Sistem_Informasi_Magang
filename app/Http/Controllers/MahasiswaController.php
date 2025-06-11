@@ -35,18 +35,32 @@ class MahasiswaController extends Controller
                 ->withCount('pengajuanMagang')
                 ->orderByDesc('pengajuan_magang_count')
                 ->take(5)->get()
-                ->map(function ($l) {
+                ->map(function($l) {
                     $l->total_pendaftar = $l->pengajuan_magang_count;
                     return $l;
                 });
+
+            // Rekomendasi lowongan berdasarkan minat atau keahlian mahasiswa
+            $rekomendasiLowongan = collect();
+            if ($mahasiswa && ($mahasiswa->minat_id || $mahasiswa->keahlian_id)) {
+                $rekomendasiLowongan = \App\Models\LowonganModel::with('partner')
+                    ->where(function($q) use ($mahasiswa) {
+                        if ($mahasiswa->minat_id) {
+                            $q->where('keahlian_id', $mahasiswa->minat_id);
+                        }
+                        if ($mahasiswa->keahlian_id) {
+                            $q->orWhere('keahlian_id', $mahasiswa->keahlian_id);
+                        }
+                    })
+                    ->where('tanggal_akhir', '>=', now())
+                    ->orderByDesc('created_at')
+                    ->take(5)
+                    ->get();
+            }
+
             return view('dashboard.mahasiswa.index', compact(
-                'totalPengajuan',
-                'pengajuanDiterima',
-                'pengajuanDiajukan',
-                'pengajuanDitolak',
-                'riwayatPengajuan',
-                'totalLowongan',
-                'popularLowongan'
+                'totalPengajuan', 'pengajuanDiterima', 'pengajuanDiajukan', 'pengajuanDitolak',
+                'riwayatPengajuan', 'totalLowongan', 'popularLowongan', 'rekomendasiLowongan'
             ));
         } catch (\Exception $e) {
             return view('dashboard.mahasiswa.index', [

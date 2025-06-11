@@ -13,7 +13,40 @@ class DosenController extends Controller
 {
     public function index()
     {
-        return view('layouts.dashboard');
+        $user = Auth::user();
+        $dosen = DosenModel::with('user')->where('user_id', $user->user_id)->first();
+        $totalMahasiswaBimbingan = \App\Models\PengajuanMagangModel::where('dosen_id', $dosen->dosen_id)
+            ->where('status', 'diterima')
+            ->distinct('mahasiswa_id')
+            ->count('mahasiswa_id');
+        $pengajuanQuery = \App\Models\PengajuanMagangModel::with(['mahasiswa.user', 'lowongan.partner'])
+            ->where('dosen_id', $dosen->dosen_id);
+        $pengajuanBaru = (clone $pengajuanQuery)->where('status', 'diajukan')->count();
+        $pengajuanDiterima = (clone $pengajuanQuery)->where('status', 'diterima')->count();
+        $pengajuanDitolak = (clone $pengajuanQuery)->where('status', 'ditolak')->count();
+        $pengajuanDiajukan = $pengajuanBaru;
+        $pengajuanTerbaru = $pengajuanQuery->orderByDesc('created_at')->take(5)->get();
+        $feedbackTerbaru = \App\Models\FeedbackResponseModel::with([
+            'mahasiswa.user',
+            'pengajuan.lowongan.partner',
+        ])
+            ->whereHas('pengajuan', function ($q) use ($dosen) {
+                $q->where('dosen_id', $dosen->dosen_id)
+                    ->where('status', 'diterima');
+            })
+            ->orderByDesc('submitted_at')
+            ->take(5)
+            ->get();
+        return view('dashboard.dosen.index', compact(
+            'dosen',
+            'totalMahasiswaBimbingan',
+            'pengajuanBaru',
+            'pengajuanDiterima',
+            'pengajuanDitolak',
+            'pengajuanDiajukan',
+            'pengajuanTerbaru',
+            'feedbackTerbaru'
+        ));
     }
 
     public function profile()
