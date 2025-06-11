@@ -143,6 +143,19 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [IpkController::class, 'update'])->name('ipk.update');
             Route::delete('/{id}', [IpkController::class, 'destroy'])->name('ipk.destroy');
         });
+
+        Route::prefix('feedback')->group(function () {
+            Route::get('/', [App\Http\Controllers\AdminFeedbackController::class, 'index'])->name('admin.feedback.index');
+            Route::get('/create', [App\Http\Controllers\AdminFeedbackController::class, 'create'])->name('admin.feedback.create');
+            Route::post('/', [App\Http\Controllers\AdminFeedbackController::class, 'store'])->name('admin.feedback.store');
+            Route::get('/{id}', [App\Http\Controllers\AdminFeedbackController::class, 'show'])->name('admin.feedback.show');
+            Route::get('/{id}/edit', [App\Http\Controllers\AdminFeedbackController::class, 'edit'])->name('admin.feedback.edit');
+            Route::put('/{id}', [App\Http\Controllers\AdminFeedbackController::class, 'update'])->name('admin.feedback.update');
+            Route::delete('/{id}', [App\Http\Controllers\AdminFeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
+            Route::patch('/{id}/toggle-status', [App\Http\Controllers\AdminFeedbackController::class, 'toggleStatus'])->name('admin.feedback.toggle-status');
+            Route::get('/responses/all', [App\Http\Controllers\AdminFeedbackController::class, 'responses'])->name('admin.feedback.responses');
+            Route::get('/responses/{id}', [App\Http\Controllers\AdminFeedbackController::class, 'showResponse'])->name('admin.feedback.response-detail');
+        });
     });
 
     // Dosen routes
@@ -152,6 +165,24 @@ Route::middleware('auth')->group(function () {
         Route::put('/', [DosenController::class, 'updateProfile'])->name('dosen.profile.update');
         Route::post('/photo', [DosenController::class, 'updatePhoto'])->name('dosen.profile.photo.update');
         Route::put('/password', [DosenController::class, 'updatePassword'])->name('dosen.profile.password.update');
+        // Activity Review routes
+        Route::prefix('review-kegiatan')->group(function () {
+            Route::get('/', [App\Http\Controllers\DosenReviewKegiatanController::class, 'index'])->name('dosen.review-kegiatan.index');
+            Route::get('/{id}', [App\Http\Controllers\DosenReviewKegiatanController::class, 'show'])->name('dosen.review-kegiatan.show');
+            Route::get('/{id}/review', [App\Http\Controllers\DosenReviewKegiatanController::class, 'review'])->name('dosen.review-kegiatan.review');
+            Route::post('/{id}/review', [App\Http\Controllers\DosenReviewKegiatanController::class, 'storeReview'])->name('dosen.review-kegiatan.store-review');
+            Route::get('/student/{mahasiswaId}/progress', [App\Http\Controllers\DosenReviewKegiatanController::class, 'studentProgress'])->name('dosen.review-kegiatan.student-progress');
+            Route::get('/report/generate', [App\Http\Controllers\DosenReviewKegiatanController::class, 'generateReport'])->name('dosen.review-kegiatan.report');
+        });
+
+        // Student Feedback Viewing routes
+        Route::prefix('feedback-mahasiswa')->group(function () {
+            Route::get('/', [App\Http\Controllers\DosenFeedbackController::class, 'index'])->name('dosen.feedback-mahasiswa.index');
+            Route::get('/{responseId}', [App\Http\Controllers\DosenFeedbackController::class, 'show'])->name('dosen.feedback-mahasiswa.show');
+            Route::get('/analytics/view', [App\Http\Controllers\DosenFeedbackController::class, 'analytics'])->name('dosen.feedback-mahasiswa.analytics');
+            Route::get('/export/data', [App\Http\Controllers\DosenFeedbackController::class, 'export'])->name('dosen.feedback-mahasiswa.export');
+        });
+
         // Add more dosen routes here
         Route::prefix('mhsbimbingang')->group(function () {
             Route::get('/', [MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
@@ -174,6 +205,31 @@ Route::middleware('auth')->group(function () {
         Route::get('/pengajuan', [PengajuanMagangController::class, 'index'])->name('mahasiswa.pengajuan');
         Route::get('mahasiswa/pengajuan', [PengajuanMagangController::class, 'index'])->name('pengajuan.index');
         Route::post('mahasiswa/pengajuan', [PengajuanMagangController::class, 'store'])->name('pengajuan.store');
+
+        // Feedback routes
+        Route::prefix('feedback')->group(function () {
+            Route::get('/', [App\Http\Controllers\MahasiswaFeedbackController::class, 'index'])->name('mahasiswa.feedback.index');
+            Route::get('/{formId}/form', [App\Http\Controllers\MahasiswaFeedbackController::class, 'show'])->name('mahasiswa.feedback.form');
+            Route::post('/{formId}/submit', [App\Http\Controllers\MahasiswaFeedbackController::class, 'store'])->name('mahasiswa.feedback.store');
+            Route::get('/response/{responseId}', [App\Http\Controllers\MahasiswaFeedbackController::class, 'showResponse'])->name('mahasiswa.feedback.response');
+
+            // Test mode routes
+            Route::post('/toggle-test-mode', [App\Http\Controllers\MahasiswaFeedbackController::class, 'toggleTestMode'])->name('mahasiswa.feedback.toggle-test');
+            Route::post('/clear-test-data', [App\Http\Controllers\MahasiswaFeedbackController::class, 'clearTestData'])->name('mahasiswa.feedback.clear-test');
+        });
+
+        // Activity Logging routes
+        Route::prefix('kegiatan')->group(function () {
+            Route::get('/', [App\Http\Controllers\MahasiswaKegiatanController::class, 'index'])->name('mahasiswa.kegiatan.index');
+            Route::get('/create', [App\Http\Controllers\MahasiswaKegiatanController::class, 'create'])->name('mahasiswa.kegiatan.create');
+            Route::post('/', [App\Http\Controllers\MahasiswaKegiatanController::class, 'store'])->name('mahasiswa.kegiatan.store');
+            Route::get('/{id}', [App\Http\Controllers\MahasiswaKegiatanController::class, 'show'])->name('mahasiswa.kegiatan.show');
+            Route::get('/{id}/edit', [App\Http\Controllers\MahasiswaKegiatanController::class, 'edit'])->name('mahasiswa.kegiatan.edit');
+            Route::put('/{id}', [App\Http\Controllers\MahasiswaKegiatanController::class, 'update'])->name('mahasiswa.kegiatan.update');
+            Route::delete('/{id}', [App\Http\Controllers\MahasiswaKegiatanController::class, 'destroy'])->name('mahasiswa.kegiatan.destroy');
+            Route::get('/attachment/{attachmentId}/download', [App\Http\Controllers\MahasiswaKegiatanController::class, 'downloadAttachment'])->name('mahasiswa.kegiatan.download-attachment');
+        });
+
         // Add more mahasiswa routes here
     });
 
