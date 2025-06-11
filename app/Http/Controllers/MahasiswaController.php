@@ -35,12 +35,18 @@ class MahasiswaController extends Controller
                 ->withCount('pengajuanMagang')
                 ->orderByDesc('pengajuan_magang_count')
                 ->take(5)->get()
-                ->map(function($l) {
+                ->map(function ($l) {
                     $l->total_pendaftar = $l->pengajuan_magang_count;
                     return $l;
                 });
             return view('dashboard.mahasiswa.index', compact(
-                'totalPengajuan', 'pengajuanDiterima', 'pengajuanDiajukan', 'pengajuanDitolak', 'riwayatPengajuan', 'totalLowongan', 'popularLowongan'
+                'totalPengajuan',
+                'pengajuanDiterima',
+                'pengajuanDiajukan',
+                'pengajuanDitolak',
+                'riwayatPengajuan',
+                'totalLowongan',
+                'popularLowongan'
             ));
         } catch (\Exception $e) {
             return view('dashboard.mahasiswa.index', [
@@ -82,7 +88,7 @@ class MahasiswaController extends Controller
             'tentang_saya' => 'nullable|string|max:1000',
             'lokasi_preferensi' => 'nullable|exists:m_kota_kabupaten,kabupaten_id',
             'cv_file' => 'nullable|file|mimes:pdf|max:2048',
-            'sertifikat' => 'nullable|string|max:1000',
+            'sertifikat_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
@@ -95,6 +101,8 @@ class MahasiswaController extends Controller
             'prodi_id.required' => 'Jurusan wajib dipilih.',
             'cv_file.mimes' => 'File CV harus berformat PDF.',
             'cv_file.max' => 'Ukuran file CV maksimal 2MB.',
+            'sertifikat_file.mimes' => 'File sertifikat harus berformat PDF, JPG, JPEG, atau PNG.',
+            'sertifikat_file.max' => 'Ukuran file sertifikat maksimal 5MB.',
             'lokasi_preferensi.exists' => 'Lokasi preferensi yang dipilih tidak valid.',
         ]);
 
@@ -125,6 +133,31 @@ class MahasiswaController extends Controller
                 $mahasiswa->cv_file = 'files/cv/' . $cvFileName;
             }
 
+            // Handle Certificate file upload
+            if ($request->hasFile('sertifikat_file')) {
+                // Create certificates directory if it doesn't exist
+                $certUploadPath = public_path('files/certificates');
+                if (!File::exists($certUploadPath)) {
+                    File::makeDirectory($certUploadPath, 0755, true);
+                }
+
+                // Delete old certificate file if exists
+                if ($mahasiswa->sertifikat_file) {
+                    $oldCertPath = public_path($mahasiswa->sertifikat_file);
+                    if (File::exists($oldCertPath)) {
+                        File::delete($oldCertPath);
+                    }
+                }
+
+                $certFile = $request->file('sertifikat_file');
+                $certExtension = $certFile->getClientOriginalExtension();
+                $certFileName = 'cert_' . $user->user_id . '_' . time() . '.' . $certExtension;
+                $certFile->move($certUploadPath, $certFileName);
+
+                // Save relative path to database
+                $mahasiswa->sertifikat_file = 'files/certificates/' . $certFileName;
+            }
+
             // Update tabel users
             $user->username = $request->username;
             $user->nama = $request->nama;
@@ -139,7 +172,6 @@ class MahasiswaController extends Controller
             $mahasiswa->no_telepon = $request->no_telepon;
             $mahasiswa->tentang_saya = $request->tentang_saya;
             $mahasiswa->lokasi_preferensi = $request->lokasi_preferensi;
-            $mahasiswa->sertifikat = $request->sertifikat;
             $mahasiswa->save();
 
             DB::commit();

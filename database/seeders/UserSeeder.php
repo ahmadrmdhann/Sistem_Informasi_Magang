@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'username' => 'dosen',
+                'username' => 'dosen1',
                 'nama' => 'Moch. Zawaruddin Abdullah, S.ST., M.Kom',
                 'level_id' => 2,
                 'email' => 'dosen1@example.com',
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'username' => 'dosen',
+                'username' => 'dosen2',
                 'nama' => 'Moch. Dusirman, S.ST., M.Kom',
                 'level_id' => 2,
                 'email' => 'dosen2@example.com',
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'username' => 'mahasiswa',
+                'username' => 'ajul',
                 'nama' => 'Dandi Azrul Syahputra',
                 'level_id' => 3,
                 'email' => 'mahasiswa1@example.com',
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'username' => 'mahasiswa',
+                'username' => 'yanto',
                 'nama' => 'Yantos inferno',
                 'level_id' => 3,
                 'email' => 'mahasiswa2@example.com',

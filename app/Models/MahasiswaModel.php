@@ -35,7 +35,7 @@ class MahasiswaModel extends Model
         'keahlian_id',
         'minat_id',
         'lokasi_preferensi',
-        'sertifikat',
+        'sertifikat_file',
         'cv_file',
         'ipk'
     ];

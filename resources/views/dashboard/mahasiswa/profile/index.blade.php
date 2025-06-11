@@ -265,10 +265,27 @@
                                     </div>
 
                                     <div class="space-y-1 sm:space-y-2">
-                                        <label class="block text-xs sm:text-sm font-medium text-gray-700">Sertifikat</label>
-                                        <textarea name="sertifikat" rows="4"
-                                            class="w-full p-2 sm:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition"
-                                            placeholder="Daftar sertifikat yang dimiliki...">{{ old('sertifikat', $mahasiswa->sertifikat) }}</textarea>
+                                        <label class="block text-xs sm:text-sm font-medium text-gray-700">Upload
+                                            Sertifikat</label>
+                                        <input type="file" name="sertifikat_file" accept=".pdf,.jpg,.jpeg,.png"
+                                            class="w-full p-2 sm:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition @error('sertifikat_file') border-red-500 @enderror">
+                                        @if($mahasiswa->sertifikat_file)
+                                            <div class="mt-2 p-2 bg-gray-50 rounded-lg">
+                                                <p class="text-xs text-gray-600 flex items-center">
+                                                    <i class="fas fa-certificate text-yellow-500 mr-2"></i>
+                                                    File sertifikat saat ini:
+                                                    <a href="{{ asset($mahasiswa->sertifikat_file) }}" target="_blank"
+                                                        class="text-blue-600 hover:underline ml-1">
+                                                        {{ basename($mahasiswa->sertifikat_file) }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        @else
+                                            <p class="text-xs text-gray-500 mt-1">Belum ada file sertifikat yang diupload</p>
+                                        @endif
+                                        @error('sertifikat_file')
+                                            <p class="text-red-500 text-xs">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                 </div>
 

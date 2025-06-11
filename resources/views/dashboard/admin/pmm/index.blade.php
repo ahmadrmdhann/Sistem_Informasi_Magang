@@ -103,9 +103,11 @@
                         </div>
                         <div class="mb-1">
                             <span class="font-semibold">Sertifikat:</span>
-                            @if ($pengajuan->mahasiswa->sertifikat)
-                                <a href="{{ asset('storage/sertifikat/' . $pengajuan->mahasiswa->sertifikat) }}" target="_blank"
-                                    class="text-blue-600 underline">Lihat Sertifikat</a>
+                            @if ($pengajuan->mahasiswa->sertifikat_file)
+                                <a href="{{ asset($pengajuan->mahasiswa->sertifikat_file) }}" target="_blank"
+                                    class="text-blue-600 hover:underline ml-1">
+                                    Sertifikat Mahasiswa
+                                </a>
                             @else
                                 <span>-</span>
                             @endif
@@ -113,7 +115,10 @@
                         <div class="mb-1">
                             <span class="font-semibold">CV:</span>
                             @if ($pengajuan->mahasiswa->cv_file)
-                                <a href="{{ $pengajuan->mahasiswa->cv_url }}" target="_blank" class="text-blue-600 underline">Lihat CV</a>
+                                <a href="{{ asset($pengajuan->mahasiswa->cv_file) }}" target="_blank"
+                                    class="text-blue-600 hover:underline ml-1">
+                                    CV Mahasiswa
+                                </a>
                             @else
                                 <span>-</span>
                             @endif
@@ -167,7 +172,7 @@
                     <div id="dosen-container-{{ $pengajuan->id }}"
                         class="{{ $pengajuan->status !== 'diterima' ? 'hidden' : '' }} mb-4">
                         <label class="text-sm font-medium text-gray-700">Dosen Pendamping</label>
-                        <select name="dosen_id" class="mt-1 w-full rounded border-gray-300">
+                        <select name="dosen_id" id="dosen-select-{{ $pengajuan->id }}" class="mt-1 w-full rounded border-gray-300">
                             <option value="">-- Pilih Dosen --</option>
                             @foreach ($dosens as $dosen)
                                 <option value="{{ $dosen->dosen_id }}" {{ $pengajuan->dosen_id == $dosen->dosen_id ? 'selected' : '' }}>
@@ -204,10 +209,15 @@
     function toggleDosenSelect(id) {
         const status = document.getElementById('status-' + id).value;
         const container = document.getElementById('dosen-container-' + id);
+        const dosenSelect = document.getElementById('dosen-select-' + id);
+
         if (status === 'diterima') {
             container.classList.remove('hidden');
+            dosenSelect.setAttribute('required', 'required');
         } else {
             container.classList.add('hidden');
+            dosenSelect.removeAttribute('required');
+            dosenSelect.value = ''; // Clear selection when hidden
         }
     }
 

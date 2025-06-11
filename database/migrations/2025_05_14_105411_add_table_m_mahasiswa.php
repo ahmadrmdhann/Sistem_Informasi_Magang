@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('keahlian_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
             $table->foreignId('minat_id')->nullable()->constrained('m_keahlian', 'keahlian_id');
             $table->foreignId('lokasi_preferensi')->nullable()->constrained('m_kota_kabupaten', 'kabupaten_id');
-            $table->text('sertifikat')->nullable();
+            $table->string('sertifikat_file')->nullable();
             $table->string('cv_file')->nullable();
             $table->string('foto_profil')->nullable();
             $table->text('tentang_saya')->nullable();

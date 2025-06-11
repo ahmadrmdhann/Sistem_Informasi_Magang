@@ -9,27 +9,33 @@ use Illuminate\Http\Request;
 class MagangMahasiswaController extends Controller
 {
     public function index()
-{
-    $pengajuans = PengajuanMagangModel::with([
-        'mahasiswa.prodi',
-        'mahasiswa.keahlian',
-        'mahasiswa.minat',
-        'mahasiswa.lokasiPreferensi',
-        'lowongan.partner',
-        'dosen'
-    ])->orderByDesc('created_at')->get();
+    {
+        $pengajuans = PengajuanMagangModel::with([
+            'mahasiswa.prodi',
+            'mahasiswa.keahlian',
+            'mahasiswa.minat',
+            'mahasiswa.lokasiPreferensi',
+            'lowongan.partner',
+            'dosen'
+        ])->orderByDesc('created_at')->get();
 
-    $dosens = DosenModel::with('user')->get();
+        $dosens = DosenModel::with('user')->get();
 
-    return view('dashboard.admin.pmm.index', compact('pengajuans', 'dosens'));
-}
+        return view('dashboard.admin.pmm.index', compact('pengajuans', 'dosens'));
+    }
 
     public function updateStatus(Request $request, $id)
-{
-        $request->validate([
+    {
+        $validation = [
             'status' => 'required|in:diajukan,diterima,ditolak',
-            'dosen_id' => 'required|exists:m_dosen,dosen_id',
-        ]);
+        ];
+
+        // Only require dosen_id if status is 'diterima'
+        if ($request->status === 'diterima') {
+            $validation['dosen_id'] = 'required|exists:m_dosen,dosen_id';
+        }
+
+        $request->validate($validation);
 
         $pengajuan = PengajuanMagangModel::findOrFail($id);
 
@@ -43,12 +49,16 @@ class MagangMahasiswaController extends Controller
         }
 
         $pengajuan->status = $request->status;
-        $pengajuan->dosen_id = $request->dosen_id;
+
+        // Only assign dosen_id if status is 'diterima'
+        if ($request->status === 'diterima') {
+            $pengajuan->dosen_id = $request->dosen_id;
+        } else {
+            $pengajuan->dosen_id = null;
+        }
+
         $pengajuan->save();
 
         return redirect()->back()->with('success', 'Status dan dosen berhasil diperbarui.');
-}
-
-    
-
+    }
 }
