@@ -35,12 +35,6 @@
                         value="{{ old('email', $partner->email) }}">
                     @error('email') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
                 </div>
-                <div class="mb-4">
-                    <label class="block font-semibold mb-1">alamat</label>
-                    <input type="text" name="alamat" class="w-full border rounded px-3 py-2 focus:outline-blue-400"
-                        value="{{ old('alamat', $partner->alamat) }}">
-                    @error('alamat') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
-                </div>
                 <div class="flex justify-end space-x-2 mt-6">
                     <a href="{{ route('partner.index') }}"
                         class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded shadow">Batal</a>

@@ -99,10 +99,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-4 flex items-center">
-                        <input type="checkbox" name="status" class="mr-2" checked>
-                        <label for="status" class="text-gray-700">Aktif</label>
-                    </div>
                     <div class="flex justify-end">
                         <button type="button" data-modal-hide="createUserModal"
                             class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
@@ -161,10 +157,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="mb-4 flex items-center">
-                        <input type="checkbox" name="status" id="edit_status" class="mr-2">
-                        <label for="edit_status" class="text-gray-700">Aktif</label>
-                    </div>
                     <div class="flex justify-end">
                         <button type="button" data-modal-hide="editUserModal"
                             class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
@@ -210,7 +202,7 @@
 
         document.querySelectorAll('.btn-delete').forEach(button => {
             button.addEventListener('click', () => {
-                formToDelete = button.closest('form'); 
+                formToDelete = button.closest('form');
                 document.getElementById('deleteConfirmModal').classList.remove('hidden'); // Tampilkan modal
             });
         });
@@ -218,7 +210,7 @@
 
         document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
             if (formToDelete) {
-                formToDelete.submit(); 
+                formToDelete.submit();
             }
         });
 
@@ -244,11 +236,8 @@
                         document.getElementById("edit_username").value = user.username;
                         document.getElementById("edit_level_id").value = user.level_id;
 
-                        const statusCheckbox = document.getElementById("edit_status");
-                        statusCheckbox.checked = user.status == 1;
-
                         // Ganti action form secara dinamis
-                        editForm.action = `/Sistem_Informasi_Magang/public/admin/user/${user.user_id}`;
+                        editForm.action = `/admin/user/${user.user_id}`;
 
                         // Tampilkan modal
                         document.getElementById("editUserModal").classList.remove("hidden");

@@ -15,9 +15,9 @@
                 class="user-dropdown-toggle flex items-center gap-3 focus:outline-none hover:bg-gray-50 px-3 py-2 rounded-full transition shadow-sm"
                 id="userDropdownToggle">
                 @if(Auth::user()->level_id == 3)
-                    @if(isset($mahasiswa) && $mahasiswa->foto_profil)
+                    @if(Auth::user()->mahasiswa->foto_profil)
                         <img class="w-10 h-10 rounded-full border-2 border-blue-300 shadow object-cover"
-                            src="{{ asset($mahasiswa->foto_profil) }}">
+                            src="{{ asset(Auth::user()->mahasiswa->foto_profil) }}">
                     @else
                         <div
                             class="w-10 h-10 rounded-full border-2 border-blue-300 shadow bg-blue-500 flex items-center justify-center">
@@ -25,9 +25,9 @@
                         </div>
                     @endif
                 @elseif(Auth::user()->level_id == 2)
-                    @if(isset($dosen) && $dosen->foto_profil)
+                    @if(Auth::user()->dosen->foto_profil)
                         <img class="w-10 h-10 rounded-full border-2 border-green-300 shadow object-cover"
-                            src="{{ asset($dosen->foto_profil) }}">
+                            src="{{ asset(Auth::user()->dosen->foto_profil) }}">
                     @else
                         <div
                             class="w-10 h-10 rounded-full border-2 border-green-300 shadow bg-green-500 flex items-center justify-center">
