@@ -6,6 +6,7 @@ use App\Models\KeahlianModel;
 use App\Models\MahasiswaModel;
 use App\Models\ProdiModel;
 use App\Models\KotaKabupatenModel;
+use App\Models\PengajuanMagangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,42 @@ class MahasiswaController extends Controller
 {
     public function index()
     {
-        return view('layouts.dashboard');
+        try {
+            $user = auth()->user();
+            $mahasiswa = \App\Models\MahasiswaModel::where('user_id', $user->user_id)->first();
+            $totalPengajuan = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->count();
+            $pengajuanDiterima = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'diterima')->count();
+            $pengajuanDiajukan = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'diajukan')->count();
+            $pengajuanDitolak = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'ditolak')->count();
+            $riwayatPengajuan = PengajuanMagangModel::with(['lowongan.partner'])
+                ->where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+                ->orderByDesc('created_at')
+                ->take(10)
+                ->get();
+            $totalLowongan = \App\Models\LowonganModel::where('tanggal_akhir', '>=', now())->count();
+            $popularLowongan = \App\Models\LowonganModel::with('partner')
+                ->withCount('pengajuanMagang')
+                ->orderByDesc('pengajuan_magang_count')
+                ->take(5)->get()
+                ->map(function($l) {
+                    $l->total_pendaftar = $l->pengajuan_magang_count;
+                    return $l;
+                });
+            return view('dashboard.mahasiswa.index', compact(
+                'totalPengajuan', 'pengajuanDiterima', 'pengajuanDiajukan', 'pengajuanDitolak', 'riwayatPengajuan', 'totalLowongan', 'popularLowongan'
+            ));
+        } catch (\Exception $e) {
+            return view('dashboard.mahasiswa.index', [
+                'error' => $e->getMessage(),
+                'totalPengajuan' => 0,
+                'pengajuanDiterima' => 0,
+                'pengajuanDiajukan' => 0,
+                'pengajuanDitolak' => 0,
+                'riwayatPengajuan' => collect([]),
+                'totalLowongan' => 0,
+                'popularLowongan' => collect([])
+            ]);
+        }
     }
 
     public function profile()

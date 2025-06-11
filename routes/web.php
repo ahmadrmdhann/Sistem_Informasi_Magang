@@ -16,6 +16,7 @@ use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
 use App\Http\Controllers\KeahlianController;
+use App\Http\Controllers\DashboardAdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,7 +53,10 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     // Admin routes
-    Route::middleware('authorize:ADM')->prefix('admin')->group(function () {
+    Route::middleware(['auth', 'authorize:ADM'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard-analytics', [AdminController::class, 'index'])->name('admin.dashboard');
+
         Route::prefix('prodi')->group(function () {
             Route::get('/', [ProdiController::class, 'index'])->name('prodi.index');
             Route::get('/create', [ProdiController::class, 'create'])->name('prodi.create');
@@ -152,7 +156,6 @@ Route::middleware('auth')->group(function () {
             Route::get('/responses/all', [App\Http\Controllers\AdminFeedbackController::class, 'responses'])->name('admin.feedback.responses');
             Route::get('/responses/{id}', [App\Http\Controllers\AdminFeedbackController::class, 'showResponse'])->name('admin.feedback.response-detail');
         });
-
     });
 
     // Dosen routes
@@ -181,8 +184,8 @@ Route::middleware('auth')->group(function () {
         });
 
         // Add more dosen routes here
-        Route::prefix('mhsbimbingang')->group(function(){
-            Route::get('/',[MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
+        Route::prefix('mhsbimbingang')->group(function () {
+            Route::get('/', [MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
         });
 
     });
@@ -230,9 +233,9 @@ Route::middleware('auth')->group(function () {
         // Add more mahasiswa routes here
     });
 
-        Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
-            Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
-            Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
-            Route::get('/rekomendasi', [App\Http\Controllers\RekomendasiController::class, 'index'])->name('mahasiswa.rekomendasi');
-        });
+    Route::middleware(['auth', 'authorize:MHS'])->prefix('mahasiswa')->group(function () {
+        Route::get('lowongan', [MahasiswaLowonganController::class, 'index'])->name('mahasiswa.lowongan.index');
+        Route::post('lowongan/{id}/apply', [MahasiswaLowonganController::class, 'apply'])->name('mahasiswa.lowongan.apply');
+        Route::get('/rekomendasi', [App\Http\Controllers\RekomendasiController::class, 'index'])->name('mahasiswa.rekomendasi');
     });
+});

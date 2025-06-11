@@ -41,9 +41,6 @@
                             class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">
                             Email</th>
                         <th
-                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-r border-gray-300">
-                            Alamat</th>
-                        <th
                             class="px-6 py-3 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl border-b border-gray-300">
                             Aksi</th>
                     </tr>
@@ -56,7 +53,6 @@
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->alamat }}</td>
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->telepon }}</td>
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->email }}</td>
-                            <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $partner->alamat }}</td>
                             <td class="px-6 py-3 text-center border-b border-gray-200">
                                 <div class="flex justify-center space-x-2">
                                     <a href="{{ route('partner.edit', $partner->partner_id) }}"
