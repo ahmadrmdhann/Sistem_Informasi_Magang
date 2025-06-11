@@ -51,7 +51,7 @@ class AdminController extends Controller
                 return [
                     'title' => $p->nama,
                     'start' => $p->tanggal_mulai,
-                    'end' => $p->tanggal_akhir
+                    'end' => $p->tanggal_selesai // gunakan tanggal_selesai sesuai field database
                 ];
             });
             $locationData = [];
