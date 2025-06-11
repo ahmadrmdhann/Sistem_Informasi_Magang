@@ -104,7 +104,7 @@
     {{-- modalista --}}
     <div id="createLowonganModal" tabindex="-1" aria-hidden="true"
         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-semibold text-gray-700">Tambah Lowongan</h3>
                 <button type="button" data-modal-hide="createLowonganModal" class="text-gray-500 hover:text-gray-700">
@@ -219,7 +219,7 @@
     </div>
     <div id="deleteConfirmModal" tabindex="-1" aria-hidden="true"
         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
-        <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-4">Konfirmasi Hapus</h3>
             <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus Lowongan ini?</p>
             <div class="flex justify-end">
