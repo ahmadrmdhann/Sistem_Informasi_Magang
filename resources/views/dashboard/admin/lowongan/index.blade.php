@@ -445,7 +445,7 @@
                     document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
                     document.getElementById("edit_kuota").value = lowongan.kuota;
 
-                    editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
+                editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
                     document.getElementById("editLowonganModal").classList.remove("hidden");
                 });
             });
@@ -496,7 +496,7 @@
 
                     document.querySelectorAll('.btn-delete').forEach(button => {
                         button.addEventListener('click', () => {
-                            formToDelete = button.closest('form'); 
+                            formToDelete = button.closest('form');
                             document.getElementById('deleteConfirmModal').classList.remove('hidden');
                         });
                     });
@@ -504,7 +504,7 @@
 
                     document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
                         if (formToDelete) {
-                            formToDelete.submit(); 
+                            formToDelete.submit();
                         }
                     });
 
