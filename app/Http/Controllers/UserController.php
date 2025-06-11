@@ -86,8 +86,7 @@ class UserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'nama' => $request->nama,
-            'id' => $request->level_id,
-            'user_status' => $request->has('status') ? 1 : 0,
+            'level_id' => $request->level_id,
         ];
 
         // Only update password if provided
@@ -102,7 +101,7 @@ class UserController extends Controller
                     ->withInput();
             }
 
-            $userData['user_password'] = Hash::make($request->password);
+            $userData['password'] = Hash::make($request->password);
         }
 
         $user->update($userData);

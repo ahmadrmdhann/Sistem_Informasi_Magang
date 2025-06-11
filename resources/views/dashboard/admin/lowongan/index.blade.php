@@ -445,7 +445,7 @@
                     document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
                     document.getElementById("edit_kuota").value = lowongan.kuota;
 
-                editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
+                editForm.action = `/admin/lowongan/${lowongan.lowongan_id}`;
                     document.getElementById("editLowonganModal").classList.remove("hidden");
                 });
             });
@@ -535,7 +535,7 @@
                                 document.getElementById("edit_tanggal_akhir").value = lowongan.tanggal_akhir;
                                 document.getElementById("edit_kuota").value = lowongan.kuota;
 
-                                editForm.action = `/Sistem_Informasi_Magang/public/admin/lowongan/${lowongan.lowongan_id}`;
+                                editForm.action = `/admin/lowongan/${lowongan.lowongan_id}`;
                                 document.getElementById("editLowonganModal").classList.remove("hidden");
                             });
                         });
