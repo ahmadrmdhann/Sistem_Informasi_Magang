@@ -39,4 +39,10 @@ class LowonganModel extends Model
     public function keahlian(){
         return $this->belongsTo(KeahlianModel::class, 'keahlian_id', 'keahlian_id');
     }
+
+    // Relasi ke Pengajuan Magang
+    public function pengajuanMagang()
+    {
+        return $this->hasMany(PengajuanMagangModel::class, 'lowongan_id', 'lowongan_id');
+    }
 }

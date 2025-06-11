@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ProvinsiSeeder::class,
             KabupatenSeeder::class,
             LowonganSeeder::class,
+            FeedbackSeeder::class,
         ]);
     }
 }

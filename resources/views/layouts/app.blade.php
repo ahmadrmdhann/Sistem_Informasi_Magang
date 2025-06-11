@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     @yield('tittle')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Tailwind CSS -->
     @vite(['resources/css/app.css', 'resources/css/landing.css','resources/js/app.js'])
     <!-- Preline UI -->

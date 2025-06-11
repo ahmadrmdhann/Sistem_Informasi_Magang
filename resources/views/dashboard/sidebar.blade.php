@@ -112,6 +112,14 @@
                     </div>
                     <span class="text-sm">Pengajuan Magang Mahasiswa</span>
                 </a>
+                <a href="{{ route('admin.feedback.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.feedback.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('admin.feedback.*') ? 'text-blue-700' : '' }}">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-sm">Manajemen Feedback</span>
+                </a>
             </div>
         @elseif (Auth::user()->level->level_kode == 'DSN')
             <div class="mb-4">
@@ -125,57 +133,83 @@
                     </div>
                     <span class="text-sm">Mahasiswa Bimbingan</span>
                 </a>
-                <a href="#"
-                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-tasks"></i>
+                <a href="{{ route('dosen.review-kegiatan.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('dosen.review-kegiatan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('dosen.review-kegiatan.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-clipboard-check"></i>
                     </div>
-                    <span class="text-sm">Monitoring Progres</span>
+                    <span class="text-sm">Review Kegiatan</span>
+                </a>
+
+                <a href="{{ route('dosen.feedback-mahasiswa.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('dosen.feedback-mahasiswa.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('dosen.feedback-mahasiswa.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <span class="text-sm">Feedback Mahasiswa</span>
                 </a>
             </div>
         @elseif (Auth::user()->level->level_kode == 'MHS')
-                    <!-- Internship Section -->
-                    <div class="mb-4">
-                        <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            Manajemen Magang
-                        </p>
-                        <a href="{{ route('mahasiswa.lowongan.index') }}"
-                            class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                            <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                                <i class="fa-solid fa-briefcase"></i>
-                            </div>
-                            <span class="text-sm">Lowongan</span>
-                        </a>
-                        <a href="{{ route('mahasiswa.rekomendasi') }}"
-                            class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
-                            <div
-                                class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'text-blue-600' : '' }}">
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <span class="text-sm">Rekomendasi</span>
-                        </a>
-                          <a href="{{ route('mahasiswa.pengajuan') }}"
-                            class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                            <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                                <i class="fa-solid fa-file-alt"></i>
-                            </div>
-                            <span class="text-sm">Pengajuan</span>
-                        </a>
+            <!-- Internship Section -->
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Manajemen Magang
+                </p>
+                <a href="{{ route('mahasiswa.lowongan.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-briefcase"></i>
                     </div>
+                    <span class="text-sm">Lowongan</span>
+                </a>
+                <a href="{{ route('mahasiswa.rekomendasi') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-sm">Rekomendasi</span>
+                </a>
+                <a href="{{ route('mahasiswa.pengajuan') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
+                        <i class="fa-solid fa-file-alt"></i>
+                    </div>
+                    <span class="text-sm">Pengajuan Mandiri</span>
+                </a>
+            </div>
 
-                    <!-- Progress Section -->
-                    <div class="mb-4">
-                        <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                            Log Kegiatan
-                        </p>
-                        <a href=""
-                            class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
-                            <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                                <i class="fa-solid fa-tasks"></i>
-                            </div>
-                            <span class="text-sm">Kegiatan Magang</span>
-                        </a>
+            <!-- Progress Section -->
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Log Kegiatan
+                </p>
+                <a href="{{ route('mahasiswa.kegiatan.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('mahasiswa.kegiatan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.kegiatan.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-tasks"></i>
                     </div>
+                    <span class="text-sm">Kegiatan Magang</span>
+                </a>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="mb-4">
+                <p class="px-4 mt-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Evaluasi
+                </p>
+                <a href="{{ route('mahasiswa.feedback.index') }}"
+                    class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('mahasiswa.feedback.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
+                    <div
+                        class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.feedback.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <span class="text-sm">Feedback Magang</span>
+                </a>
+            </div>
         @endif
     </div>
 </div>
