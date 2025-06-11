@@ -50,6 +50,16 @@ class DosenController extends Controller
             ->orderByDesc('activity_date')
             ->take(5)
             ->get();
+
+        // Review Kegiatan Statistics
+        $reviewKegiatanStats = [
+            'total' => \App\Models\ActivityLogModel::where('dosen_id', $dosen->dosen_id)->count(),
+            'pending' => \App\Models\ActivityLogModel::where('dosen_id', $dosen->dosen_id)->where('status', 'pending')->count(),
+            'approved' => \App\Models\ActivityLogModel::where('dosen_id', $dosen->dosen_id)->where('status', 'approved')->count(),
+            'needs_revision' => \App\Models\ActivityLogModel::where('dosen_id', $dosen->dosen_id)->where('status', 'needs_revision')->count(),
+            'rejected' => \App\Models\ActivityLogModel::where('dosen_id', $dosen->dosen_id)->where('status', 'rejected')->count(),
+        ];
+
         return view('dashboard.dosen.index', compact(
             'dosen',
             'totalMahasiswaBimbingan',
@@ -59,7 +69,8 @@ class DosenController extends Controller
             'pengajuanDiajukan',
             'pengajuanTerbaru',
             'feedbackTerbaru',
-            'reviewKegiatanTerbaru'
+            'reviewKegiatanTerbaru',
+            'reviewKegiatanStats'
         ));
     }
 

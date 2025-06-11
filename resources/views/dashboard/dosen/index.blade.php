@@ -67,6 +67,33 @@
                 </div>
             </div>
 
+            <!-- Review Kegiatan Statistics -->
+            <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+                <h2 class="text-lg font-bold mb-4">Statistik Review Kegiatan Mahasiswa</h2>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div class="text-center p-3 bg-gray-50 rounded-lg">
+                        <div class="text-2xl font-bold text-gray-700">{{ $reviewKegiatanStats['total'] }}</div>
+                        <div class="text-sm text-gray-500">Total Kegiatan</div>
+                    </div>
+                    <div class="text-center p-3 bg-yellow-50 rounded-lg">
+                        <div class="text-2xl font-bold text-yellow-700">{{ $reviewKegiatanStats['pending'] }}</div>
+                        <div class="text-sm text-yellow-600">Pending Review</div>
+                    </div>
+                    <div class="text-center p-3 bg-green-50 rounded-lg">
+                        <div class="text-2xl font-bold text-green-700">{{ $reviewKegiatanStats['approved'] }}</div>
+                        <div class="text-sm text-green-600">Disetujui</div>
+                    </div>
+                    <div class="text-center p-3 bg-orange-50 rounded-lg">
+                        <div class="text-2xl font-bold text-orange-700">{{ $reviewKegiatanStats['needs_revision'] }}</div>
+                        <div class="text-sm text-orange-600">Perlu Revisi</div>
+                    </div>
+                    <div class="text-center p-3 bg-red-50 rounded-lg">
+                        <div class="text-2xl font-bold text-red-700">{{ $reviewKegiatanStats['rejected'] }}</div>
+                        <div class="text-sm text-red-600">Ditolak</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Pengajuan Magang Mahasiswa Bimbingan Terbaru -->
             <div class="bg-white rounded-lg shadow-md p-4 mb-6">
                 <div class="flex justify-between items-center mb-4">
@@ -87,21 +114,21 @@
                         </thead>
                         <tbody>
                             @forelse($pengajuanTerbaru as $pengajuan)
-                                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
-                                                    <td class="py-3 px-4">{{ $pengajuan->mahasiswa->user->nama ?? '-' }}</td>
-                                                    <td class="py-3 px-4">{{ $pengajuan->lowongan->judul ?? '-' }}</td>
-                                                    <td class="py-3 px-4">{{ $pengajuan->lowongan->partner->nama ?? '-' }}</td>
-                                                    <td class="py-3 px-4">
-                                                        {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->format('d/m/Y') }}</td>
-                                                    <td class="py-3 px-4">
-                                                        <span class="px-2 py-1 rounded-full text-xs font-semibold
-                                                                {{ $pengajuan->status === 'diajukan' ? 'bg-yellow-100 text-yellow-700' :
+                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition">
+                                    <td class="py-3 px-4">{{ $pengajuan->mahasiswa->user->nama ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ $pengajuan->lowongan->judul ?? '-' }}</td>
+                                    <td class="py-3 px-4">{{ $pengajuan->lowongan->partner->nama ?? '-' }}</td>
+                                    <td class="py-3 px-4">
+                                        {{ \Carbon\Carbon::parse($pengajuan->tanggal_pengajuan)->format('d/m/Y') }}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="px-2 py-1 rounded-full text-xs font-semibold
+                                                {{ $pengajuan->status === 'diajukan' ? 'bg-yellow-100 text-yellow-700' :
                                 ($pengajuan->status === 'diterima' ? 'bg-green-100 text-green-700' :
                                     'bg-red-100 text-red-700') }}">
-                                                            {{ ucfirst($pengajuan->status) }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                            {{ ucfirst($pengajuan->status) }}
+                                        </span>
+                                    </td>
+                                </tr>
                             @empty
                                 <tr>
                                     <td colspan="5" class="py-6 px-4 text-center text-gray-500">Tidak ada pengajuan terbaru</td>
@@ -138,10 +165,13 @@
                                     <td class="py-3 px-4">{{ \Carbon\Carbon::parse($review->activity_date)->format('d/m/Y') }}</td>
                                     <td class="py-3 px-4">
                                         <span class="px-2 py-1 rounded-full text-xs font-semibold
-                                            {{ optional($review->latestReview)->status === 'approved' ? 'bg-green-100 text-green-700' :
-                                                (optional($review->latestReview)->status === 'needs_revision' ? 'bg-yellow-100 text-yellow-700' :
-                                                'bg-gray-100 text-gray-700') }}">
-                                            {{ ucfirst(optional($review->latestReview)->status ?? '-') }}
+                                            {{ $review->status === 'approved' ? 'bg-green-100 text-green-700' :
+                                                ($review->status === 'needs_revision' ? 'bg-orange-100 text-orange-700' :
+                                                ($review->status === 'rejected' ? 'bg-red-100 text-red-700' :
+                                                'bg-yellow-100 text-yellow-700')) }}">
+                                            {{ $review->status === 'approved' ? 'Disetujui' :
+                                                ($review->status === 'needs_revision' ? 'Perlu Revisi' :
+                                                ($review->status === 'rejected' ? 'Ditolak' : 'Pending')) }}
                                         </span>
                                     </td>
                                 </tr>
@@ -164,4 +194,6 @@
                     <li class="flex items-center"><i class="fas fa-star text-yellow-400 mr-2"></i> Berikan feedback/penilaian magang</li>
                 </ul>
             </div>
+        </div>
+    </div>
 @endsection
