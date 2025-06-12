@@ -2,9 +2,9 @@
 
 @section('content')
     <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-2xl font-bold">Daftar Lowongan</h2>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow"
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Daftar Lowongan</h2>
+            <button class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                 data-modal-target="createLowonganModal" data-modal-toggle="createLowonganModal">
                 <i class="fas fa-plus mr-2"></i>Tambah Lowongan
             </button>
@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                     @forelse ($lowongans as $index => $lowongan)
-                        <tr class="even:bg-blue-50 hover:bg-blue-100 transition-colors">
+                        <tr class="even:bg-blue-50 table-row-hover transition-all duration-200">
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $index + 1 }}</td>
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $lowongan->judul }}</td>
                             <td class="px-6 py-3 text-gray-700 border-b border-r border-gray-200">{{ $lowongan->partner->nama }}
@@ -65,28 +65,39 @@
                             <td class="px-6 py-3 text-gray-500 border-b border-r border-gray-200">{{ $lowongan->kuota }}</td>
                             <!-- Tambahkan ini -->
                             <td class="px-6 py-3 text-center border-b border-gray-200">
-                                <div class="flex justify-center space-x-2">
+                                <div class="flex justify-center items-center space-x-2">
+                                    <!-- View/Show Button -->
                                     <button type="button"
-                                        class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow transition-colors duration-150 editLowonganBtn"
-                                        data-lowongan='@json($lowongan)'>
-                                        <i class="fas fa-edit mr-1"></i>Edit
-                                    </button>
-                                    <button type="button"
-                                        class="bg-purple-900 hover:bg-green-500 text-white px-3 py-1 rounded shadow transition-colors duration-150 showLowonganBtn"
+                                        class="btn-action btn-focus inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 showLowonganBtn"
                                         data-lowongan='@json($lowongan)'
                                         data-partner-nama="{{ $lowongan->partner->nama ?? '-' }}"
                                         data-lokasi-nama="{{ $lowongan->kabupaten->nama ?? '-' }}"
                                         data-keahlian-nama="{{ $lowongan->keahlian->nama ?? '-' }}"
-                                        data-periode-nama="{{ $lowongan->periode->nama ?? '-' }}">
-                                        <i class="fas fa-edit mr-1"></i>show
+                                        data-periode-nama="{{ $lowongan->periode->nama ?? '-' }}"
+                                        title="Lihat Detail">
+                                        <i class="fas fa-eye mr-1.5"></i>
+                                        <span>Lihat</span>
                                     </button>
-                                    <form action="{{ route('lowongan.destroy', $lowongan->lowongan_id) }}" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus lowongan ini?')">
+
+                                    <!-- Edit Button -->
+                                    <button type="button"
+                                        class="btn-action btn-focus inline-flex items-center px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 editLowonganBtn"
+                                        data-lowongan='@json($lowongan)'
+                                        title="Edit Lowongan">
+                                        <i class="fas fa-edit mr-1.5"></i>
+                                        <span>Edit</span>
+                                    </button>
+
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('lowongan.destroy', $lowongan->lowongan_id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" data-lowongan-id="{{ $lowongan->lowongan_id }}"
-                                            class="btn-delete bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow transition-colors duration-150">
-                                            <i class="fas fa-trash mr-1"></i>Hapus
+                                        <button type="button"
+                                            data-lowongan-id="{{ $lowongan->lowongan_id }}"
+                                            class="btn-action btn-focus inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 btn-delete"
+                                            title="Hapus Lowongan">
+                                            <i class="fas fa-trash mr-1.5"></i>
+                                            <span>Hapus</span>
                                         </button>
                                     </form>
                                 </div>
@@ -208,9 +219,13 @@
                             value="{{ old('tanggal_akhir') }}" required>
                     </div>
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" data-modal-hide="createLowonganModal"
+                        class="inline-flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1">
+                        <i class="fas fa-times mr-2"></i>Batal
+                    </button>
                     <button type="submit"
-                        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium">
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
                         <i class="fas fa-save mr-2"></i>Simpan
                     </button>
                 </div>
@@ -222,11 +237,15 @@
         <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-4">Konfirmasi Hapus</h3>
             <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus Lowongan ini?</p>
-            <div class="flex justify-end">
+            <div class="flex justify-end space-x-3">
                 <button type="button" id="cancelDeleteBtn"
-                    class="mr-2 bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Batal</button>
+                    class="inline-flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1">
+                    <i class="fas fa-times mr-2"></i>Batal
+                </button>
                 <button type="button" id="confirmDeleteBtn"
-                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Hapus</button>
+                    class="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
+                    <i class="fas fa-trash mr-2"></i>Hapus
+                </button>
             </div>
         </div>
     </div>
@@ -282,6 +301,14 @@
                     <label class="block text-gray-700">Kuota</label>
                     <p id="show_kuota" class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50"></p>
                 </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="mt-6 flex justify-end">
+                <button type="button" data-modal-hide="showLowonganModal"
+                    class="inline-flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1">
+                    <i class="fas fa-times mr-2"></i>Tutup
+                </button>
             </div>
         </div>
     </div>
@@ -372,15 +399,85 @@
                             class="w-full border border-gray-300 rounded px-3 py-2" required>
                     </div>
                 </div>
-                <div class="mt-6 col-span-2">
+                <div class="mt-6 col-span-2 flex justify-end space-x-3">
+                    <button type="button" data-modal-hide="editLowonganModal"
+                        class="inline-flex items-center px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1">
+                        <i class="fas fa-times mr-2"></i>Batal
+                    </button>
                     <button type="submit"
-                        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium">
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
                         <i class="fas fa-save mr-2"></i>Simpan Perubahan
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+    {{-- Custom Styling for Enhanced Button Appearance --}}
+    <style>
+        /* Enhanced button hover effects */
+        .btn-action {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-action:hover::before {
+            left: 100%;
+        }
+
+        /* Button loading state */
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            margin: auto;
+            border: 2px solid transparent;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: button-loading-spinner 1s ease infinite;
+        }
+
+        @keyframes button-loading-spinner {
+            from {
+                transform: rotate(0turn);
+            }
+            to {
+                transform: rotate(1turn);
+            }
+        }
+
+        /* Enhanced focus states */
+        .btn-focus:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Improved table row hover */
+        .table-row-hover:hover {
+            background-color: #eff6ff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
 
     {{-- Update the show modal JavaScript --}}
     <script>
