@@ -214,6 +214,14 @@ class MahasiswaKegiatanController extends Controller
         ->where('mahasiswa_id', $mahasiswa->mahasiswa_id)
         ->findOrFail($id);
 
+        // If AJAX request, return modal content
+        if (request()->expectsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('dashboard.mahasiswa.kegiatan.partials.show-modal', compact('activity', 'mahasiswa'))->render()
+            ]);
+        }
+
         return view('dashboard.mahasiswa.kegiatan.show', compact('activity', 'mahasiswa'));
     }
 
@@ -231,6 +239,12 @@ class MahasiswaKegiatanController extends Controller
 
         // Check if activity can be edited
         if (!$activity->canBeEdited()) {
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kegiatan ini tidak dapat diedit karena sudah disetujui atau ditolak.'
+                ], 403);
+            }
             return redirect()->route('mahasiswa.kegiatan.index')
                 ->with('error', 'Kegiatan ini tidak dapat diedit karena sudah disetujui atau ditolak.');
         }
@@ -240,6 +254,14 @@ class MahasiswaKegiatanController extends Controller
             ->where('mahasiswa_id', $mahasiswa->mahasiswa_id)
             ->where('status', 'diterima')
             ->get();
+
+        // If AJAX request, return modal content
+        if (request()->expectsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('dashboard.mahasiswa.kegiatan.partials.edit-modal', compact('activity', 'internships', 'mahasiswa'))->render()
+            ]);
+        }
 
         return view('dashboard.mahasiswa.kegiatan.edit', compact('activity', 'internships', 'mahasiswa'));
     }
@@ -257,6 +279,12 @@ class MahasiswaKegiatanController extends Controller
 
         // Check if activity can be edited
         if (!$activity->canBeEdited()) {
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kegiatan ini tidak dapat diedit.'
+                ], 403);
+            }
             return redirect()->route('mahasiswa.kegiatan.index')
                 ->with('error', 'Kegiatan ini tidak dapat diedit.');
         }
@@ -280,6 +308,13 @@ class MahasiswaKegiatanController extends Controller
         ]);
 
         if ($validator->fails()) {
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validasi gagal.',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
@@ -326,11 +361,26 @@ class MahasiswaKegiatanController extends Controller
 
             DB::commit();
 
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Kegiatan berhasil diperbarui dan dikirim untuk review ulang.',
+                    'activity_id' => $activity->activity_id
+                ]);
+            }
+
             return redirect()->route('mahasiswa.kegiatan.show', $activity->activity_id)
                 ->with('success', 'Kegiatan berhasil diperbarui dan dikirim untuk review ulang.');
 
         } catch (\Exception $e) {
             DB::rollback();
+
+            if (request()->expectsJson() || request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat memperbarui kegiatan. Silakan coba lagi.'
+                ], 500);
+            }
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat memperbarui kegiatan. Silakan coba lagi.')
