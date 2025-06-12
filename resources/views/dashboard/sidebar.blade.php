@@ -32,7 +32,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('level.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('level.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-layer-group"></i>
                     </div>
                     <span class="text-sm">Manajemen Level</span>
                 </a>
@@ -40,7 +40,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('user.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('user.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-file-alt"></i>
+                        <i class="fa-solid fa-user-cog"></i>
                     </div>
                     <span class="text-sm">Manajemen Pengguna</span>
                 </a>
@@ -48,7 +48,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('prodi.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('prodi.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-briefcase"></i>
+                        <i class="fa-solid fa-graduation-cap"></i>
                     </div>
                     <span class="text-sm">Manajemen Program Studi</span>
                 </a>
@@ -56,7 +56,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('keahlian.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('keahlian.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-lightbulb"></i>
+                        <i class="fa-solid fa-tools"></i>
                     </div>
                     <span class="text-sm">Manajemen Keahlian</span>
                 </a>
@@ -64,7 +64,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('dosen.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('dosen.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-handshake"></i>
+                        <i class="fa-solid fa-chalkboard-teacher"></i>
                     </div>
                     <span class="text-sm">Manajemen Dosen</span>
                 </a>
@@ -72,9 +72,9 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('ipk.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('ipk.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-handshake"></i>
+                        <i class="fa-solid fa-chart-line"></i>
                     </div>
-                    <span class="text-sm">Manajemen ipk</span>
+                    <span class="text-sm">Manajemen IPK</span>
                 </a>
             </div>
 
@@ -86,14 +86,14 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('partner.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('partner.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-building"></i>
+                        <i class="fa-solid fa-handshake"></i>
                     </div>
                     <span class="text-sm">Manajemen Mitra</span>
                 </a>
                 <a href="{{ route('periode.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('periode.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
-                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-briefcase"></i>
+                    <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('periode.*') ? 'text-blue-600' : '' }}">
+                        <i class="fa-solid fa-calendar-alt"></i>
                     </div>
                     <span class="text-sm">Manajemen Periode Magang</span>
                 </a>
@@ -101,14 +101,14 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('lowongan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('lowongan.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-circle-check"></i>
+                        <i class="fa-solid fa-briefcase"></i>
                     </div>
                     <span class="text-sm">Manajemen Lowongan Magang</span>
                 </a>
                 <a href="{{ route('pmm.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group ">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-landmark"></i>
+                        <i class="fa-solid fa-file-signature"></i>
                     </div>
                     <span class="text-sm">Pengajuan Magang Mahasiswa</span>
                 </a>
@@ -116,7 +116,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.feedback.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('admin.feedback.*') ? 'text-blue-700' : '' }}">
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-comment-dots"></i>
                     </div>
                     <span class="text-sm">Manajemen Feedback</span>
                 </a>
@@ -129,7 +129,7 @@
                 <a href="{{ route('dosen.mhsbimbingan.index')}}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-user-graduate"></i>
+                        <i class="fa-solid fa-users"></i>
                     </div>
                     <span class="text-sm">Mahasiswa Bimbingan</span>
                 </a>
@@ -137,7 +137,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('dosen.review-kegiatan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('dosen.review-kegiatan.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-clipboard-check"></i>
+                        <i class="fa-solid fa-search"></i>
                     </div>
                     <span class="text-sm">Review Kegiatan</span>
                 </a>
@@ -146,7 +146,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('dosen.feedback-mahasiswa.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('dosen.feedback-mahasiswa.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-comments"></i>
+                        <i class="fa-solid fa-star"></i>
                     </div>
                     <span class="text-sm">Feedback Mahasiswa</span>
                 </a>
@@ -160,7 +160,7 @@
                 <a href="{{ route('mahasiswa.lowongan.index') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-briefcase"></i>
+                        <i class="fa-solid fa-list-alt"></i>
                     </div>
                     <span class="text-sm">Lowongan</span>
                 </a>
@@ -168,14 +168,14 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group mb-1 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.rekomendasi') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-thumbs-up"></i>
                     </div>
                     <span class="text-sm">Rekomendasi</span>
                 </a>
                 <a href="{{ route('mahasiswa.pengajuan') }}"
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group">
                     <div class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600">
-                        <i class="fa-solid fa-file-alt"></i>
+                        <i class="fa-solid fa-clipboard-check"></i>
                     </div>
                     <span class="text-sm">Status</span>
                 </a>
@@ -190,7 +190,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('mahasiswa.kegiatan.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.kegiatan.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-tasks"></i>
+                        <i class="fa-solid fa-clipboard-list"></i>
                     </div>
                     <span class="text-sm">Kegiatan Magang</span>
                 </a>
@@ -205,7 +205,7 @@
                     class="flex items-center px-4 py-2.5 text-gray-700 hover:bg-blue-50 rounded-lg transition-all duration-200 group {{ request()->routeIs('mahasiswa.feedback.*') ? 'bg-blue-50 text-blue-700 font-medium' : '' }}">
                     <div
                         class="w-5 h-5 mr-3 text-center text-gray-500 group-hover:text-blue-600 {{ request()->routeIs('mahasiswa.feedback.*') ? 'text-blue-600' : '' }}">
-                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-chart-bar"></i>
                     </div>
                     <span class="text-sm">Feedback Magang</span>
                 </a>
