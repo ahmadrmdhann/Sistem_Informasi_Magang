@@ -1,66 +1,162 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 SIM Magang - Sistem Informasi Manajemen Magang
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-10-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel Version">
+  <img src="https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP Version">
+  <img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License">
 </p>
 
-## About Laravel
+## 📋 Deskripsi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**SIM Magang** adalah aplikasi web modern berbasis Laravel yang dirancang untuk mempermudah pengelolaan dan manajemen program magang mahasiswa. Sistem ini memungkinkan mahasiswa, dosen pembimbing, dan administrator untuk berinteraksi dalam ekosistem yang terintegrasi untuk mengelola seluruh proses magang dari pendaftaran hingga evaluasi.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 🔐 **Multi-role Authentication**
+  - Admin (Pengelola sistem)
+  - Mahasiswa (Peserta magang)
+  - Dosen (Pembimbing magang)
 
-## Learning Laravel
+- 🏢 **Manajemen Lowongan Magang**
+  - Pencatatan lowongan dari mitra industri
+  - Informasi detail posisi dan persyaratan
+  - Sistem aplikasi dan tracking status
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- 📝 **Pengelolaan Pengajuan Magang**
+  - Pengajuan magang oleh mahasiswa
+  - Review dan approval oleh dosen pembimbing
+  - Tracking status pengajuan real-time
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 📊 **Logging Kegiatan Harian**
+  - Pencatatan aktivitas magang harian
+  - Upload dokumentasi dan laporan
+  - Review dan feedback dari pembimbing
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- 🎯 **Sistem Feedback & Evaluasi**
+  - Evaluasi mahasiswa terhadap program magang
+  - Penilaian dosen terhadap mahasiswa
+  - Rating system dengan skala 1-10 dan 1-5 bintang
 
-## Laravel Sponsors
+- 📈 **Dashboard & Reporting**
+  - Statistik dan visualisasi data magang
+  - Laporan progress mahasiswa
+  - Analytics untuk admin dan dosen
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- 🤝 **Manajemen Mitra**
+  - Database perusahaan/instansi mitra
+  - Informasi kontak dan kerjasama
+  - Tracking lowongan per mitra
 
-### Premium Partners
+## 🚀 Instalasi
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Prasyarat
+- PHP 8.1 atau lebih tinggi
+- Composer
+- Node.js & NPM
+- Database MySQL/MariaDB
 
-## Contributing
+### Langkah Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/username/sistem-informasi-magang.git
+   cd sistem-informasi-magang
+   ```
 
-## Code of Conduct
+2. **Instalasi Dependensi**
+   ```bash
+   composer install
+   npm install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Konfigurasi Environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+   Konfigurasikan database dan setting lainnya di file `.env`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Migrasi Database**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## License
+5. **Kompilasi Asset**
+   ```bash
+   npm run dev
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. **Jalankan Aplikasi**
+   ```bash
+   php artisan serve
+   ```
+
+   Akses aplikasi melalui browser: `http://localhost:8000`
+
+## 👥 User Roles & Credentials
+
+### Default Login
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@example.com | - |
+| Dosen | dosen@example.com | - |
+| Mahasiswa | mahasiswa@example.com | - |
+
+## 📝 Panduan Penggunaan
+
+### Mahasiswa
+- Mencari dan melamar lowongan magang
+- Mengajukan proposal magang
+- Mencatat kegiatan harian magang
+- Upload laporan dan dokumentasi
+- Memberikan feedback evaluasi
+
+### Dosen
+- Melihat mahasiswa bimbingan
+- Review dan approve pengajuan magang
+- Monitoring kegiatan mahasiswa
+- Memberikan penilaian dan feedback
+- Melihat progress mahasiswa
+
+### Admin
+- Mengelola data master (pengguna, mitra, periode)
+- Mengelola lowongan magang
+- Monitoring seluruh pengajuan
+- Mengelola sistem feedback
+- Membuat laporan dan analytics
+
+## 🔧 Tech Stack
+
+- **Backend**: Laravel 10.x
+- **Frontend**: Tailwind CSS 4.x, Preline UI
+- **Database**: MySQL/MariaDB
+- **Authentication**: Laravel Sanctum
+- **Icons**: FontAwesome 6.x, Phosphor Icons
+- **DataTables**: Yajra Laravel DataTables
+
+## 🤝 Kontribusi
+
+Kontribusi sangat diterima! Silakan ikuti langkah berikut:
+
+1. Fork repository ini
+2. Buat branch baru (`git checkout -b feature/amazing-feature`)
+3. Commit perubahan Anda (`git commit -m 'Add some amazing feature'`)
+4. Push ke branch (`git push origin feature/amazing-feature`)
+5. Buat Pull Request
+
+## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
+
+## 📞 Kontak
+
+Jika Anda memiliki pertanyaan atau masukan, silakan hubungi kami di [admin@sim-magang.com](mailto:admin@sim-magang.com)
+
+---
+
+<p align="center">
+  Made with ❤️ for Indonesian Education
+</p>
