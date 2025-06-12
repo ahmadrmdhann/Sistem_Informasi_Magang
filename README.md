@@ -139,7 +139,7 @@
 
 ## 🤝 Kontribusi
 
-Kontribusi sangat diterima! Silakan ikuti langkah berikut:
+Menerima kontribusi, Silakan ikuti langkah berikut:
 
 1. Fork repository ini
 2. Buat branch baru (`git checkout -b feature/amazing-feature`)
@@ -151,12 +151,8 @@ Kontribusi sangat diterima! Silakan ikuti langkah berikut:
 
 Proyek ini dilisensikan di bawah [MIT License](LICENSE).
 
-## 📞 Kontak
-
-Jika Anda memiliki pertanyaan atau masukan, silakan hubungi kami di [admin@sim-magang.com](mailto:admin@sim-magang.com)
-
 ---
 
 <p align="center">
-  Made with ❤️ for Indonesian Education
+  Made with ❤️ by our team
 </p>
