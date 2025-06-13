@@ -55,10 +55,26 @@ class AdminController extends Controller
                 ];
             });
             $locationData = [];
+            // Statistik Review Kegiatan untuk Admin
+            $reviewKegiatanStats = [
+                'total' => \App\Models\ActivityLogModel::count(),
+                'pending' => \App\Models\ActivityLogModel::where('status', 'pending')->count(),
+                'approved' => \App\Models\ActivityLogModel::where('status', 'approved')->count(),
+                'needs_revision' => \App\Models\ActivityLogModel::where('status', 'needs_revision')->count(),
+                'rejected' => \App\Models\ActivityLogModel::where('status', 'rejected')->count(),
+            ];
+            // Statistik Status Pengajuan Magang
+            $statPengajuan = [
+                'diajukan' => \App\Models\PengajuanMagangModel::where('status', 'diajukan')->count(),
+                'diterima' => \App\Models\PengajuanMagangModel::where('status', 'diterima')->count(),
+                'ditolak' => \App\Models\PengajuanMagangModel::where('status', 'ditolak')->count(),
+                'total' => \App\Models\PengajuanMagangModel::count(),
+            ];
             return view('dashboard.admin.index', compact(
                 'totalMahasiswa', 'totalDosen', 'totalLowonganAktif', 'totalMitra',
                 'latestPengajuan', 'statusDiajukan', 'statusDiterima', 'statusDitolak',
-                'prodiLabels', 'prodiData', 'popularLowongan', 'calendarEvents', 'locationData'
+                'prodiLabels', 'prodiData', 'popularLowongan', 'calendarEvents', 'locationData',
+                'reviewKegiatanStats', 'statPengajuan'
             ));
         } catch (\Exception $e) {
             return view('dashboard.admin.index', [
@@ -75,7 +91,20 @@ class AdminController extends Controller
                 'latestPengajuan' => collect([]),
                 'popularLowongan' => collect([]),
                 'calendarEvents' => [],
-                'locationData' => []
+                'locationData' => [],
+                'reviewKegiatanStats' => [
+                    'total' => 0,
+                    'pending' => 0,
+                    'approved' => 0,
+                    'needs_revision' => 0,
+                    'rejected' => 0,
+                ],
+                'statPengajuan' => [
+                    'diajukan' => 0,
+                    'diterima' => 0,
+                    'ditolak' => 0,
+                    'total' => 0,
+                ],
             ]);
         }
     }

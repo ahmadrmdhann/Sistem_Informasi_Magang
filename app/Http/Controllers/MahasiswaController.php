@@ -20,7 +20,7 @@ class MahasiswaController extends Controller
     {
         try {
             $user = auth()->user();
-            $mahasiswa = \App\Models\MahasiswaModel::where('user_id', $user->user_id)->first();
+            $mahasiswa = MahasiswaModel::where('user_id', $user->user_id)->first();
             $totalPengajuan = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->count();
             $pengajuanDiterima = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'diterima')->count();
             $pengajuanDiajukan = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'diajukan')->count();
@@ -43,7 +43,7 @@ class MahasiswaController extends Controller
             // Rekomendasi lowongan berdasarkan minat atau keahlian mahasiswa
             $rekomendasiLowongan = collect();
             if ($mahasiswa && ($mahasiswa->minat_id || $mahasiswa->keahlian_id)) {
-                $rekomendasiLowongan = \App\Models\LowonganModel::with('partner')
+                $rekomendasiLowongan = \App\Models\LowonganModel::with(['partner', 'kabupaten', 'keahlian'])
                     ->where(function($q) use ($mahasiswa) {
                         if ($mahasiswa->minat_id) {
                             $q->where('keahlian_id', $mahasiswa->minat_id);
@@ -58,9 +58,19 @@ class MahasiswaController extends Controller
                     ->get();
             }
 
+            // Statistik Review Kegiatan Mahasiswa
+            $reviewKegiatanStats = [
+                'total' => \App\Models\ActivityLogModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->count(),
+                'pending' => \App\Models\ActivityLogModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'pending')->count(),
+                'approved' => \App\Models\ActivityLogModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'approved')->count(),
+                'needs_revision' => \App\Models\ActivityLogModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'needs_revision')->count(),
+                'rejected' => \App\Models\ActivityLogModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)->where('status', 'rejected')->count(),
+            ];
+
             return view('dashboard.mahasiswa.index', compact(
                 'totalPengajuan', 'pengajuanDiterima', 'pengajuanDiajukan', 'pengajuanDitolak',
-                'riwayatPengajuan', 'totalLowongan', 'popularLowongan', 'rekomendasiLowongan'
+                'riwayatPengajuan', 'totalLowongan', 'popularLowongan', 'rekomendasiLowongan',
+                'reviewKegiatanStats'
             ));
         } catch (\Exception $e) {
             return view('dashboard.mahasiswa.index', [
@@ -71,7 +81,15 @@ class MahasiswaController extends Controller
                 'pengajuanDitolak' => 0,
                 'riwayatPengajuan' => collect([]),
                 'totalLowongan' => 0,
-                'popularLowongan' => collect([])
+                'popularLowongan' => collect([]),
+                'rekomendasiLowongan' => collect([]),
+                'reviewKegiatanStats' => [
+                    'total' => 0,
+                    'pending' => 0,
+                    'approved' => 0,
+                    'needs_revision' => 0,
+                    'rejected' => 0,
+                ]
             ]);
         }
     }
