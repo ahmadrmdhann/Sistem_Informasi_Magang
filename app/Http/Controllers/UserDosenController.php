@@ -65,10 +65,10 @@ class UserDosenController extends Controller
                 'bidang_minat' => $validated['bidang_minat'],
             ]);
 
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('success', 'Data dosen berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->route('dosen.index')
+            return redirect()->route('admin.dosen.index')
                 ->with('error', 'Terjadi kesalahan saat menambahkan data dosen');
         }
     }
