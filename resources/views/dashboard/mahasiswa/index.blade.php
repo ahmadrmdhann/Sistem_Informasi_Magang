@@ -23,8 +23,8 @@
                         Mulai perjalanan magang Anda dan kembangkan pengalaman profesional yang berharga.
                     </p>
                 </div>
-            </div>            
-            
+            </div>
+
             <!-- Notifikasi Status -->
             @if($pengajuanDiterima > 0)
                 <div class="bg-gradient-to-r from-green-400 to-emerald-500 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             @endif
-            
+
             @if($pengajuanDitolak > 0)
                 <div class="bg-gradient-to-r from-red-400 to-rose-500 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <div class="flex items-center">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             @endif
-            
+
             @if($pengajuanDiajukan > 0)
                 <div class="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <div class="flex items-center">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
                             <div class="w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
                             <div class="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
                             <div class="w-14 h-14 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
@@ -135,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
                             <div class="w-14 h-14 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
@@ -149,8 +149,8 @@
                         </div>
                     </div>
                 </div>
-            </div>            
-            
+            </div>
+
             <!-- Checklist Mahasiswa -->
             <div class="mb-12">
                 <div class="bg-gradient-to-r from-green-400 to-emerald-500 rounded-3xl p-8 shadow-xl">
@@ -254,13 +254,13 @@
                         <div>
                             <h2 class="text-2xl font-bold text-gray-800 mb-2">Rekomendasi Lowongan</h2>
                             <p class="text-gray-600">Lowongan magang yang cocok untuk Anda berdasarkan profil</p>
-                        </div>                        
-                        <a href="{{ route('mahasiswa.rekomendasi') }}" 
+                        </div>
+                        <a href="{{ route('mahasiswa.rekomendasi') }}"
                             class="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
                             Lihat Semua
                         </a>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($rekomendasiLowongan ?? [] as $index => $lowongan)
                             @if($index < 3)
@@ -276,7 +276,7 @@
                                             <span class="text-sm text-gray-600 ml-2">{{ number_format($lowongan->compatibility_score ?? 95, 1) }}%</span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mb-4">
                                         <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
                                             {{ $lowongan->judul ?? 'Frontend Developer Intern' }}
@@ -289,11 +289,11 @@
                                         </p>
                                         <p class="text-sm text-gray-600">
                                             <i class="fas fa-calendar mr-2"></i>
-                                            {{ isset($lowongan->tanggal_mulai) ? \Carbon\Carbon::parse($lowongan->tanggal_mulai)->format('d M Y') : '1 Jul 2024' }} - 
+                                            {{ isset($lowongan->tanggal_mulai) ? \Carbon\Carbon::parse($lowongan->tanggal_mulai)->format('d M Y') : '1 Jul 2024' }} -
                                             {{ isset($lowongan->tanggal_akhir) ? \Carbon\Carbon::parse($lowongan->tanggal_akhir)->format('d M Y') : '31 Dec 2024' }}
                                         </p>
                                     </div>
-                                    
+
                                     <div class="mb-4">
                                         <div class="flex flex-wrap gap-2">
                                             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
@@ -320,7 +320,7 @@
                                 <p class="text-gray-500 max-w-md mx-auto mb-6">
                                     Lengkapi profil Anda untuk mendapatkan rekomendasi lowongan yang sesuai dengan keahlian dan minat.
                                 </p>
-                                <a href="{{ route('mahasiswa.profile.index') }}" 
+                                <a href="{{ route('mahasiswa.profile') }}"
                                     class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-green-700 transition-all duration-300">
                                     <i class="fas fa-user-edit mr-2"></i>
                                     Lengkapi Profil

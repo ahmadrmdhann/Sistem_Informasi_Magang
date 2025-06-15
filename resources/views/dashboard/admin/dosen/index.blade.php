@@ -260,7 +260,7 @@
                     document.getElementById("edit_bidang_minat").value = dosen.bidang_minat;
 
                     // Set dynamic form action
-                    editForm.action = `/Sistem_Informasi_Magang/public/admin/dosen/${dosen.dosen_id}`;
+                    editForm.action = `/admin/dosen/${dosen.dosen_id}`;
 
                     // Show modal
                     document.getElementById("editDosenModal").classList.remove("hidden");
