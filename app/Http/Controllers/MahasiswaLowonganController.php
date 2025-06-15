@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LowonganModel;
 use App\Models\PengajuanMagangModel;
+use App\Services\NotificationService;
 use Carbon\Carbon;
 
 class MahasiswaLowonganController extends Controller
@@ -93,12 +94,15 @@ class MahasiswaLowonganController extends Controller
 
         // Simpan pengajuan
         try {
-            PengajuanMagangModel::create([
+            $pengajuan = PengajuanMagangModel::create([
                 'mahasiswa_id'      => $mahasiswa_id,
                 'lowongan_id'       => $lowongan_id,
                 'tanggal_pengajuan' => now(),
                 'status'            => 'diajukan',
             ]);
+
+            // Send notification to admin about new pengajuan
+            NotificationService::notifyAdminNewPengajuan($pengajuan);
 
             return redirect()->back()->with('success', 'Pengajuan magang berhasil dikirim.');
         } catch (\Exception $e) {

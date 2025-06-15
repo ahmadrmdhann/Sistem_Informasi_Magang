@@ -37,7 +37,7 @@ class AdminController extends Controller
                     $q->where('prodi_nama', $prodi);
                 })->count();
             }
-            $latestPengajuan = PengajuanMagangModel::with(['mahasiswa.user', 'lowongan.partner'])
+            $latestPengajuan = PengajuanMagangModel::with(['mahasiswa.user', 'lowongan.partner', 'dosen.user'])
                 ->orderByDesc('created_at')->take(5)->get();
             $popularLowongan = LowonganModel::with('partner')
                 ->withCount('pengajuanMagang')

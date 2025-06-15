@@ -17,6 +17,7 @@ use App\Http\Controllers\PengajuanMagangController;
 use App\Http\Controllers\MahasiswaLowonganController;
 use App\Http\Controllers\KeahlianController;
 use App\Http\Controllers\DashboardAdminController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,6 +52,15 @@ Route::middleware('auth')->group(function () {
         }
         return redirect()->route('login');
     })->name('dashboard');
+
+    // Notification routes - accessible by all authenticated users
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('/unread', [NotificationController::class, 'getUnread'])->name('notifications.unread');
+        Route::post('/{id}/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+        Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+        Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    });
 
     // Admin routes
     Route::middleware(['auth', 'authorize:ADM'])->prefix('admin')->group(function () {

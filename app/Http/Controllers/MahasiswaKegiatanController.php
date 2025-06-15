@@ -6,6 +6,7 @@ use App\Models\ActivityLogModel;
 use App\Models\ActivityAttachmentModel;
 use App\Models\PengajuanMagangModel;
 use App\Models\MahasiswaModel;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -183,6 +184,9 @@ class MahasiswaKegiatanController extends Controller
                 }
             }
 
+            // Send notification to dosen about new activity for review
+            NotificationService::notifyNewActivityForReview($activity);
+
             DB::commit();
 
             return redirect()->route('mahasiswa.kegiatan.index')
@@ -358,6 +362,9 @@ class MahasiswaKegiatanController extends Controller
                     $this->storeAttachment($activity->activity_id, $file, $existingAttachments === 0 && $index === 0);
                 }
             }
+
+            // Send notification to dosen about updated activity for review
+            NotificationService::notifyNewActivityForReview($activity);
 
             DB::commit();
 

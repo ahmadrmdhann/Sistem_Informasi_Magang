@@ -9,6 +9,50 @@
     </div>
     <!-- User Profile -->
     <div class="flex items-center space-x-4">
+        <!-- Notification Bell -->
+        <div class="relative" id="notificationContainer">
+            <button type="button"
+                class="notification-bell-toggle relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                id="notificationBellToggle">
+                <i class="fa-solid fa-bell text-xl"></i>
+                <!-- Notification Badge -->
+                <span id="notificationBadge"
+                    class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">
+                    0
+                </span>
+            </button>
+
+            <!-- Notification Dropdown -->
+            <div id="notificationDropdown"
+                class="notification-dropdown-menu hidden absolute right-0 z-50 mt-3 w-80 bg-white shadow-xl rounded-xl border border-gray-200 max-h-96 overflow-hidden">
+                <!-- Dropdown Header -->
+                <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-gray-800">Notifikasi</h3>
+                        <button id="markAllAsRead" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            Tandai Semua Dibaca
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notifications List -->
+                <div id="notificationsList" class="max-h-64 overflow-y-auto">
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                        <span class="ml-2 text-gray-500">Memuat notifikasi...</span>
+                    </div>
+                </div>
+
+                <!-- Dropdown Footer -->
+                <div class="px-4 py-3 border-t border-gray-200 bg-gray-50">
+                    <a href="{{ route('notifications.index') }}"
+                        class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                        Lihat Semua Notifikasi
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- User Profile Dropdown -->
         <div class="relative" id="userDropdownContainer">
             <button type="button"
@@ -139,23 +183,206 @@
         const mainNavbar = document.getElementById('mainNavbar');
         const mainContent = document.getElementById('mainContent'); // Will need to be added to your main layout
 
-        // Toggle dropdown when clicking the button
+        // Notification elements
+        const notificationBell = document.getElementById('notificationBellToggle');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationContainer = document.getElementById('notificationContainer');
+        const notificationBadge = document.getElementById('notificationBadge');
+        const notificationsList = document.getElementById('notificationsList');
+        const markAllAsRead = document.getElementById('markAllAsRead');
+
+        // Toggle user dropdown when clicking the button
         dropdownToggle.addEventListener('click', function (e) {
             e.stopPropagation();
             dropdownMenu.classList.toggle('hidden');
+            // Close notification dropdown if open
+            notificationDropdown.classList.add('hidden');
         });
 
-        // Close dropdown when clicking outside
+        // Toggle notification dropdown when clicking the bell
+        notificationBell.addEventListener('click', function (e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('hidden');
+            // Close user dropdown if open
+            dropdownMenu.classList.add('hidden');
+
+            if (!notificationDropdown.classList.contains('hidden')) {
+                loadNotifications();
+            }
+        });
+
+        // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
             if (!dropdownContainer.contains(e.target)) {
                 dropdownMenu.classList.add('hidden');
             }
+            if (!notificationContainer.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
         });
 
-        // Prevent clicks inside dropdown from closing it
+        // Prevent clicks inside dropdowns from closing them
         dropdownMenu.addEventListener('click', function (e) {
             e.stopPropagation();
         });
+
+        notificationDropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+
+        // Mark all notifications as read
+        markAllAsRead.addEventListener('click', function () {
+            fetch('/notifications/mark-all-read', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateNotificationBadge(0);
+                        loadNotifications();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Load notifications function
+        function loadNotifications() {
+            console.log('Loading notifications...');
+
+            fetch('/notifications/unread', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Notifications data:', data);
+
+                    if (data.success) {
+                        updateNotificationsList(data.notifications);
+                        updateNotificationBadge(data.unread_count);
+                    } else {
+                        throw new Error(data.message || 'Failed to load notifications');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading notifications:', error);
+                    notificationsList.innerHTML = `
+                        <div class="flex items-center justify-center py-8">
+                            <div class="text-center">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-2xl mb-2"></i>
+                                <p class="text-red-500 text-sm">Gagal memuat notifikasi</p>
+                                <p class="text-red-400 text-xs">${error.message}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+        }
+
+        // Update notifications list
+        function updateNotificationsList(notifications) {
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="flex items-center justify-center py-8">
+                        <div class="text-center">
+                            <i class="fas fa-bell-slash text-gray-400 text-2xl mb-2"></i>
+                            <p class="text-gray-500 text-sm">Tidak ada notifikasi baru</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            notifications.forEach(notification => {
+                html += `
+                    <div class="notification-item border-b border-gray-100 hover:bg-gray-50 transition-colors" 
+                         data-notification-id="${notification.notification_id}">
+                        <div class="px-4 py-3 cursor-pointer" onclick="markNotificationAsRead(${notification.notification_id})">
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0">
+                                    <i class="fas ${notification.icon} ${notification.color} text-lg"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 mb-1">
+                                        ${notification.title}
+                                    </p>
+                                    <p class="text-sm text-gray-600 mb-1">
+                                        ${notification.message}
+                                    </p>
+                                    <p class="text-xs text-gray-400">
+                                        ${notification.time_ago}
+                                    </p>
+                                </div>
+                                ${!notification.is_read ? '<div class="flex-shrink-0"><div class="w-2 h-2 bg-blue-500 rounded-full"></div></div>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            notificationsList.innerHTML = html;
+        }
+
+        // Update notification badge
+        function updateNotificationBadge(count) {
+            if (count > 0) {
+                notificationBadge.textContent = count > 99 ? '99+' : count;
+                notificationBadge.classList.remove('hidden');
+            } else {
+                notificationBadge.classList.add('hidden');
+            }
+        }
+
+        // Mark notification as read function
+        window.markNotificationAsRead = function (notificationId) {
+            fetch(`/notifications/${notificationId}/mark-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the notification item or mark as read visually
+                        const notificationItem = document.querySelector(`[data-notification-id="${notificationId}"]`);
+                        if (notificationItem) {
+                            notificationItem.remove();
+                        }
+
+                        // Update badge count
+                        const currentBadge = notificationBadge.textContent;
+                        const currentCount = currentBadge === '99+' ? 99 : parseInt(currentBadge) || 0;
+                        updateNotificationBadge(Math.max(0, currentCount - 1));
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        };
+
+        // Load initial notification count
+        loadNotifications();
+
+        // Refresh notifications every 30 seconds
+        setInterval(loadNotifications, 30000);
 
         // Add sidebar toggle functionality
         const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');

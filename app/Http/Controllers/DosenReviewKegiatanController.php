@@ -7,6 +7,7 @@ use App\Models\ActivityReviewModel;
 use App\Models\DosenModel;
 use App\Models\MahasiswaModel;
 use App\Models\PengajuanMagangModel;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -181,7 +182,7 @@ class DosenReviewKegiatanController extends Controller
             ]);
 
             // Create review record
-            ActivityReviewModel::create([
+            $review = ActivityReviewModel::create([
                 'activity_id' => $activity->activity_id,
                 'dosen_id' => $dosen->dosen_id,
                 'review_status' => $request->review_status,
@@ -191,6 +192,9 @@ class DosenReviewKegiatanController extends Controller
                 'reviewed_at' => now(),
                 'is_final_review' => true,
             ]);
+
+            // Send notification to student about activity review
+            NotificationService::notifyActivityReviewed($activity, $review);
 
             DB::commit();
 

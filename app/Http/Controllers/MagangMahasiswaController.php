@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DosenModel;
 use App\Models\PengajuanMagangModel;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class MagangMahasiswaController extends Controller
@@ -38,6 +39,7 @@ class MagangMahasiswaController extends Controller
         $request->validate($validation);
 
         $pengajuan = PengajuanMagangModel::findOrFail($id);
+        $oldStatus = $pengajuan->status;
 
         // Jika status berubah menjadi diterima dan sebelumnya bukan diterima
         if ($request->status === 'diterima' && $pengajuan->status !== 'diterima') {
@@ -58,6 +60,11 @@ class MagangMahasiswaController extends Controller
         }
 
         $pengajuan->save();
+
+        // Send notification if status changed
+        if ($oldStatus !== $request->status) {
+            NotificationService::notifyPengajuanStatusChange($pengajuan, $oldStatus, $request->status);
+        }
 
         return redirect()->back()->with('success', 'Status dan dosen berhasil diperbarui.');
     }

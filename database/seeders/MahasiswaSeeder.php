@@ -15,14 +15,14 @@ class MahasiswaSeeder extends Seeder
     {
         DB::table('m_mahasiswa')->insert([
             [
-                'user_id' => 4,
+                'user_id' => 4, // Dandi Azrul Syahputra (Mahasiswa)
                 'nim' => '23417200021',
                 'prodi_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'user_id' => 5,
+                'user_id' => 5, // Yantos inferno (Mahasiswa)
                 'nim' => '2341720090',
                 'prodi_id' => 1,
                 'created_at' => now(),

@@ -3,7 +3,8 @@
 @section('title', 'Dashboard Mahasiswa')
 
 @section('content')
-    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">        <div class="container mx-auto px-6 py-8">
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+        <div class="container mx-auto px-6 py-8">
             <!-- Hero Section -->
             <div class="relative bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-black opacity-10"></div>
@@ -244,7 +245,8 @@
                             <div class="text-3xl font-bold text-red-700 mb-1">{{ $reviewKegiatanStats['rejected'] ?? 0 }}</div>
                             <div class="text-sm text-red-600 font-medium">Ditolak</div>
                         </div>
-                    </div>                </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Rekomendasi Lowongan -->
@@ -260,53 +262,60 @@
                             Lihat Semua
                         </a>
                     </div>
-
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($rekomendasiLowongan ?? [] as $index => $lowongan)
                             @if($index < 3)
+                                @php
+                                    // Handle both simple lowongan objects and recommendation objects
+                                    $actualLowongan = is_object($lowongan) && isset($lowongan->lowongan_id) ? $lowongan : 
+                                        (is_array($lowongan) && isset($lowongan['lowongan']) ? $lowongan['lowongan'] : $lowongan);
+
+                                    if (is_array($lowongan) && isset($lowongan['criteria'])) {
+                                        // Calculate from recommendation criteria if available
+                                        $distance = $lowongan['criteria']['distance'] ?? 50;
+                                        $skillMatch = $lowongan['criteria']['skill_match'] ?? 70;
+                                        $interestMatch = $lowongan['criteria']['interest_match'] ?? 60;
+                                        $compatibilityScore = ($skillMatch * 0.4 + $interestMatch * 0.3 + (100 - min($distance, 100)) * 0.3);
+                                    } elseif (is_object($actualLowongan) && isset($actualLowongan->compatibility_score)) {
+                                        $compatibilityScore = $actualLowongan->compatibility_score;
+                                    }
+                                @endphp
                                 <div class="group bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
                                     <div class="flex items-center justify-between mb-4">
                                         <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                                             {{ $index + 1 }}
                                         </div>
-                                        <div class="flex items-center space-x-1">
-                                            @for($i = 1; $i <= 5; $i++)
-                                                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                                            @endfor
-                                            <span class="text-sm text-gray-600 ml-2">{{ number_format($lowongan->compatibility_score ?? 95, 1) }}%</span>
-                                        </div>
                                     </div>
-
+                                    
                                     <div class="mb-4">
                                         <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
-                                            {{ $lowongan->judul ?? 'Frontend Developer Intern' }}
+                                            {{ $actualLowongan->judul ?? 'Frontend Developer Intern' }}
                                         </h3>
                                         <p class="text-sm text-gray-600 mb-2">
-                                            <i class="fas fa-building mr-2"></i>{{ $lowongan->partner->nama ?? 'PT Teknologi Maju' }}
+                                            <i class="fas fa-building mr-2"></i>{{ $actualLowongan->partner->nama ?? 'PT Teknologi Maju' }}
                                         </p>
                                         <p class="text-sm text-gray-600 mb-2">
-                                            <i class="fas fa-map-marker-alt mr-2"></i>{{ $lowongan->kabupaten->nama ?? 'Jakarta Selatan' }}
+                                            <i class="fas fa-map-marker-alt mr-2"></i>{{ $actualLowongan->kabupaten->nama ?? 'Jakarta Selatan' }}
                                         </p>
                                         <p class="text-sm text-gray-600">
                                             <i class="fas fa-calendar mr-2"></i>
-                                            {{ isset($lowongan->tanggal_mulai) ? \Carbon\Carbon::parse($lowongan->tanggal_mulai)->format('d M Y') : '1 Jul 2024' }} -
-                                            {{ isset($lowongan->tanggal_akhir) ? \Carbon\Carbon::parse($lowongan->tanggal_akhir)->format('d M Y') : '31 Dec 2024' }}
+                                            {{ isset($actualLowongan->tanggal_mulai) ? \Carbon\Carbon::parse($actualLowongan->tanggal_mulai)->format('d M Y') : '1 Jul 2024' }} - 
+                                            {{ isset($actualLowongan->tanggal_akhir) ? \Carbon\Carbon::parse($actualLowongan->tanggal_akhir)->format('d M Y') : '31 Dec 2024' }}
                                         </p>
                                     </div>
 
                                     <div class="mb-4">
                                         <div class="flex flex-wrap gap-2">
                                             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
-                                                {{ $lowongan->keahlian->nama ?? 'Web Development' }}
-                                            </span>
-                                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
-                                                {{ $lowongan->bidang_keahlian ?? 'Technology' }}
+                                                {{ $actualLowongan->keahlian->nama ?? 'Web Development' }}
                                             </span>
                                         </div>
                                     </div>
+                                    
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm text-gray-500">
-                                            <i class="fas fa-users mr-1"></i>{{ $lowongan->kuota ?? 5 }} posisi
+                                            <i class="fas fa-users mr-1"></i>{{ $actualLowongan->kuota ?? 5 }} posisi
                                         </span>
                                     </div>
                                 </div>

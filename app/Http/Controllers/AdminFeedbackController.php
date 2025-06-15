@@ -49,7 +49,24 @@ class AdminFeedbackController extends Controller
             'questions.*.question_type' => 'required|in:rating,text,multiple_choice',
             'questions.*.is_required' => 'boolean',
             'questions.*.options' => 'nullable|array',
+            'questions.*.options.*' => 'string|max:255',
         ]);
+
+        // Custom validation for multiple choice questions
+        $validator->after(function ($validator) use ($request) {
+            if ($request->has('questions')) {
+                foreach ($request->questions as $index => $question) {
+                    if ($question['question_type'] === 'multiple_choice') {
+                        if (empty($question['options']) || count($question['options']) === 0) {
+                            $validator->errors()->add(
+                                "questions.{$index}.options",
+                                'Pertanyaan pilihan ganda harus memiliki minimal satu pilihan jawaban.'
+                            );
+                        }
+                    }
+                }
+            }
+        });
 
         if ($validator->fails()) {
             if ($request->ajax()) {
@@ -99,7 +116,6 @@ class AdminFeedbackController extends Controller
 
             return redirect()->route('admin.feedback.index')
                 ->with('success', 'Form feedback berhasil dibuat.');
-
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -158,7 +174,24 @@ class AdminFeedbackController extends Controller
             'questions.*.question_type' => 'required|in:rating,text,multiple_choice',
             'questions.*.is_required' => 'boolean',
             'questions.*.options' => 'nullable|array',
+            'questions.*.options.*' => 'string|max:255',
         ]);
+
+        // Custom validation for multiple choice questions
+        $validator->after(function ($validator) use ($request) {
+            if ($request->has('questions')) {
+                foreach ($request->questions as $index => $question) {
+                    if ($question['question_type'] === 'multiple_choice') {
+                        if (empty($question['options']) || count($question['options']) === 0) {
+                            $validator->errors()->add(
+                                "questions.{$index}.options",
+                                'Pertanyaan pilihan ganda harus memiliki minimal satu pilihan jawaban.'
+                            );
+                        }
+                    }
+                }
+            }
+        });
 
         if ($validator->fails()) {
             if ($request->ajax()) {
@@ -211,7 +244,6 @@ class AdminFeedbackController extends Controller
 
             return redirect()->route('admin.feedback.index')
                 ->with('success', 'Form feedback berhasil diperbarui.');
-
         } catch (\Exception $e) {
             DB::rollback();
 
@@ -246,7 +278,6 @@ class AdminFeedbackController extends Controller
 
             return redirect()->route('admin.feedback.index')
                 ->with('success', 'Form feedback berhasil dihapus.');
-
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -272,7 +303,6 @@ class AdminFeedbackController extends Controller
             $status = $form->is_active ? 'diaktifkan' : 'dinonaktifkan';
             return redirect()->route('admin.feedback.index')
                 ->with('success', "Form feedback berhasil {$status}.");
-
         } catch (\Exception $e) {
             return redirect()->route('admin.feedback.index')
                 ->with('error', 'Terjadi kesalahan saat mengubah status form feedback.');
@@ -320,6 +350,4 @@ class AdminFeedbackController extends Controller
 
         return view('dashboard.admin.feedback.response-detail', compact('response'));
     }
-
-
 }

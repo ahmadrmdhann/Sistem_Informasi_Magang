@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('lowongan_id')->constrained('m_lowongan', 'lowongan_id');
             $table->enum('status', ['diajukan', 'diterima', 'ditolak']);
             $table->date('tanggal_pengajuan');
-            $table->text('dosen_id')->nullable()->constrained('m_dosen', 'dosen_id');
+            $table->foreignId('dosen_id')->nullable()->constrained('m_dosen', 'dosen_id');
             $table->timestamps();
         });
     }
