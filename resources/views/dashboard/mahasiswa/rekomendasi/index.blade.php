@@ -1,44 +1,83 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Rekomendasi Tempat Magang')
+
 @section('content')
-    <div id="mainContent"
-        class="p-3 sm:p-6 transition-all duration-300 ml-0 sm:ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-100">
-        <div class="container mx-auto px-2 sm:px-4">
-            <div class="mb-4 sm:mb-6">
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Rekomendasi Tempat Magang</h1>
-                <p class="text-sm sm:text-base text-gray-600">Sistem pendukung keputusan menggunakan metode MOORA dan
-                    ELECTRE IV</p>
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+        <div class="container mx-auto px-6 py-8">
+            <!-- Hero Section -->
+            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
+                            <i class="fas fa-lightbulb text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Rekomendasi Tempat Magang</h1>
+                            <p class="text-xl text-white/90">Sistem pendukung keputusan menggunakan metode MOORA dan ELECTRE IV</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             @if(isset($message))
-                <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    {{ $message }}
+                <div class="bg-gradient-to-r from-amber-100 to-orange-100 border-l-4 border-amber-500 text-amber-800 p-6 mb-8 rounded-xl shadow-lg">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">{{ $message }}</p>
+                        </div>
+                    </div>
                 </div>
             @else
                 <!-- Profile Summary -->
-                <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Profil Anda</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex items-center p-3 bg-blue-50 rounded-lg">
-                            <i class="fas fa-map-marker-alt text-blue-500 mr-3"></i>
-                            <div>
-                                <p class="text-sm text-gray-600">Lokasi Preferensi</p>
-                                <p class="font-medium">{{ $mahasiswa->lokasiPreferensi->nama ?? 'Belum diisi' }}</p>
-                            </div>
+                <div class="mb-12">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Profil Anda</h2>
+                            <p class="text-gray-600">Informasi yang digunakan untuk memberikan rekomendasi</p>
                         </div>
-                        <div class="flex items-center p-3 bg-green-50 rounded-lg">
-                            <i class="fas fa-cogs text-green-500 mr-3"></i>
-                            <div>
-                                <p class="text-sm text-gray-600">Keahlian</p>
-                                <p class="font-medium">{{ $mahasiswa->keahlian->nama ?? 'Belum diisi' }}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="flex items-center">
+                                    <div class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 text-sm font-medium">Lokasi</p>
+                                        <h3 class="font-bold text-lg text-gray-800">{{ $mahasiswa->lokasiPreferensi->nama ?? 'Belum diisi' }}</h3>
+                                        <p class="text-blue-500 text-xs">Preferensi</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center p-3 bg-purple-50 rounded-lg">
-                            <i class="fas fa-heart text-purple-500 mr-3"></i>
-                            <div>
-                                <p class="text-sm text-gray-600">Minat</p>
-                                <p class="font-medium">{{ $mahasiswa->minat->nama ?? 'Belum diisi' }}</p>
+                            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="flex items-center">
+                                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fas fa-cogs text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 text-sm font-medium">Keahlian</p>
+                                        <h3 class="font-bold text-lg text-gray-800">{{ $mahasiswa->keahlian->nama ?? 'Belum diisi' }}</h3>
+                                        <p class="text-emerald-500 text-xs">Utama</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="flex items-center">
+                                    <div class="w-14 h-14 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fas fa-heart text-white text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500 text-sm font-medium">Minat</p>
+                                        <h3 class="font-bold text-lg text-gray-800">{{ $mahasiswa->minat->nama ?? 'Belum diisi' }}</h3>
+                                        <p class="text-purple-500 text-xs">Bidang</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

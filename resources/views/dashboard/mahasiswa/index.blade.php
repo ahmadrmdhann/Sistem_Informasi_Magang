@@ -3,10 +3,10 @@
 @section('title', 'Dashboard Mahasiswa')
 
 @section('content')
-    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
         <div class="container mx-auto px-6 py-8">
             <!-- Hero Section -->
-            <div class="relative bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-black opacity-10"></div>
                 <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
@@ -26,57 +26,48 @@
                 </div>
             </div>
 
-            <!-- Notifikasi Status -->
-            @if($pengajuanDiterima > 0)
-                <div class="bg-gradient-to-r from-green-400 to-emerald-500 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
-                            <i class="fas fa-check-circle text-white text-xl"></i>
+            <!-- Quick Actions -->
+            <div class="mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="{{ route('mahasiswa.feedback.index') }}" class="group">
+                        <div class="bg-gradient-to-r from-slate-100 to-gray-100 rounded-2xl p-6 shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform duration-300">
+                                        <i class="fas fa-star text-emerald-600 text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Feedback Magang</h3>
+                                        <p class="text-gray-600 text-sm">Berikan penilaian pengalaman magang</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
+                                    <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-white text-lg">{{ $pengajuanDiterima }} Pengajuan Diterima!</p>
-                            <p class="text-white/90">Selamat! Pengajuan magang Anda telah diterima</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
+                    </a>
 
-            @if($pengajuanDitolak > 0)
-                <div class="bg-gradient-to-r from-red-400 to-rose-500 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
-                            <i class="fas fa-times-circle text-white text-xl"></i>
+                    <a href="{{ route('mahasiswa.kegiatan.index') }}" class="group">
+                        <div class="bg-gradient-to-r from-slate-100 to-gray-100 rounded-2xl p-6 shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4 group-hover:scale-105 transition-transform duration-300">
+                                        <i class="fas fa-clipboard-list text-blue-600 text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Kegiatan Magang</h3>
+                                        <p class="text-gray-600 text-sm">Catat dan kelola log aktivitas harian</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
+                                    <i class="fas fa-arrow-right text-gray-600 text-xs"></i>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-white text-lg">{{ $pengajuanDitolak }} Pengajuan Ditolak</p>
-                            <p class="text-white/90">Jangan menyerah, coba ajukan ke tempat lain</p>
-                        </div>
-                    </div>
+                    </a>
                 </div>
-            @endif
-
-            @if($pengajuanDiajukan > 0)
-                <div class="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl p-6 mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
-                            <i class="fas fa-clock text-white text-xl animate-pulse"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="font-bold text-white text-lg">{{ $pengajuanDiajukan }} Pengajuan Diproses</p>
-                            <p class="text-white/90">Tunggu konfirmasi dari admin terkait status pengajuan</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            @if(isset($error))
-                <div class="bg-gradient-to-r from-red-400 to-red-500 rounded-2xl p-6 mb-8 text-white shadow-lg">
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-triangle text-white text-xl mr-4"></i>
-                        <p class="font-semibold">Error: {{ $error }}</p>
-                    </div>
-                </div>
-            @endif
+            </div>
 
             <!-- Statistik Dashboard -->
             <div class="mb-12">
@@ -87,65 +78,65 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-slate-400 to-slate-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-briefcase text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Total</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $totalPengajuan }}</h3>
-                                <p class="text-blue-500 text-xs">Pengajuan</p>
+                                <p class="text-slate-500 text-xs">Pengajuan</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-check-circle text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Pengajuan</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $pengajuanDiterima }}</h3>
-                                <p class="text-green-500 text-xs">Diterima</p>
+                                <p class="text-emerald-500 text-xs">Diterima</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-clock text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Pengajuan</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $pengajuanDiajukan }}</h3>
-                                <p class="text-yellow-500 text-xs">Diproses</p>
+                                <p class="text-amber-500 text-xs">Diproses</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-rose-400 to-rose-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-times-circle text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Pengajuan</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $pengajuanDitolak }}</h3>
-                                <p class="text-red-500 text-xs">Ditolak</p>
+                                <p class="text-rose-500 text-xs">Ditolak</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-search text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Lowongan</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $totalLowongan }}</h3>
-                                <p class="text-indigo-500 text-xs">Tersedia</p>
+                                <p class="text-blue-500 text-xs">Tersedia</p>
                             </div>
                         </div>
                     </div>
@@ -154,7 +145,7 @@
 
             <!-- Checklist Mahasiswa -->
             <div class="mb-12">
-                <div class="bg-gradient-to-r from-green-400 to-emerald-500 rounded-3xl p-8 shadow-xl">
+                <div class="bg-gradient-to-r from-slate-500 to-slate-600 rounded-3xl p-8 shadow-xl">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4 backdrop-blur-sm">
                             <i class="fas fa-tasks text-white text-xl"></i>
@@ -218,18 +209,18 @@
                             <div class="text-sm text-gray-500 font-medium">Total Kegiatan</div>
                         </div>
                         <div class="text-center group">
-                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-hourglass-half text-white text-2xl"></i>
                             </div>
-                            <div class="text-3xl font-bold text-yellow-700 mb-1">{{ $reviewKegiatanStats['pending'] ?? 0 }}</div>
-                            <div class="text-sm text-yellow-600 font-medium">Pending Review</div>
+                            <div class="text-3xl font-bold text-amber-700 mb-1">{{ $reviewKegiatanStats['pending'] ?? 0 }}</div>
+                            <div class="text-sm text-amber-600 font-medium">Pending Review</div>
                         </div>
                         <div class="text-center group">
-                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-check-double text-white text-2xl"></i>
                             </div>
-                            <div class="text-3xl font-bold text-green-700 mb-1">{{ $reviewKegiatanStats['approved'] ?? 0 }}</div>
-                            <div class="text-sm text-green-600 font-medium">Disetujui</div>
+                            <div class="text-3xl font-bold text-emerald-700 mb-1">{{ $reviewKegiatanStats['approved'] ?? 0 }}</div>
+                            <div class="text-sm text-emerald-600 font-medium">Disetujui</div>
                         </div>
                         <div class="text-center group">
                             <div class="w-20 h-20 mx-auto bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -239,11 +230,11 @@
                             <div class="text-sm text-orange-600 font-medium">Perlu Revisi</div>
                         </div>
                         <div class="text-center group">
-                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-rose-400 to-rose-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-times text-white text-2xl"></i>
                             </div>
-                            <div class="text-3xl font-bold text-red-700 mb-1">{{ $reviewKegiatanStats['rejected'] ?? 0 }}</div>
-                            <div class="text-sm text-red-600 font-medium">Ditolak</div>
+                            <div class="text-3xl font-bold text-rose-700 mb-1">{{ $reviewKegiatanStats['rejected'] ?? 0 }}</div>
+                            <div class="text-sm text-rose-600 font-medium">Ditolak</div>
                         </div>
                     </div>
                 </div>
@@ -258,7 +249,7 @@
                             <p class="text-gray-600">Lowongan magang yang cocok untuk Anda berdasarkan profil</p>
                         </div>
                         <a href="{{ route('mahasiswa.rekomendasi') }}"
-                            class="bg-gradient-to-r from-emerald-500 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-600 hover:to-green-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                            class="bg-gradient-to-r from-slate-500 to-slate-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-slate-600 hover:to-slate-700 transform hover:scale-105 transition-all duration-300 shadow-lg">
                             Lihat Semua
                         </a>
                     </div>
@@ -283,13 +274,13 @@
                                 @endphp
                                 <div class="group bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300">
                                     <div class="flex items-center justify-between mb-4">
-                                        <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                                        <div class="w-12 h-12 bg-gradient-to-br from-slate-400 to-slate-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                                             {{ $index + 1 }}
                                         </div>
                                     </div>
                                     
                                     <div class="mb-4">
-                                        <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                                        <h3 class="font-bold text-lg text-gray-900 mb-2 group-hover:text-slate-600 transition-colors">
                                             {{ $actualLowongan->judul ?? 'Frontend Developer Intern' }}
                                         </h3>
                                         <p class="text-sm text-gray-600 mb-2">
@@ -307,7 +298,7 @@
 
                                     <div class="mb-4">
                                         <div class="flex flex-wrap gap-2">
-                                            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
+                                            <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium">
                                                 {{ $actualLowongan->keahlian->nama ?? 'Web Development' }}
                                             </span>
                                         </div>
@@ -330,7 +321,7 @@
                                     Lengkapi profil Anda untuk mendapatkan rekomendasi lowongan yang sesuai dengan keahlian dan minat.
                                 </p>
                                 <a href="{{ route('mahasiswa.profile') }}"
-                                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-green-700 transition-all duration-300">
+                                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-lg font-medium hover:from-slate-600 hover:to-slate-700 transition-all duration-300">
                                     <i class="fas fa-user-edit mr-2"></i>
                                     Lengkapi Profil
                                 </a>
@@ -369,9 +360,9 @@
                                         </td>
                                         <td class="py-4 px-6">
                                             <span class="px-3 py-1 rounded-full text-sm font-semibold
-                                                {{ $pengajuan->status === 'diajukan' ? 'bg-yellow-100 text-yellow-700 border border-yellow-200' :
-                                                    ($pengajuan->status === 'diterima' ? 'bg-green-100 text-green-700 border border-green-200' :
-                                                        'bg-red-100 text-red-700 border border-red-200') }}">
+                                                {{ $pengajuan->status === 'diajukan' ? 'bg-amber-100 text-amber-700 border border-amber-200' :
+                                                    ($pengajuan->status === 'diterima' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' :
+                                                        'bg-rose-100 text-rose-700 border border-rose-200') }}">
                                                 {{ ucfirst($pengajuan->status) }}
                                             </span>
                                         </td>

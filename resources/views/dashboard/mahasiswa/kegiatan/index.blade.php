@@ -1,281 +1,319 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Log Kegiatan Magang')
+
 @section('content')
-    <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
-        <div class="mb-6">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-800">Log Kegiatan Magang</h1>
-                    <p class="text-gray-600 mt-1">Catat dan kelola aktivitas harian magang Anda</p>
-                </div>
-
-                @if($internships->isNotEmpty())
-                    <a href="{{ route('mahasiswa.kegiatan.create') }}"
-                        class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
-                        <i class="fas fa-plus mr-2"></i>
-                        Tambah Kegiatan
-                    </a>
-                @endif
-            </div>
-        </div>
-
-        <!-- Alert Messages -->
-        @if(session('success'))
-            <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center">
-                <i class="fas fa-check-circle mr-2"></i>
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center">
-                <i class="fas fa-exclamation-circle mr-2"></i>
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="flex items-center">
-                    <i class="fas fa-clipboard-list text-blue-500 text-2xl mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">Total Kegiatan</p>
-                        <p class="text-xl font-semibold text-gray-900">{{ $stats['total'] }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="flex items-center">
-                    <i class="fas fa-clock text-yellow-500 text-2xl mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">Menunggu Review</p>
-                        <p class="text-xl font-semibold text-gray-900">{{ $stats['pending'] }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 text-2xl mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">Disetujui</p>
-                        <p class="text-xl font-semibold text-gray-900">{{ $stats['approved'] }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="flex items-center">
-                    <i class="fas fa-edit text-orange-500 text-2xl mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">Perlu Revisi</p>
-                        <p class="text-xl font-semibold text-gray-900">{{ $stats['needs_revision'] }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="flex items-center">
-                    <i class="fas fa-times-circle text-red-500 text-2xl mr-3"></i>
-                    <div>
-                        <p class="text-sm text-gray-600">Ditolak</p>
-                        <p class="text-xl font-semibold text-gray-900">{{ $stats['rejected'] }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filters -->
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Filter Kegiatan</h2>
-
-            <form method="GET" action="{{ route('mahasiswa.kegiatan.index') }}"
-                class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label for="internship_id" class="block text-sm font-medium text-gray-700 mb-2">Pengalaman
-                        Magang</label>
-                    <select name="internship_id" id="internship_id"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Semua Magang</option>
-                        @foreach($internships as $internship)
-                            <option value="{{ $internship->id }}" {{ $selectedInternship == $internship->id ? 'selected' : '' }}>
-                                {{ $internship->lowongan->judul }} - {{ $internship->lowongan->partner->nama }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                    <select name="status" id="status"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>Semua Status</option>
-                        <option value="pending" {{ $statusFilter == 'pending' ? 'selected' : '' }}>Menunggu Review</option>
-                        <option value="approved" {{ $statusFilter == 'approved' ? 'selected' : '' }}>Disetujui</option>
-                        <option value="needs_revision" {{ $statusFilter == 'needs_revision' ? 'selected' : '' }}>Perlu Revisi
-                        </option>
-                        <option value="rejected" {{ $statusFilter == 'rejected' ? 'selected' : '' }}>Ditolak</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="date_from" class="block text-sm font-medium text-gray-700 mb-2">Dari Tanggal</label>
-                    <input type="date" name="date_from" id="date_from" value="{{ $dateFrom }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div>
-                    <label for="date_to" class="block text-sm font-medium text-gray-700 mb-2">Sampai Tanggal</label>
-                    <input type="date" name="date_to" id="date_to" value="{{ $dateTo }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div class="md:col-span-4 flex space-x-3">
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                        <i class="fas fa-search mr-2"></i>Filter
-                    </button>
-                    <a href="{{ route('mahasiswa.kegiatan.index') }}"
-                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
-                        <i class="fas fa-times mr-2"></i>Reset
-                    </a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Activities List -->
-        <div class="bg-white rounded-lg shadow">
-            <div class="p-6 border-b border-gray-200">
-                <h2 class="text-lg font-semibold text-gray-800">Daftar Kegiatan</h2>
-                <p class="text-gray-600 text-sm mt-1">Riwayat aktivitas magang Anda</p>
-            </div>
-
-            <div class="p-6">
-                @if($activities->isEmpty())
-                    <div class="text-center py-12">
-                        @if($internships->isEmpty())
-                            <i class="fas fa-info-circle text-4xl text-blue-300 mb-4"></i>
-                            <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Magang yang Diterima</h3>
-                            <p class="text-gray-600 mb-4">Anda perlu memiliki magang yang diterima untuk dapat mencatat kegiatan.
-                            </p>
-                            <a href="{{ route('mahasiswa.lowongan.index') }}"
-                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                                <i class="fas fa-search mr-2"></i>
-                                Cari Lowongan Magang
-                            </a>
-                        @else
-                            <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
-                            <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Kegiatan</h3>
-                            <p class="text-gray-600 mb-4">Mulai catat aktivitas magang harian Anda.</p>
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+        <div class="container mx-auto px-6 py-8">
+            <!-- Hero Section -->
+            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
+                                <i class="fas fa-clipboard-list text-white text-2xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Log Kegiatan Magang</h1>
+                                <p class="text-xl text-white/90">Catat dan kelola aktivitas magang harian Anda</p>
+                            </div>
+                        </div>
+                        @if($internships->isNotEmpty())
                             <a href="{{ route('mahasiswa.kegiatan.create') }}"
-                                class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                class="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm">
                                 <i class="fas fa-plus mr-2"></i>
-                                Tambah Kegiatan Pertama
+                                Tambah Kegiatan
                             </a>
                         @endif
                     </div>
-                @else
-                    <!-- Timeline View -->
-                    <div class="space-y-6">
-                        @foreach($activities as $activity)
-                            <div class="relative">
-                                <!-- Timeline line -->
-                                @if(!$loop->last)
-                                    <div class="absolute left-6 top-12 w-0.5 h-full bg-gray-200"></div>
-                                @endif
+                </div>
+            </div>
 
-                                <!-- Activity card -->
-                                <div class="flex items-start space-x-4">
-                                    <!-- Status icon -->
-                                    <div
-                                        class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center {{ $activity->status_badge_color }}">
-                                        <i class="fas {{ $activity->status_icon }}"></i>
-                                    </div>
+                <!-- Alert Messages -->
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-emerald-100 border border-emerald-400 text-emerald-700 rounded-xl flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
 
-                                    <!-- Activity content -->
-                                    <div class="flex-1 bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <div>
-                                                <h3 class="text-lg font-semibold text-gray-900">{{ $activity->activity_title }}</h3>
-                                                <p class="text-sm text-gray-600">
-                                                    {{ $activity->activity_date->format('d/m/Y') }}
-                                                    @if($activity->start_time && $activity->end_time)
-                                                        • {{ $activity->start_time->format('H:i') }} -
-                                                        {{ $activity->end_time->format('H:i') }}
-                                                        • {{ $activity->duration }}
-                                                    @endif
-                                                </p>
-                                                <p class="text-sm text-blue-600 font-medium">
-                                                    {{ $activity->pengajuan->lowongan->partner->nama }}
-                                                </p>
-                                            </div>
+            @if(session('error'))
+                <div class="mb-6 p-4 bg-rose-100 border border-rose-400 text-rose-700 rounded-xl flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    {{ session('error') }}
+                </div>
+            @endif
 
-                                            <div class="flex items-center space-x-2">
-                                                <span
-                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $activity->status_badge_color }}">
-                                                    <i class="fas {{ $activity->status_icon }} mr-1"></i>
-                                                    {{ ucfirst(str_replace('_', ' ', $activity->status)) }}
-                                                </span>
+            <!-- Statistics Cards -->
+            <div class="mb-12">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Statistik Kegiatan</h2>
+                    <p class="text-gray-600">Monitor progress dan aktivitas magang Anda</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-slate-400 to-slate-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-clipboard-list text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Total</p>
+                                <h3 class="font-bold text-2xl text-gray-800">{{ $stats['total'] }}</h3>
+                                <p class="text-slate-500 text-xs">Kegiatan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-clock text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Menunggu</p>
+                                <h3 class="font-bold text-2xl text-gray-800">{{ $stats['pending'] }}</h3>
+                                <p class="text-amber-500 text-xs">Review</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-check-circle text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Kegiatan</p>
+                                <h3 class="font-bold text-2xl text-gray-800">{{ $stats['approved'] }}</h3>
+                                <p class="text-emerald-500 text-xs">Disetujui</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-edit text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Perlu</p>
+                                <h3 class="font-bold text-2xl text-gray-800">{{ $stats['needs_revision'] }}</h3>
+                                <p class="text-orange-500 text-xs">Revisi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-gradient-to-br from-rose-400 to-rose-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                                <i class="fas fa-times-circle text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm font-medium">Kegiatan</p>
+                                <h3 class="font-bold text-2xl text-gray-800">{{ $stats['rejected'] }}</h3>
+                                <p class="text-rose-500 text-xs">Ditolak</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                                @if($activity->attachments->isNotEmpty())
-                                                    <span
-                                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
-                                                        <i class="fas fa-paperclip mr-1"></i>
-                                                        {{ $activity->attachments->count() }}
-                                                    </span>
-                                                @endif
-                                            </div>
+            <!-- Filters -->
+            <div class="mb-12">
+                <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Filter Kegiatan</h2>
+
+                    <form method="GET" action="{{ route('mahasiswa.kegiatan.index') }}"
+                        class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div>
+                            <label for="internship_id" class="block text-sm font-medium text-gray-700 mb-2">Pengalaman Magang</label>
+                            <select name="internship_id" id="internship_id"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                                <option value="">Semua Magang</option>
+                                @foreach($internships as $internship)
+                                    <option value="{{ $internship->id }}" {{ $selectedInternship == $internship->id ? 'selected' : '' }}>
+                                        {{ $internship->lowongan->judul }} - {{ $internship->lowongan->partner->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select name="status" id="status"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                                <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>Semua Status</option>
+                                <option value="pending" {{ $statusFilter == 'pending' ? 'selected' : '' }}>Menunggu Review</option>
+                                <option value="approved" {{ $statusFilter == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="needs_revision" {{ $statusFilter == 'needs_revision' ? 'selected' : '' }}>Perlu Revisi</option>
+                                <option value="rejected" {{ $statusFilter == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="date_from" class="block text-sm font-medium text-gray-700 mb-2">Dari Tanggal</label>
+                            <input type="date" name="date_from" id="date_from" value="{{ $dateFrom }}"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                        </div>
+
+                        <div>
+                            <label for="date_to" class="block text-sm font-medium text-gray-700 mb-2">Sampai Tanggal</label>
+                            <input type="date" name="date_to" id="date_to" value="{{ $dateTo }}"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                        </div>
+
+                        <div class="md:col-span-4 flex space-x-3">
+                            <button type="submit"
+                                class="px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-xl hover:from-slate-600 hover:to-slate-700 transition-all duration-300 font-medium">
+                                <i class="fas fa-search mr-2"></i>Filter
+                            </button>
+                            <a href="{{ route('mahasiswa.kegiatan.index') }}"
+                                class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300 transition-all duration-300 font-medium">
+                                <i class="fas fa-times mr-2"></i>Reset
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Activities List -->
+            <div class="bg-white rounded-3xl shadow-xl border border-gray-100">
+                <div class="p-8 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Daftar Kegiatan</h2>
+                    <p class="text-gray-600">Riwayat aktivitas magang Anda</p>
+                </div>
+
+                <div class="p-8">
+                    @if($activities->isEmpty())
+                        <div class="text-center py-12">
+                            @if($internships->isEmpty())
+                                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-info-circle text-blue-400 text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum Ada Magang yang Diterima</h3>
+                                <p class="text-gray-500 max-w-md mx-auto mb-6">
+                                    Anda perlu memiliki magang yang diterima untuk dapat mencatat kegiatan.
+                                </p>
+                                <a href="{{ route('mahasiswa.lowongan.index') }}"
+                                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-xl font-medium hover:from-slate-600 hover:to-slate-700 transition-all duration-300">
+                                    <i class="fas fa-search mr-2"></i>
+                                    Cari Lowongan Magang
+                                </a>
+                            @else
+                                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-clipboard-list text-gray-400 text-3xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum Ada Kegiatan</h3>
+                                <p class="text-gray-500 max-w-md mx-auto mb-6">Mulai catat aktivitas magang harian Anda.</p>
+                                <a href="{{ route('mahasiswa.kegiatan.create') }}"
+                                    class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-xl font-medium hover:from-slate-600 hover:to-slate-700 transition-all duration-300">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Tambah Kegiatan Pertama
+                                </a>
+                            @endif
+                        </div>
+                    @else
+                        <!-- Timeline View -->
+                        <div class="space-y-6">
+                            @foreach($activities as $activity)
+                                <div class="relative">
+                                    <!-- Timeline line -->
+                                    @if(!$loop->last)
+                                        <div class="absolute left-6 top-12 w-0.5 h-full bg-gray-200"></div>
+                                    @endif
+
+                                    <!-- Activity card -->
+                                    <div class="flex items-start space-x-4">
+                                        <!-- Status icon -->
+                                        <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center {{ $activity->status_badge_color }}">
+                                            <i class="fas {{ $activity->status_icon }}"></i>
                                         </div>
 
-                                        <p class="text-gray-700 mb-3 line-clamp-2">
-                                            {{ Str::limit($activity->activity_description, 150) }}</p>
+                                        <!-- Activity content -->
+                                        <div class="flex-1 bg-gray-50 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                            <div class="flex justify-between items-start mb-3">
+                                                <div>
+                                                    <h3 class="text-lg font-semibold text-gray-900">{{ $activity->activity_title }}</h3>
+                                                    <p class="text-sm text-gray-600">
+                                                        {{ $activity->activity_date->format('d/m/Y') }}
+                                                        @if($activity->start_time && $activity->end_time)
+                                                            • {{ $activity->start_time->format('H:i') }} -
+                                                            {{ $activity->end_time->format('H:i') }}
+                                                            • {{ $activity->duration }}
+                                                        @endif
+                                                    </p>
+                                                    <p class="text-sm text-slate-600 font-medium">
+                                                        {{ $activity->pengajuan->lowongan->partner->nama }}
+                                                    </p>
+                                                </div>
 
-                                        @if($activity->latestReview && $activity->latestReview->feedback_comment)
-                                            <div class="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3">
-                                                <p class="text-sm text-blue-800">
-                                                    <strong>Feedback Dosen:</strong>
-                                                    {{ Str::limit($activity->latestReview->feedback_comment, 100) }}
-                                                </p>
+                                                <div class="flex items-center space-x-2">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $activity->status_badge_color }}">
+                                                        <i class="fas {{ $activity->status_icon }} mr-1"></i>
+                                                        {{ ucfirst(str_replace('_', ' ', $activity->status)) }}
+                                                    </span>
+
+                                                    @if($activity->attachments->isNotEmpty())
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600">
+                                                            <i class="fas fa-paperclip mr-1"></i>
+                                                            {{ $activity->attachments->count() }}
+                                                        </span>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        @endif
 
-                                        <div class="flex justify-between items-center">
-                                            <div class="text-sm text-gray-500">
-                                                Dikirim:
-                                                {{ $activity->submitted_at ? $activity->submitted_at->format('d/m/Y H:i') : '-' }}
-                                                @if($activity->reviewed_at)
-                                                    • Direview: {{ $activity->reviewed_at->format('d/m/Y H:i') }}
-                                                @endif
-                                            </div>
+                                            <p class="text-gray-700 mb-3 line-clamp-2">
+                                                {{ Str::limit($activity->activity_description, 150) }}
+                                            </p>
 
-                                            <div class="flex space-x-2">
-                                                <button onclick="openShowModal({{ $activity->activity_id }})"
-                                                    class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                                    <i class="fas fa-eye mr-1"></i>Lihat
-                                                </button>
+                                            @if($activity->latestReview && $activity->latestReview->feedback_comment)
+                                                <div class="bg-blue-50 border-l-4 border-blue-400 p-3 mb-3 rounded">
+                                                    <p class="text-sm text-blue-800">
+                                                        <strong>Feedback Dosen:</strong>
+                                                        {{ Str::limit($activity->latestReview->feedback_comment, 100) }}
+                                                    </p>
+                                                </div>
+                                            @endif
 
-                                                @if($activity->canBeEdited())
-                                                    <button onclick="openEditModal({{ $activity->activity_id }})"
-                                                        class="text-yellow-600 hover:text-yellow-800 text-sm font-medium">
-                                                        <i class="fas fa-edit mr-1"></i>Edit
+                                            <div class="flex justify-between items-center">
+                                                <div class="text-sm text-gray-500">
+                                                    Dikirim:
+                                                    {{ $activity->submitted_at ? $activity->submitted_at->format('d/m/Y H:i') : '-' }}
+                                                    @if($activity->reviewed_at)
+                                                        • Direview: {{ $activity->reviewed_at->format('d/m/Y H:i') }}
+                                                    @endif
+                                                </div>
+
+                                                <div class="flex space-x-2">
+                                                    <button onclick="openShowModal({{ $activity->activity_id }})"
+                                                        class="text-slate-600 hover:text-slate-800 text-sm font-medium">
+                                                        <i class="fas fa-eye mr-1"></i>Lihat
                                                     </button>
 
-                                                    <button onclick="deleteActivity({{ $activity->activity_id }})"
-                                                        class="text-red-600 hover:text-red-800 text-sm font-medium">
-                                                        <i class="fas fa-trash mr-1"></i>Hapus
-                                                    </button>
-                                                @endif
+                                                    @if($activity->canBeEdited())
+                                                        <button onclick="openEditModal({{ $activity->activity_id }})"
+                                                            class="text-amber-600 hover:text-amber-800 text-sm font-medium">
+                                                            <i class="fas fa-edit mr-1"></i>Edit
+                                                        </button>
+
+                                                        <button onclick="deleteActivity({{ $activity->activity_id }})"
+                                                            class="text-rose-600 hover:text-rose-800 text-sm font-medium">
+                                                            <i class="fas fa-trash mr-1"></i>Hapus
+                                                        </button>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
 
-                    <!-- Pagination -->
-                    <div class="mt-6">
-                        {{ $activities->appends(request()->query())->links() }}
-                    </div>
-                @endif
+                        <!-- Pagination -->
+                        <div class="mt-6">
+                            {{ $activities->appends(request()->query())->links() }}
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
