@@ -65,10 +65,10 @@ class AdminController extends Controller
             ];
             // Statistik Status Pengajuan Magang
             $statPengajuan = [
-                'diajukan' => \App\Models\PengajuanMagangModel::where('status', 'diajukan')->count(),
-                'diterima' => \App\Models\PengajuanMagangModel::where('status', 'diterima')->count(),
-                'ditolak' => \App\Models\PengajuanMagangModel::where('status', 'ditolak')->count(),
-                'total' => \App\Models\PengajuanMagangModel::count(),
+                'diajukan' => PengajuanMagangModel::where('status', 'diajukan')->count(),
+                'diterima' => PengajuanMagangModel::where('status', 'diterima')->count(),
+                'ditolak' => PengajuanMagangModel::where('status', 'ditolak')->count(),
+                'total' => PengajuanMagangModel::count(),
             ];
             return view('dashboard.admin.index', compact(
                 'totalMahasiswa', 'totalDosen', 'totalLowonganAktif', 'totalMitra',

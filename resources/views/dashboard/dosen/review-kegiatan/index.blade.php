@@ -1,38 +1,49 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Review Kegiatan Mahasiswa')
+
 @section('content')
-<div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
-    <div class="mb-6">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Review Kegiatan Mahasiswa</h1>
-                <p class="text-gray-600 mt-1">Kelola dan review aktivitas magang mahasiswa bimbingan</p>
+<div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+    <div class="container mx-auto px-6 py-8">
+        <!-- Hero Section -->
+        <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+            <div class="absolute inset-0 bg-black opacity-10"></div>
+            <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
+            <div class="relative z-10">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
+                            <i class="fas fa-clipboard-check text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Review Kegiatan Mahasiswa</h1>
+                            <p class="text-xl text-white/90">Kelola dan review aktivitas magang mahasiswa bimbingan</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="{{ route('dosen.review-kegiatan.report') }}" 
+                           class="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm">
+                            <i class="fas fa-chart-bar mr-2"></i>
+                            Generate Report
+                        </a>
+                    </div>
+                </div>
             </div>
-            
-            <div class="flex space-x-3">
-                <a href="{{ route('dosen.review-kegiatan.report') }}" 
-                   class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors">
-                    <i class="fas fa-chart-bar mr-2"></i>
-                    Generate Report
-                </a>
+        </div>        <!-- Alert Messages -->
+        @if(session('success'))
+            <div class="mb-6 p-4 bg-emerald-100 border border-emerald-400 text-emerald-700 rounded-xl flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                {{ session('success') }}
             </div>
-        </div>
-    </div>
+        @endif
 
-    <!-- Alert Messages -->
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center">
-            <i class="fas fa-check-circle mr-2"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center">
-            <i class="fas fa-exclamation-circle mr-2"></i>
-            {{ session('error') }}
-        </div>
-    @endif
+        @if(session('error'))
+            <div class="mb-6 p-4 bg-rose-100 border border-rose-400 text-rose-700 rounded-xl flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                {{ session('error') }}
+            </div>
+        @endif
 
     <!-- Statistics Cards -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">

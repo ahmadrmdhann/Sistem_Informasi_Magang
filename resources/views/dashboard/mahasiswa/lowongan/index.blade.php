@@ -1,37 +1,62 @@
 @extends('layouts.dashboard')
 
-@section('title')
-    <title>Lowongan Magang</title>
-@endsection
+@section('title', 'Lowongan Magang')
 
 @section('content')
-    <div id="mainContent" class="p-6 transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gray-50">
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Daftar Lowongan Magang</h1>
-            <p class="text-gray-600 mt-1">Temukan dan ajukan magang ke perusahaan partner yang tersedia</p>
-        </div>
-
-        {{-- Search Form --}}
-        <form action="{{ route('mahasiswa.lowongan.index') }}" method="GET" class="mb-5">
-            <div class="flex max-w-md">
-                <input type="text" name="q" value="{{ old('q', $q ?? '') }}"
-                    class="w-full rounded-l-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-200"
-                    placeholder="Cari lowongan, partner, bidang...">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg">Cari</button>
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+        <div class="container mx-auto px-6 py-8">
+            <!-- Hero Section -->
+            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm">
+                            <i class="fas fa-briefcase text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Daftar Lowongan Magang</h1>
+                            <p class="text-xl text-white/90">Temukan dan ajukan magang ke perusahaan partner yang tersedia</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
 
-        {{-- Warning jika profile belum lengkap --}}
-        @if ($profileIncomplete ?? false)
-            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-4 rounded">
-                <strong>Profile belum lengkap!</strong><br>
-                @foreach($profileWarning ?? [] as $pw)
-                    • {{ $pw }} <br>
-                @endforeach
-                <a href="{{ route('mahasiswa.profile') }}" class="underline text-blue-600 hover:text-blue-800">Lengkapi
-                    Profile</a>
+            {{-- Search Form --}}
+            <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 mb-8">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Cari Lowongan</h2>
+                <form action="{{ route('mahasiswa.lowongan.index') }}" method="GET">
+                    <div class="flex max-w-md">
+                        <input type="text" name="q" value="{{ old('q', $q ?? '') }}"
+                            class="w-full rounded-l-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-slate-200 focus:border-slate-400"
+                            placeholder="Cari lowongan, partner, bidang...">
+                        <button type="submit" class="bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white px-6 py-3 rounded-r-xl font-medium transition-all duration-300">
+                            <i class="fas fa-search mr-2"></i>Cari
+                        </button>
+                    </div>
+                </form>
             </div>
-        @endif
+
+            {{-- Warning jika profile belum lengkap --}}
+            @if ($profileIncomplete ?? false)
+                <div class="bg-gradient-to-r from-amber-100 to-orange-100 border-l-4 border-amber-500 text-amber-800 p-6 mb-8 rounded-xl shadow-lg">
+                    <div class="flex items-start">
+                        <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-2">Profile belum lengkap!</h3>
+                            @foreach($profileWarning ?? [] as $pw)
+                                <p class="mb-1">• {{ $pw }}</p>
+                            @endforeach
+                            <a href="{{ route('mahasiswa.profile') }}" class="inline-flex items-center mt-3 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors">
+                                <i class="fas fa-user-edit mr-2"></i>Lengkapi Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
         @if(session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded">{{ session('success') }}</div>
@@ -40,61 +65,92 @@
             <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">{{ session('error') }}</div>
         @endif
 
-        <div class="space-y-6">
-            @forelse($lowongans as $lowongan)
-                <div
-                    class="bg-white rounded-xl shadow p-6 flex flex-col md:flex-row md:items-center md:justify-between hover:shadow-lg transition">
+            <!-- Lowongan List -->
+            <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+                <div class="flex justify-between items-center mb-8">
                     <div>
-                        <div class="text-xl font-semibold text-blue-700 mb-1">{{ $lowongan->judul }}</div>
-                        <div class="text-gray-600 mb-1">
-                            <span class="font-medium">{{ $lowongan->partner->nama ?? '-' }}</span>
-                            <span class="mx-2">|</span>
-                            <span>{{ $lowongan->periode->nama ?? '-' }}</span>
-                        </div>
-                        <div class="text-gray-500 text-sm mb-2">
-                            Lokasi: {{ $lowongan->kabupaten->nama ?? '-' }} &bull; Bidang:
-                            {{ $lowongan->keahlian->nama ?? '-' }}
-                        </div>
-                        <div class="text-gray-700 text-sm mb-2">
-                            <span class="font-semibold">Periode:</span>
-                            {{ $lowongan->tanggal_mulai }} s/d {{ $lowongan->tanggal_akhir }}
-                        </div>
-                        <div class="text-gray-500 text-xs line-clamp-2 mb-2">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($lowongan->deskripsi), 120) }}
-                        </div>
-                    </div>
-                    <div class="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
-                        @php
-                            $isApplied = in_array($lowongan->lowongan_id, $applieds ?? []);
-                        @endphp
-                        <form action="{{ route('mahasiswa.lowongan.apply', $lowongan->lowongan_id) }}" method="POST"
-                            onsubmit="return confirm('Yakin ingin apply ke lowongan ini?')">
-                            @csrf
-                            @if ($isApplied)
-                                <button type="button"
-                                    class="py-2.5 px-4 bg-gray-400 text-white font-medium rounded-lg text-sm shadow cursor-not-allowed"
-                                    disabled>
-                                    <i class="fas fa-check mr-2"></i>Applied
-                                </button>
-                            @elseif ($profileIncomplete ?? false)
-                                <button type="button"
-                                    class="py-2.5 px-4 bg-gray-300 text-gray-600 font-medium rounded-lg text-sm shadow cursor-not-allowed"
-                                    disabled>
-                                    <i class="fas fa-exclamation-triangle mr-2"></i>Lengkapi Profile
-                                </button>
-                            @else
-                                <button type="button"
-                                    class="py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm shadow openApplyModalBtn"
-                                    data-id="{{ $lowongan->lowongan_id }}">
-                                    <i class="fas fa-paper-plane mr-2"></i>Apply
-                                </button>
-                            @endif
-                        </form>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Lowongan Tersedia</h2>
+                        <p class="text-gray-600">Pilih lowongan yang sesuai dengan minat dan keahlian Anda</p>
                     </div>
                 </div>
-            @empty
-                <div class="text-center text-gray-500 py-8">Tidak ada lowongan tersedia.</div>
-            @endforelse
+
+                <div class="space-y-6">
+                    @forelse($lowongans as $lowongan)
+                        <div class="group bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center mb-3">
+                                        <div class="w-12 h-12 bg-gradient-to-br from-slate-400 to-slate-600 rounded-xl flex items-center justify-center mr-4">
+                                            <i class="fas fa-building text-white text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-xl font-bold text-slate-700 group-hover:text-slate-800 transition-colors">{{ $lowongan->judul }}</h3>
+                                            <p class="text-gray-600 font-medium">{{ $lowongan->partner->nama ?? '-' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-calendar-alt text-slate-500 mr-2"></i>
+                                            <span class="text-sm">{{ $lowongan->periode->nama ?? '-' }}</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-map-marker-alt text-slate-500 mr-2"></i>
+                                            <span class="text-sm">{{ $lowongan->kabupaten->nama ?? '-' }}</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-cog text-slate-500 mr-2"></i>
+                                            <span class="text-sm">{{ $lowongan->keahlian->nama ?? '-' }}</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-clock text-slate-500 mr-2"></i>
+                                            <span class="text-sm">{{ $lowongan->tanggal_mulai }} - {{ $lowongan->tanggal_akhir }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white/60 rounded-lg p-3 mb-4">
+                                        <p class="text-gray-700 text-sm line-clamp-2">
+                                            {{ \Illuminate\Support\Str::limit(strip_tags($lowongan->deskripsi), 150) }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
+                                    @php
+                                        $isApplied = in_array($lowongan->lowongan_id, $applieds ?? []);
+                                    @endphp
+                                    <form action="{{ route('mahasiswa.lowongan.apply', $lowongan->lowongan_id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin apply ke lowongan ini?')">
+                                        @csrf
+                                        @if ($isApplied)
+                                            <button type="button"
+                                                class="py-3 px-6 bg-gray-400 text-white font-medium rounded-xl text-sm shadow cursor-not-allowed flex items-center">
+                                                <i class="fas fa-check mr-2"></i>Applied
+                                            </button>
+                                        @elseif ($profileIncomplete ?? false)
+                                            <button type="button"
+                                                class="py-3 px-6 bg-gray-300 text-gray-600 font-medium rounded-xl text-sm shadow cursor-not-allowed flex items-center">
+                                                <i class="fas fa-exclamation-triangle mr-2"></i>Lengkapi Profile
+                                            </button>
+                                        @else
+                                            <button type="button"
+                                                class="py-3 px-6 bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white font-medium rounded-xl text-sm shadow transform hover:scale-105 transition-all duration-300 openApplyModalBtn flex items-center"
+                                                data-id="{{ $lowongan->lowongan_id }}">
+                                                <i class="fas fa-paper-plane mr-2"></i>Apply
+                                            </button>
+                                        @endif
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-12">
+                            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-search text-gray-400 text-3xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-600 mb-2">Tidak ada lowongan tersedia</h3>
+                            <p class="text-gray-500 max-w-md mx-auto">Saat ini belum ada lowongan yang sesuai dengan pencarian Anda.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
     </div>
 
