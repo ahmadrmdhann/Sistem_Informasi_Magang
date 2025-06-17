@@ -42,8 +42,7 @@
                             <h3 class="text-2xl font-bold text-gray-800 mb-2">Daftar Mitra</h3>
                             <p class="text-gray-600">Kelola data mitra sistem</p>
                         </div>
-                        <button class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2"
-                            data-modal-target="createPartnerModal" data-modal-toggle="createPartnerModal">
+                        <button id="btnTambahPartner" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2">
                             <i class="fas fa-plus-circle"></i>
                             <span>Tambah Mitra</span>
                         </button>
@@ -76,7 +75,7 @@
                             <tbody class="divide-y divide-gray-100">
                                 @forelse ($partners as $partner)
                                     <tr class="hover:bg-blue-50/30 transition-all duration-200">
-                                        <td class="px-6 py-4 text-sm text-gray-800"></td>
+                                        <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $partner->nama }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $partner->alamat }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $partner->telepon }}</td>
@@ -120,39 +119,44 @@
     </div>
 
     <!-- Create Modal -->
-    <div id="createPartnerModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div id="createPartnerModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-semibold text-gray-700">Tambah Mitra</h3>
-                <button type="button" data-modal-hide="createPartnerModal" class="text-gray-500 hover:text-gray-700">
+                <button type="button" id="btnCloseCreate" class="text-gray-500 hover:text-gray-700 text-2xl">
                     &times;
                 </button>
             </div>
 
-            <form action="{{ route('partner.store') }}" method="POST">
+            <form id="createPartnerForm" action="{{ route('partner.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <label for="nama" class="block text-gray-700 mb-2">Nama Mitra</label>
-                    <input type="text" name="nama" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_nama" class="block text-gray-700 mb-2">Nama Mitra</label>
+                    <input type="text" name="nama" id="create_nama" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div id="create_nama_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label for="alamat" class="block text-gray-700 mb-2">Alamat</label>
-                    <textarea name="alamat" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                    <label for="create_alamat" class="block text-gray-700 mb-2">Alamat</label>
+                    <textarea name="alamat" id="create_alamat" rows="3" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                    <div id="create_alamat_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label for="telepon" class="block text-gray-700 mb-2">Telepon</label>
-                    <input type="text" name="telepon" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_telepon" class="block text-gray-700 mb-2">Telepon</label>
+                    <input type="text" name="telepon" id="create_telepon" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div id="create_telepon_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label for="email" class="block text-gray-700 mb-2">Email</label>
-                    <input type="email" name="email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_email" class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" name="email" id="create_email" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div id="create_email_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="button" data-modal-hide="createPartnerModal"
+                    <button type="button" id="btnCancelCreate"
                         class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">Simpan</button>
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        <i class="fas fa-save mr-1"></i>Simpan
+                    </button>
                 </div>
             </form>
         </div>
@@ -216,8 +220,12 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready(function () {
+            // Initialize DataTable
             const table = $('#partnerTable').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
@@ -232,16 +240,14 @@
                     {
                         "targets": [0],
                         "searchable": false,
-                        "render": function (data, type, row, meta) {
-                            return meta.row + 1;
-                        }
+                        "orderable": false
                     },
                     {
                         "targets": [5],
                         "orderable": false
                     }
                 ],
-                "order": [[0, "asc"]],
+                "order": [[1, "asc"]],
                 "drawCallback": function(settings) {
                     $('.dataTables_paginate .paginate_button').removeClass().addClass('px-4 py-2 bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 mx-1 rounded-xl shadow-sm');
                     $('.dataTables_paginate .paginate_button.current').removeClass().addClass('px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 border border-blue-600 text-sm font-medium text-white mx-1 rounded-xl shadow-md');
@@ -249,64 +255,108 @@
                     $('.dataTables_paginate').addClass('space-x-1');
                 }
             });
-        });
-    </script>
 
-    <script>
-        // Modal Toggle Handlers
-        document.querySelectorAll('[data-modal_toggle]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-modal-target');
-                const target = document.getElementById(targetId);
-                if (target) {
-                    target.classList.remove('hidden');
+            // === CREATE MODAL HANDLERS ===
+            $('#btnTambahPartner').on('click', function() {
+                $('#createPartnerModal').removeClass('hidden');
+                $('#createPartnerForm')[0].reset();
+                $('.text-red-500').addClass('hidden');
+            });
+
+            $('#btnCloseCreate, #btnCancelCreate').on('click', function() {
+                $('#createPartnerModal').addClass('hidden');
+            });
+
+            // Close modal when clicking outside
+            $('#createPartnerModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
                 }
             });
-        });
 
-        document.querySelectorAll('[data-modal-hide]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-modal-hide');
-                const target = document.getElementById(targetId);
-                if (target) {
-                    target.classList.add('hidden');
+            // === EDIT MODAL HANDLERS ===
+            $(document).on('click', '.editPartnerBtn', function() {
+                const partner = JSON.parse($(this).attr("data-partner"));
+                $('#edit_nama').val(partner.nama);
+                $('#edit_alamat').val(partner.alamat);
+                $('#edit_telepon').val(partner.telepon);
+                $('#edit_email').val(partner.email);
+                $('#editPartnerForm').attr('action', `/admin/partner/${partner.partner_id}`);
+                $('.text-red-500').addClass('hidden');
+                $('#editPartnerModal').removeClass('hidden');
+            });
+
+            $(document).on('click', '[data-modal-hide="editPartnerModal"]', function() {
+                $('#editPartnerModal').addClass('hidden');
+            });
+
+            // Close modal when clicking outside
+            $('#editPartnerModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
                 }
             });
-        });
 
-        // Edit Modal Handler
-        document.addEventListener("DOMContentLoaded", () => {
-            const editButtons = document.querySelectorAll(".editPartnerBtn");
-            const editForm = document.getElementById("editPartnerForm");
-
-            editButtons.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const partner = JSON.parse(btn.getAttribute("data-partner"));
-                    document.getElementById("edit_nama").value = partner.nama;
-                    document.getElementById("edit_alamat").value = partner.alamat;
-                    document.getElementById("edit_telepon").value = partner.telepon;
-                    document.getElementById("edit_email").value = partner.email;
-
-                    editForm.action = `/admin/partner/${partner.partner_id}`;
-                    document.getElementById("editPartnerModal").classList.remove("hidden");
-                });
-            });
-        });
-
-        // Delete Handler
-        document.addEventListener("DOMContentLoaded", () => {
-            const deleteForm = document.getElementById("deletePartnerForm");
-            
-            document.querySelectorAll('.btn-delete').forEach(button => {
-                button.addEventListener('click', () => {
-                    const partnerId = button.getAttribute('data-partner-id');
-                    deleteForm.action = `/admin/partner/${partnerId}`;
-                    document.getElementById('deleteConfirmModal').classList.remove('hidden');
-                });
+            // === DELETE MODAL HANDLERS ===
+            $(document).on('click', '.btn-delete', function() {
+                const partnerId = $(this).data('partner-id');
+                $('#deletePartnerForm').attr('action', `/admin/partner/${partnerId}`);
+                $('#deleteConfirmModal').removeClass('hidden');
             });
 
-            document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-                document.getElementById('deleteConfirmModal').classList.add('hidden');
+            $('#cancelDeleteBtn').on('click', function() {
+                $('#deleteConfirmModal').addClass('hidden');
+            });
+
+            // Close modal when clicking outside
+            $('#deleteConfirmModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
+                }
+            });
+
+            // === FORM VALIDATION ===
+            $('#createPartnerForm').on('submit', function(e) {
+                let isValid = true;
+                $('.text-red-500').addClass('hidden');
+
+                // Validate nama
+                if ($('#create_nama').val().trim() === '') {
+                    $('#create_nama_error').text('Nama mitra tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                }
+
+                // Validate alamat
+                if ($('#create_alamat').val().trim() === '') {
+                    $('#create_alamat_error').text('Alamat tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                }
+
+                // Validate telepon
+                if ($('#create_telepon').val().trim() === '') {
+                    $('#create_telepon_error').text('Telepon tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                }
+
+                // Validate email
+                const email = $('#create_email').val().trim();
+                if (email === '') {
+                    $('#create_email_error').text('Email tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    $('#create_email_error').text('Format email tidak valid').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Clear errors on input change
+            $('#create_nama, #create_alamat, #create_telepon, #create_email').on('input', function() {
+                $(this).siblings('.text-red-500').addClass('hidden');
             });
         });
     </script>
