@@ -38,8 +38,7 @@
                             <h3 class="text-2xl font-bold text-gray-800 mb-2">Daftar Dosen</h3>
                             <p class="text-gray-600">Kelola data dosen sistem</p>
                         </div>
-                        <button class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2"
-                            data-modal-target="createDosenModal" data-modal-toggle="createDosenModal">
+                        <button id="btnTambahDosen" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2">
                             <i class="fas fa-plus-circle"></i>
                             <span>Tambah Dosen</span>
                         </button>
@@ -72,7 +71,7 @@
                             <tbody class="divide-y divide-gray-100">
                                 @forelse ($dataDosen as $dosen)
                                     <tr class="hover:bg-blue-50/30 transition-all duration-200">
-                                        <td class="px-6 py-4 text-sm text-gray-800"></td>
+                                        <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $dosen->user->nama ?? '-' }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $dosen->nidn }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-800">{{ $dosen->user->email ?? '-' }}</td>
@@ -80,21 +79,21 @@
                                         <td class="px-6 py-4 text-center">
                                             <div class="flex justify-center space-x-2">
                                                 <button type="button" 
-                                                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1 transition-colors duration-200 editDosenBtn"
-                                                    data-dosen='@json($dosen)'>
+                                                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1 transition-colors duration-200 btn-edit"
+                                                    data-dosen-id="{{ $dosen->dosen_id }}"
+                                                    data-user-id="{{ $dosen->user_id }}"
+                                                    data-nidn="{{ $dosen->nidn }}"
+                                                    data-bidang-minat="{{ $dosen->bidang_minat }}">
                                                     <i class="fas fa-edit"></i>
                                                     <span>Edit</span>
                                                 </button>
-                                                <form action="{{ route('admin.dosen.destroy', $dosen->dosen_id) }}" method="POST"
-                                                    class="delete-dosen-form">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="button" data-dosen-id="{{ $dosen->dosen_id }}"
-                                                        class="btn-delete bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1 transition-colors duration-200">
-                                                        <i class="fas fa-trash"></i>
-                                                        <span>Hapus</span>
-                                                    </button>
-                                                </form>
+                                                <button type="button"
+                                                    class="btn-delete bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium inline-flex items-center gap-1 transition-colors duration-200"
+                                                    data-dosen-id="{{ $dosen->dosen_id }}"
+                                                    data-dosen-nama="{{ $dosen->user->nama ?? 'Dosen' }}">
+                                                    <i class="fas fa-trash"></i>
+                                                    <span>Hapus</span>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -120,112 +119,133 @@
     </div>
 
     <!-- Create Modal -->
-    <div id="createDosenModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div id="createDosenModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-semibold text-gray-700">Tambah Dosen</h3>
-                <button type="button" data-modal-hide="createDosenModal" class="text-gray-500 hover:text-gray-700">
+                <button type="button" id="btnCloseCreate" class="text-gray-500 hover:text-gray-700 text-2xl">
                     &times;
                 </button>
             </div>
 
-            <form action="{{ route('admin.dosen.store') }}" method="POST">
+            <form id="createDosenForm" action="{{ route('admin.dosen.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <label for="user_id" class="block text-gray-700 mb-2">Pilih User</label>
-                    <select name="user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_user_id" class="block text-gray-700 mb-2">Pilih User</label>
+                    <select name="user_id" id="create_user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <option value="">-- Pilih User --</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->user_id }}">{{ $user->nama }} ({{ $user->email }})</option>
                         @endforeach
                     </select>
+                    <div id="create_user_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label for="nidn" class="block text-gray-700 mb-2">NIDN</label>
-                    <input type="text" name="nidn" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_nidn" class="block text-gray-700 mb-2">NIDN</label>
+                    <input type="text" name="nidn" id="create_nidn" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div id="create_nidn_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label for="bidang_minat" class="block text-gray-700 mb-2">Bidang Keahlian</label>
-                    <select name="bidang_minat" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <label for="create_bidang_minat" class="block text-gray-700 mb-2">Bidang Keahlian</label>
+                    <select name="bidang_minat" id="create_bidang_minat" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <option value="">-- Pilih Bidang Keahlian --</option>
                         @foreach ($bidangKeahlian as $keahlian)
                             <option value="{{ $keahlian->keahlian_id }}">{{ $keahlian->nama }}</option>
                         @endforeach
                     </select>
+                    <div id="create_bidang_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="button" data-modal-hide="createDosenModal"
+                    <button type="button" id="btnCancelCreate"
                         class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">Simpan</button>
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        <i class="fas fa-save mr-1"></i>Simpan
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Edit Modal -->
-    <div id="editDosenModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div id="editDosenModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-semibold text-gray-700">Edit Dosen</h3>
-                <button type="button" data-modal-hide="editDosenModal" class="text-gray-500 hover:text-gray-700">
+                <button type="button" id="btnCloseEdit" class="text-gray-500 hover:text-gray-700 text-2xl">
                     &times;
                 </button>
             </div>
             <form id="editDosenForm" method="POST">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="dosen_id" id="edit_dosen_id">
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">User</label>
+                    <label for="edit_user_id" class="block text-gray-700 mb-2">User</label>
                     <select name="user_id" id="edit_user_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         @foreach ($users as $user)
                             <option value="{{ $user->user_id }}">{{ $user->nama }} ({{ $user->email }})</option>
                         @endforeach
                     </select>
+                    <div id="edit_user_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">NIDN</label>
+                    <label for="edit_nidn" class="block text-gray-700 mb-2">NIDN</label>
                     <input type="text" name="nidn" id="edit_nidn" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div id="edit_nidn_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">Bidang Keahlian</label>
+                    <label for="edit_bidang_minat" class="block text-gray-700 mb-2">Bidang Keahlian</label>
                     <select name="bidang_minat" id="edit_bidang_minat" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                         <option value="">-- Pilih Bidang Keahlian --</option>
                         @foreach ($bidangKeahlian as $keahlian)
                             <option value="{{ $keahlian->keahlian_id }}">{{ $keahlian->nama }}</option>
                         @endforeach
                     </select>
+                    <div id="edit_bidang_error" class="text-red-500 text-sm mt-1 hidden"></div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="button" data-modal-hide="editDosenModal"
+                    <button type="button" id="btnCancelEdit"
                         class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">Update</button>
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        <i class="fas fa-save mr-1"></i>Update
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Delete Confirm Modal -->
-    <div id="deleteConfirmModal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+    <div id="deleteConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4">Konfirmasi Hapus</h3>
-            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus data dosen ini?</p>
-            <div class="flex justify-end">
-                <button type="button" id="cancelDeleteBtn"
-                    class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
-                <button type="button" id="confirmDeleteBtn"
-                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">Hapus</button>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Konfirmasi Hapus</h3>
+                <p class="text-gray-600">Apakah Anda yakin ingin menghapus dosen "<span id="deleteDosenName" class="font-semibold"></span>"?</p>
+            </div>
+            <div class="flex justify-center space-x-3">
+                <button type="button" id="btnCancelDelete"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
+                <form id="deleteDosenForm" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">
+                        <i class="fas fa-trash mr-1"></i>Hapus
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready(function () {
+            // Initialize DataTable
             const table = $('#dosenTable').DataTable({
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
@@ -240,16 +260,14 @@
                     {
                         "targets": [0],
                         "searchable": false,
-                        "render": function (data, type, row, meta) {
-                            return meta.row + 1;
-                        }
+                        "orderable": false
                     },
                     {
                         "targets": [5],
                         "orderable": false
                     }
                 ],
-                "order": [[0, "asc"]],
+                "order": [[1, "asc"]],
                 "drawCallback": function(settings) {
                     $('.dataTables_paginate .paginate_button').removeClass().addClass('px-4 py-2 bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 mx-1 rounded-xl shadow-sm');
                     $('.dataTables_paginate .paginate_button.current').removeClass().addClass('px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 border border-blue-600 text-sm font-medium text-white mx-1 rounded-xl shadow-md');
@@ -257,69 +275,131 @@
                     $('.dataTables_paginate').addClass('space-x-1');
                 }
             });
-        });
-    </script>
 
-    <script>
-        // Modal Toggle Handlers
-        document.querySelectorAll('[data-modal_toggle]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-modal-target');
-                const target = document.getElementById(targetId);
-                if (target) {
-                    target.classList.remove('hidden');
+            // === CREATE MODAL HANDLERS ===
+            $('#btnTambahDosen').on('click', function() {
+                $('#createDosenModal').removeClass('hidden');
+                $('#createDosenForm')[0].reset();
+                $('.text-red-500').addClass('hidden');
+            });
+
+            $('#btnCloseCreate, #btnCancelCreate').on('click', function() {
+                $('#createDosenModal').addClass('hidden');
+            });
+
+            // Close modal when clicking outside
+            $('#createDosenModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
                 }
             });
-        });
 
-        document.querySelectorAll('[data-modal-hide]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-modal-hide');
-                const target = document.getElementById(targetId);
-                if (target) {
-                    target.classList.add('hidden');
+            // === EDIT MODAL HANDLERS ===
+            $(document).on('click', '.btn-edit', function() {
+                const dosenId = $(this).data('dosen-id');
+                const userId = $(this).data('user-id');
+                const nidn = $(this).data('nidn');
+                const bidangMinat = $(this).data('bidang-minat');
+                
+                $('#edit_user_id').val(userId);
+                $('#edit_nidn').val(nidn);
+                $('#edit_bidang_minat').val(bidangMinat);
+                $('#editDosenForm').attr('action', `/admin/dosen/${dosenId}`);
+                $('.text-red-500').addClass('hidden');
+                $('#editDosenModal').removeClass('hidden');
+            });
+
+            $('#btnCloseEdit, #btnCancelEdit').on('click', function() {
+                $('#editDosenModal').addClass('hidden');
+            });
+
+            // Close modal when clicking outside
+            $('#editDosenModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
                 }
             });
-        });
 
-        // Edit Modal Handler
-        document.addEventListener("DOMContentLoaded", () => {
-            const editButtons = document.querySelectorAll(".editDosenBtn");
-            const editForm = document.getElementById("editDosenForm");
-
-            editButtons.forEach(btn => {
-                btn.addEventListener("click", () => {
-                    const dosen = JSON.parse(btn.getAttribute("data-dosen"));
-                    document.getElementById("edit_dosen_id").value = dosen.dosen_id;
-                    document.getElementById("edit_user_id").value = dosen.user_id;
-                    document.getElementById("edit_nidn").value = dosen.nidn;
-                    document.getElementById("edit_bidang_minat").value = dosen.bidang_minat;
-
-                    editForm.action = `/admin/dosen/${dosen.dosen_id}`;
-                    document.getElementById("editDosenModal").classList.remove("hidden");
-                });
+            // === DELETE MODAL HANDLERS ===
+            $(document).on('click', '.btn-delete', function() {
+                const dosenId = $(this).data('dosen-id');
+                const dosenNama = $(this).data('dosen-nama');
+                
+                $('#deleteDosenName').text(dosenNama);
+                $('#deleteDosenForm').attr('action', `/admin/dosen/${dosenId}`);
+                $('#deleteConfirmModal').removeClass('hidden');
             });
-        });
 
-        // Delete Handler
-        let formToDelete = null;
-
-        document.querySelectorAll('.btn-delete').forEach(button => {
-            button.addEventListener('click', () => {
-                formToDelete = button.closest('form');
-                document.getElementById('deleteConfirmModal').classList.remove('hidden');
+            $('#btnCancelDelete').on('click', function() {
+                $('#deleteConfirmModal').addClass('hidden');
             });
-        });
 
-        document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
-            if (formToDelete) {
-                formToDelete.submit();
-            }
-        });
+            // Close modal when clicking outside
+            $('#deleteConfirmModal').on('click', function(e) {
+                if (e.target === this) {
+                    $(this).addClass('hidden');
+                }
+            });
 
-        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-            formToDelete = null;
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
+            // === FORM VALIDATION ===
+            $('#createDosenForm').on('submit', function(e) {
+                let isValid = true;
+                $('.text-red-500').addClass('hidden');
+
+                if ($('#create_user_id').val() === '') {
+                    $('#create_user_error').text('User harus dipilih').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if ($('#create_nidn').val().trim() === '') {
+                    $('#create_nidn_error').text('NIDN tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if ($('#create_bidang_minat').val() === '') {
+                    $('#create_bidang_error').text('Bidang keahlian harus dipilih').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            $('#editDosenForm').on('submit', function(e) {
+                let isValid = true;
+                $('.text-red-500').addClass('hidden');
+
+                if ($('#edit_user_id').val() === '') {
+                    $('#edit_user_error').text('User harus dipilih').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if ($('#edit_nidn').val().trim() === '') {
+                    $('#edit_nidn_error').text('NIDN tidak boleh kosong').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if ($('#edit_bidang_minat').val() === '') {
+                    $('#edit_bidang_error').text('Bidang keahlian harus dipilih').removeClass('hidden');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Clear errors on input change
+            $('#create_user_id, #create_nidn, #create_bidang_minat').on('change input', function() {
+                $(this).siblings('.text-red-500').addClass('hidden');
+            });
+
+            $('#edit_user_id, #edit_nidn, #edit_bidang_minat').on('change input', function() {
+                $(this).siblings('.text-red-500').addClass('hidden');
+            });
         });
     </script>
 @endsection

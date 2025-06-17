@@ -42,8 +42,7 @@
                         <h3 class="text-2xl font-bold text-gray-800 mb-2">Daftar Periode</h3>
                         <p class="text-gray-600">Kelola periode magang sistem</p>
                     </div>
-                    <button class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2"
-                        data-modal-target="createPeriodeModal" data-modal-toggle="createPeriodeModal">
+                    <button id="btnTambahPeriode" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-lg flex items-center gap-2">
                         <i class="fas fa-plus-circle"></i>
                         <span>Tambah Periode</span>
                     </button>
@@ -73,7 +72,7 @@
                         <tbody class="divide-y divide-gray-100">
                             @forelse ($periodes as $periode)
                                 <tr class="hover:bg-blue-50/30 transition-all duration-200">
-                                    <td class="px-6 py-4 text-sm text-gray-800"></td>
+                                    <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-800">{{ $periode->nama }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-800">{{ $periode->tanggal_mulai }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-800">{{ $periode->tanggal_selesai }}</td>
@@ -116,35 +115,39 @@
 </div>
 
 <!-- Create Modal -->
-<div id="createPeriodeModal" tabindex="-1" aria-hidden="true"
-    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
+<div id="createPeriodeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/70">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-semibold text-gray-700">Tambah Periode</h3>
-            <button type="button" data-modal-hide="createPeriodeModal" class="text-gray-500 hover:text-gray-700">
+            <button type="button" id="btnCloseCreate" class="text-gray-500 hover:text-gray-700 text-2xl">
                 &times;
             </button>
         </div>
 
-        <form action="{{ route('periode.store') }}" method="POST">
+        <form id="createPeriodeForm" action="{{ route('periode.store') }}" method="POST">
             @csrf
             <div class="mb-4">
-                <label for="nama" class="block text-gray-700 mb-2">Nama Periode</label>
-                <input type="text" name="nama" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <label for="create_nama" class="block text-gray-700 mb-2">Nama Periode</label>
+                <input type="text" name="nama" id="create_nama" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <div id="create_nama_error" class="text-red-500 text-sm mt-1 hidden"></div>
             </div>
             <div class="mb-4">
-                <label for="tanggal_mulai" class="block text-gray-700 mb-2">Tanggal Mulai</label>
-                <input type="date" name="tanggal_mulai" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <label for="create_tanggal_mulai" class="block text-gray-700 mb-2">Tanggal Mulai</label>
+                <input type="date" name="tanggal_mulai" id="create_tanggal_mulai" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <div id="create_tanggal_mulai_error" class="text-red-500 text-sm mt-1 hidden"></div>
             </div>
             <div class="mb-4">
-                <label for="tanggal_selesai" class="block text-gray-700 mb-2">Tanggal Selesai</label>
-                <input type="date" name="tanggal_selesai" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <label for="create_tanggal_selesai" class="block text-gray-700 mb-2">Tanggal Selesai</label>
+                <input type="date" name="tanggal_selesai" id="create_tanggal_selesai" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                <div id="create_tanggal_selesai_error" class="text-red-500 text-sm mt-1 hidden"></div>
             </div>
             <div class="flex justify-end">
-                <button type="button" data-modal-hide="createPeriodeModal"
+                <button type="button" id="btnCancelCreate"
                     class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200">Batal</button>
                 <button type="submit"
-                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">Simpan</button>
+                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                    <i class="fas fa-save mr-1"></i>Simpan
+                </button>
             </div>
         </form>
     </div>
@@ -204,8 +207,12 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(document).ready(function () {
+        // Initialize DataTable
         const table = $('#periodeTable').DataTable({
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
@@ -220,16 +227,14 @@
                 {
                     "targets": [0],
                     "searchable": false,
-                    "render": function (data, type, row, meta) {
-                        return meta.row + 1;
-                    }
+                    "orderable": false
                 },
                 {
                     "targets": [4],
                     "orderable": false
                 }
             ],
-            "order": [[0, "asc"]],
+            "order": [[1, "asc"]],
             "drawCallback": function(settings) {
                 $('.dataTables_paginate .paginate_button').removeClass().addClass('px-4 py-2 bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 mx-1 rounded-xl shadow-sm');
                 $('.dataTables_paginate .paginate_button.current').removeClass().addClass('px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 border border-blue-600 text-sm font-medium text-white mx-1 rounded-xl shadow-md');
@@ -237,63 +242,106 @@
                 $('.dataTables_paginate').addClass('space-x-1');
             }
         });
-    });
-</script>
 
-<script>
-    // Modal Toggle Handlers
-    document.querySelectorAll('[data-modal_toggle]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.getAttribute('data-modal-target');
-            const target = document.getElementById(targetId);
-            if (target) {
-                target.classList.remove('hidden');
+        // === CREATE MODAL HANDLERS ===
+        $('#btnTambahPeriode').on('click', function() {
+            $('#createPeriodeModal').removeClass('hidden');
+            $('#createPeriodeForm')[0].reset();
+            $('.text-red-500').addClass('hidden');
+        });
+
+        $('#btnCloseCreate, #btnCancelCreate').on('click', function() {
+            $('#createPeriodeModal').addClass('hidden');
+        });
+
+        // Close modal when clicking outside
+        $('#createPeriodeModal').on('click', function(e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
             }
         });
-    });
 
-    document.querySelectorAll('[data-modal-hide]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetId = btn.getAttribute('data-modal-hide');
-            const target = document.getElementById(targetId);
-            if (target) {
-                target.classList.add('hidden');
+        // === EDIT MODAL HANDLERS ===
+        $(document).on('click', '.editPeriodeBtn', function() {
+            const periode = JSON.parse($(this).attr("data-periode"));
+            $('#edit_nama').val(periode.nama);
+            $('#edit_tanggal_mulai').val(periode.tanggal_mulai);
+            $('#edit_tanggal_selesai').val(periode.tanggal_selesai);
+            $('#editPeriodeForm').attr('action', `/admin/periode/${periode.periode_id}`);
+            $('.text-red-500').addClass('hidden');
+            $('#editPeriodeModal').removeClass('hidden');
+        });
+
+        $(document).on('click', '[data-modal-hide="editPeriodeModal"]', function() {
+            $('#editPeriodeModal').addClass('hidden');
+        });
+
+        // Close modal when clicking outside
+        $('#editPeriodeModal').on('click', function(e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
             }
         });
-    });
 
-    // Edit Modal Handler
-    document.addEventListener("DOMContentLoaded", () => {
-        const editButtons = document.querySelectorAll(".editPeriodeBtn");
-        const editForm = document.getElementById("editPeriodeForm");
-
-        editButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const periode = JSON.parse(btn.getAttribute("data-periode"));
-                document.getElementById("edit_nama").value = periode.nama;
-                document.getElementById("edit_tanggal_mulai").value = periode.tanggal_mulai;
-                document.getElementById("edit_tanggal_selesai").value = periode.tanggal_selesai;
-
-                editForm.action = `/admin/periode/${periode.periode_id}`;
-                document.getElementById("editPeriodeModal").classList.remove("hidden");
-            });
-        });
-    });
-
-    // Delete Handler
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteForm = document.getElementById("deletePeriodeForm");
-        
-        document.querySelectorAll('.btn-delete').forEach(button => {
-            button.addEventListener('click', () => {
-                const periodeId = button.getAttribute('data-periode-id');
-                deleteForm.action = `/admin/periode/${periodeId}`;
-                document.getElementById('deleteConfirmModal').classList.remove('hidden');
-            });
+        // === DELETE MODAL HANDLERS ===
+        $(document).on('click', '.btn-delete', function() {
+            const periodeId = $(this).data('periode-id');
+            $('#deletePeriodeForm').attr('action', `/admin/periode/${periodeId}`);
+            $('#deleteConfirmModal').removeClass('hidden');
         });
 
-        document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-            document.getElementById('deleteConfirmModal').classList.add('hidden');
+        $('#cancelDeleteBtn').on('click', function() {
+            $('#deleteConfirmModal').addClass('hidden');
+        });
+
+        // Close modal when clicking outside
+        $('#deleteConfirmModal').on('click', function(e) {
+            if (e.target === this) {
+                $(this).addClass('hidden');
+            }
+        });
+
+        // === FORM VALIDATION ===
+        $('#createPeriodeForm').on('submit', function(e) {
+            let isValid = true;
+            $('.text-red-500').addClass('hidden');
+
+            // Validate nama
+            if ($('#create_nama').val().trim() === '') {
+                $('#create_nama_error').text('Nama periode tidak boleh kosong').removeClass('hidden');
+                isValid = false;
+            }
+
+            // Validate tanggal mulai
+            if ($('#create_tanggal_mulai').val() === '') {
+                $('#create_tanggal_mulai_error').text('Tanggal mulai harus dipilih').removeClass('hidden');
+                isValid = false;
+            }
+
+            // Validate tanggal selesai
+            if ($('#create_tanggal_selesai').val() === '') {
+                $('#create_tanggal_selesai_error').text('Tanggal selesai harus dipilih').removeClass('hidden');
+                isValid = false;
+            }
+
+            // Validate tanggal selesai > tanggal mulai
+            const tanggalMulai = new Date($('#create_tanggal_mulai').val());
+            const tanggalSelesai = new Date($('#create_tanggal_selesai').val());
+            
+            if (tanggalMulai && tanggalSelesai && tanggalSelesai <= tanggalMulai) {
+                $('#create_tanggal_selesai_error').text('Tanggal selesai harus lebih besar dari tanggal mulai').removeClass('hidden');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Clear errors on input change
+        $('#create_nama, #create_tanggal_mulai, #create_tanggal_selesai').on('input change', function() {
+            $(this).siblings('.text-red-500').addClass('hidden');
         });
     });
 </script>
