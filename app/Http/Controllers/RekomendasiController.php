@@ -223,9 +223,49 @@ class RekomendasiController extends Controller
                 return 200; // Invalid coordinates
             }
 
-            return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
+            // Try to get distance from OpenRoute Services API
+            $apiDistance = $this->getDistanceFromAPI($fromLng, $fromLat, $toLng, $toLat);
+            
+            // If API fails, fallback to Haversine calculation
+            if ($apiDistance === null) {
+                Log::warning('OpenRoute API failed, using Haversine calculation as fallback');
+                return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
+            }
+
+            return $apiDistance;
         } catch (\Exception $e) {
+            Log::error('Error calculating distance: ' . $e->getMessage());
             return 200; // Return maximum penalty on error
+        }
+    }
+
+    private function getDistanceFromAPI($fromLng, $fromLat, $toLng, $toLat)
+    {
+        try {
+            $response = Http::timeout(10)->get('https://api.openrouteservice.org/v2/directions/driving-car', [
+                'api_key' => $this->openRouteApiKey,
+                'start' => $fromLng . ',' . $fromLat,
+                'end' => $toLng . ',' . $toLat,
+                'format' => 'json'
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                
+                if (isset($data['features'][0]['properties']['segments'][0]['distance'])) {
+                    // Convert meters to kilometers and round to 2 decimal places
+                    $distanceInKm = round($data['features'][0]['properties']['segments'][0]['distance'] / 1000, 2);
+                    return $distanceInKm;
+                }
+            }
+
+            // Log API error for debugging
+            Log::warning('OpenRoute API response error: ' . $response->body());
+            return null;
+
+        } catch (\Exception $e) {
+            Log::error('OpenRoute API request failed: ' . $e->getMessage());
+            return null;
         }
     }
 
