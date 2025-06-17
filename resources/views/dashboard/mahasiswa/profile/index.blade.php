@@ -139,7 +139,7 @@
                                         <div class="space-y-1 sm:space-y-2">
                                             <label class="block text-xs sm:text-sm font-medium text-gray-700">NIM <span
                                                     class="text-red-500">*</span></label>
-                                            <input type="text" name="nim"
+                                            <input type="number" name="nim"
                                                 class="w-full p-2 sm:p-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition @error('nim') border-red-500 @enderror"
                                                 value="{{ old('nim', $mahasiswa->nim) }}" required>
                                             @error('nim')

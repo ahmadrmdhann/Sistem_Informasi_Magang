@@ -50,7 +50,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                                             <div class="flex items-center text-gray-600">
                                                 <i class="fas fa-graduation-cap text-slate-500 mr-2"></i>
-                                                <span class="text-sm">{{ $bimbingan->mahasiswa->prodi->nama ?? '-' }}</span>
+                                                <span class="text-sm">{{ $bimbingan->mahasiswa->prodi->prodi_nama ?? '-' }}</span>
                                             </div>
                                             <div class="flex items-center text-gray-600">
                                                 <i class="fas fa-calendar-alt text-slate-500 mr-2"></i>

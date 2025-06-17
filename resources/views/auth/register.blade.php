@@ -44,7 +44,7 @@
                 </div>
                 <div>
                     <label for="nim" class="block mb-1 text-sm font-semibold text-gray-700">NIM</label>
-                    <input id="nim" name="nim" type="text" required autofocus
+                    <input id="nim" name="nim" type="number" required autofocus
                         placeholder="Masukkan NIM pengguna Anda"
                         class="form-input block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-500 bg-blue-50 hover:bg-blue-100 transition duration-150 ease-in-out shadow-sm" />
                 </div>

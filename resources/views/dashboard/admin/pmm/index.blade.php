@@ -228,7 +228,7 @@
                             </div>
                             <div class="flex">
                                 <span class="font-semibold text-gray-700 w-32">Selesai:</span>
-                                <span class="text-gray-800">{{ $pengajuan->lowongan->tanggal_selesai ? \Carbon\Carbon::parse($pengajuan->lowongan->tanggal_selesai)->format('d/m/Y') : '-' }}</span>
+                                <span class="text-gray-800">{{ $pengajuan->lowongan->tanggal_akhir ? \Carbon\Carbon::parse($pengajuan->lowongan->tanggal_akhir)->format('d/m/Y') : '-' }}</span>
                             </div>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             <i class="fas fa-flag mr-1"></i>Status Pengajuan
                         </label>
-                        <select name="status" id="status-{{ $pengajuan->id }}" 
+                        <select name="status" id="status-{{ $pengajuan->id }}"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                             required onchange="toggleDosenSelect('{{ $pengajuan->id }}')">
                             <option value="diajukan" {{ $pengajuan->status == 'diajukan' ? 'selected' : '' }}>Diajukan</option>
@@ -253,7 +253,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             <i class="fas fa-chalkboard-teacher mr-1"></i>Dosen Pendamping
                         </label>
-                        <select name="dosen_id" id="dosen-select-{{ $pengajuan->id }}" 
+                        <select name="dosen_id" id="dosen-select-{{ $pengajuan->id }}"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                             <option value="">-- Pilih Dosen --</option>
                             @foreach ($dosens as $dosen)
@@ -268,7 +268,7 @@
                             class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors duration-200">
                             <i class="fas fa-times mr-1"></i>Batal
                         </button>
-                        <button type="submit" 
+                        <button type="submit"
                             class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl font-medium transition-all duration-200 transform hover:scale-105">
                             <i class="fas fa-save mr-1"></i>Update
                         </button>
