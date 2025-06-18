@@ -3,10 +3,10 @@
 @section('title', 'Status Pengajuan Magang')
 
 @section('content')
-    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div class="container mx-auto px-6 py-8">
             <!-- Hero Section -->
-            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+            <div class="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-black opacity-10"></div>
                 <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
@@ -45,7 +45,7 @@
                         <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum ada pengajuan magang</h3>
                         <p class="text-gray-500 max-w-md mx-auto mb-6">Anda belum mengajukan magang ke perusahaan partner manapun.</p>
                         <a href="{{ route('mahasiswa.lowongan.index') }}"
-                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white rounded-xl font-medium hover:from-slate-600 hover:to-slate-700 transition-all duration-300">
+                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-blue-600 text-white rounded-xl font-medium hover:from-indigo-600 hover:to-blue-700 transition-all duration-300">
                             <i class="fas fa-search mr-2"></i>
                             Cari Lowongan
                         </a>
@@ -70,7 +70,7 @@
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-900">
                                             <div class="flex items-center">
-                                                <div class="w-8 h-8 bg-gradient-to-br from-slate-400 to-slate-600 rounded-lg flex items-center justify-center mr-3">
+                                                <div class="w-8 h-8 bg-gradient-to-br from-indigo-400 to-blue-600 rounded-lg flex items-center justify-center mr-3">
                                                     <i class="fas fa-building text-white text-xs"></i>
                                                 </div>
                                                 <span class="font-medium">{{ $pengajuan->lowongan->partner->nama ?? '-' }}</span>

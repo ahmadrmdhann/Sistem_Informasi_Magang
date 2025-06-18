@@ -3,10 +3,10 @@
 @section('title', 'Feedback Mahasiswa')
 
 @section('content')
-    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-blue-50">
+    <div id="mainContent" class="transition-all duration-300 ml-64 pt-[109px] md:pt-[61px] min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div class="container mx-auto px-6 py-8">
             <!-- Hero Section -->
-            <div class="relative bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
+            <div class="relative bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 rounded-3xl p-8 mb-8 overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 bg-black opacity-10"></div>
                 <div class="absolute top-0 right-0 w-96 h-96 bg-white opacity-10 rounded-full -mr-48 -mt-48"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32"></div>
@@ -62,13 +62,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl p-6 border border-gray-100 transform hover:-translate-y-2 transition-all duration-300">
                         <div class="flex items-center">
-                            <div class="w-14 h-14 bg-gradient-to-br from-slate-400 to-slate-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                            <div class="w-14 h-14 bg-gradient-to-br from-indigo-400 to-blue-600 rounded-2xl flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-comments text-white text-xl"></i>
                             </div>
                             <div>
                                 <p class="text-gray-500 text-sm font-medium">Total</p>
                                 <h3 class="font-bold text-2xl text-gray-800">{{ $stats['total_responses'] }}</h3>
-                                <p class="text-slate-500 text-xs">Feedback</p>
+                                <p class="text-indigo-500 text-xs">Feedback</p>
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                     <div>
                         <label for="mahasiswa_id" class="block text-sm font-medium text-gray-600 mb-2">Mahasiswa</label>
                         <select name="mahasiswa_id" id="mahasiswa_id"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400">
                             <option value="">Semua Mahasiswa</option>
                             @foreach($supervisedStudents as $student)
                                 <option value="{{ $student->mahasiswa_id }}" {{ $mahasiswaFilter == $student->mahasiswa_id ? 'selected' : '' }}>
@@ -142,7 +142,7 @@
                     <div>
                         <label for="partner_id" class="block text-sm font-medium text-gray-600 mb-2">Perusahaan</label>
                         <select name="partner_id" id="partner_id"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400">
                             <option value="">Semua Perusahaan</option>
                             @foreach($partners as $partner)
                                 <option value="{{ $partner->partner_id }}" {{ $partnerFilter == $partner->partner_id ? 'selected' : '' }}>
@@ -155,7 +155,7 @@
                     <div>
                         <label for="form_id" class="block text-sm font-medium text-gray-600 mb-2">Form Feedback</label>
                         <select name="form_id" id="form_id"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400">
                             <option value="">Semua Form</option>
                             @foreach($feedbackForms as $form)
                                 <option value="{{ $form->form_id }}" {{ $formFilter == $form->form_id ? 'selected' : '' }}>
@@ -168,18 +168,18 @@
                     <div>
                         <label for="date_from" class="block text-sm font-medium text-gray-600 mb-2">Dari Tanggal</label>
                         <input type="date" name="date_from" id="date_from" value="{{ $dateFrom }}"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400">
                     </div>
 
                     <div>
                         <label for="date_to" class="block text-sm font-medium text-gray-600 mb-2">Sampai Tanggal</label>
                         <input type="date" name="date_to" id="date_to" value="{{ $dateTo }}"
-                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-200 focus:border-slate-400">
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-400">
                     </div>
 
                     <div class="md:col-span-5 flex space-x-3">
                         <button type="submit"
-                            class="px-6 py-3 bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center">
+                            class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center">
                             <i class="fas fa-search mr-2"></i>
                             Filter
                         </button>
@@ -213,11 +213,11 @@
                     @else
                         <div class="space-y-6">
                             @foreach($feedbackResponses as $response)
-                                <div class="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                <div class="bg-gradient-to-br from-indigo-50 to-blue-100 border border-indigo-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                     <div class="flex justify-between items-start mb-4">
                                         <div class="flex-1">
                                             <div class="flex items-center space-x-4 mb-3">
-                                                <div class="w-12 h-12 bg-gradient-to-br from-slate-400 to-slate-600 rounded-xl flex items-center justify-center shadow-lg">
+                                                <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                                                     <i class="fas fa-user text-white text-lg"></i>
                                                 </div>
                                                 <div>
@@ -230,7 +230,7 @@
                                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                                 <div>
                                                     <span class="text-gray-600">Form:</span>
-                                                    <span class="font-medium text-slate-600">{{ $response->form->title }}</span>
+                                                    <span class="font-medium text-indigo-600">{{ $response->form->title }}</span>
                                                 </div>
                                                 <div>
                                                     <span class="text-gray-600">Perusahaan:</span>
@@ -268,7 +268,7 @@
                                             <div class="text-sm text-gray-600">Total Jawaban</div>
                                         </div>
                                         <div class="text-center transform hover:scale-105 transition-transform duration-200">
-                                            <div class="text-lg font-bold text-slate-600">
+                                            <div class="text-lg font-bold text-indigo-600">
                                                 {{ $response->answers->whereNotNull('rating_value')->count() }}</div>
                                             <div class="text-sm text-gray-600">Rating Questions</div>
                                         </div>
@@ -291,7 +291,7 @@
                                     <!-- Actions -->
                                     <div class="flex justify-end">
                                         <a href="{{ route('dosen.feedback-mahasiswa.show', $response->response_id) }}"
-                                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700 text-white text-sm rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-md">
+                                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white text-sm rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-md">
                                             <i class="fas fa-eye mr-2"></i>
                                             Lihat Detail
                                         </a>
