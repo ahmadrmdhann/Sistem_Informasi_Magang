@@ -48,6 +48,12 @@ class MagangMahasiswaController extends Controller
                 $lowongan->kuota = $lowongan->kuota - 1;
                 $lowongan->save();
             }
+
+            // Tolak semua pengajuan lain milik mahasiswa ini yang belum diterima
+            PengajuanMagangModel::where('mahasiswa_id', $pengajuan->mahasiswa_id)
+                ->where('id', '!=', $pengajuan->id)
+                ->where('status', '!=', 'diterima')
+                ->update(['status' => 'ditolak']);
         }
 
         $pengajuan->status = $request->status;
