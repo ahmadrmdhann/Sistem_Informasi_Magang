@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\LowonganModel;
 use App\Models\MahasiswaModel;
 use App\Models\LokasiModel;
+use App\Models\PengajuanMagangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class RekomendasiController extends Controller
 {
@@ -32,17 +34,32 @@ class RekomendasiController extends Controller
                     'recommendations' => [],
                     'mooraResults' => [],
                     'electreResults' => [],
+                    'applieds' => [],
+                    'profileIncomplete' => false,
+                    'profileWarning' => [],
                     'message' => 'Data mahasiswa tidak ditemukan. Silakan lengkapi profil Anda terlebih dahulu.'
                 ]);
             }
 
-            // Load lowongan with all necessary relationships
+            // Check profile completeness
+            $profileIncomplete = false;
+            $profileWarning = [];
+            if (!$mahasiswa->cv_file) $profileWarning[] = "CV belum diunggah.";
+            if (!$mahasiswa->keahlian_id) $profileWarning[] = "Keahlian belum dipilih.";
+            if (!$mahasiswa->prodi_id) $profileWarning[] = "Prodi belum dipilih.";
+            $profileIncomplete = count($profileWarning) > 0;
+
+            // Load lowongan with all necessary relationships and filter active ones
+            $today = Carbon::today()->toDateString();
             $lowongan = LowonganModel::with([
                 'kabupaten',
                 'keahlian',
                 'partner',
                 'periode'
-            ])->get();
+            ])
+                ->where('kuota', '>', 0)
+                ->where('tanggal_akhir', '>=', $today)
+                ->get();
 
             if ($lowongan->isEmpty()) {
                 return view('dashboard.mahasiswa.rekomendasi.index', [
@@ -50,20 +67,31 @@ class RekomendasiController extends Controller
                     'recommendations' => [],
                     'mooraResults' => [],
                     'electreResults' => [],
+                    'applieds' => [],
+                    'profileIncomplete' => $profileIncomplete,
+                    'profileWarning' => $profileWarning,
                     'message' => 'Belum ada lowongan magang yang tersedia.'
                 ]);
             }
 
-            // Check mahasiswa profile completeness
+            // Check mahasiswa profile completeness for recommendations
             if (!$mahasiswa->lokasi_preferensi || !$mahasiswa->lokasiPreferensi) {
                 return view('dashboard.mahasiswa.rekomendasi.index', [
                     'mahasiswa' => $mahasiswa,
                     'recommendations' => [],
                     'mooraResults' => [],
                     'electreResults' => [],
+                    'applieds' => [],
+                    'profileIncomplete' => $profileIncomplete,
+                    'profileWarning' => $profileWarning,
                     'message' => 'Silakan lengkapi lokasi preferensi di profil Anda untuk mendapatkan rekomendasi yang akurat.'
                 ]);
             }
+
+            // Get applied jobs
+            $applieds = PengajuanMagangModel::where('mahasiswa_id', $mahasiswa->mahasiswa_id)
+                ->pluck('lowongan_id')
+                ->toArray();
 
             $mooraResults = $this->calculateMOORA($mahasiswa, $lowongan);
             $electreResults = $this->calculateELECTRE($mahasiswa, $lowongan);
@@ -73,7 +101,10 @@ class RekomendasiController extends Controller
                 'mahasiswa',
                 'recommendations',
                 'mooraResults',
-                'electreResults'
+                'electreResults',
+                'applieds',
+                'profileIncomplete',
+                'profileWarning'
             ));
         } catch (\Exception $e) {
             Log::error('Error in recommendation system: ' . $e->getMessage());
@@ -83,6 +114,9 @@ class RekomendasiController extends Controller
                 'recommendations' => [],
                 'mooraResults' => [],
                 'electreResults' => [],
+                'applieds' => [],
+                'profileIncomplete' => false,
+                'profileWarning' => [],
                 'message' => 'Terjadi kesalahan dalam sistem rekomendasi. Silakan coba lagi nanti.'
             ]);
         }
@@ -223,16 +257,18 @@ class RekomendasiController extends Controller
                 return 200; // Invalid coordinates
             }
 
-            // Try to get distance from OpenRoute Services API
-            $apiDistance = $this->getDistanceFromAPI($fromLng, $fromLat, $toLng, $toLat);
-            
-            // If API fails, fallback to Haversine calculation
-            if ($apiDistance === null) {
-                Log::warning('OpenRoute API failed, using Haversine calculation as fallback');
-                return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
-            }
+            // // Try to get distance from OpenRoute Services API
+            // $apiDistance = $this->getDistanceFromAPI($fromLng, $fromLat, $toLng, $toLat);
 
-            return $apiDistance;
+            // // If API fails, fallback to Haversine calculation
+            // if ($apiDistance === null) {
+            //     Log::warning('OpenRoute API failed, using Haversine calculation as fallback');
+            //     return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
+            // }
+
+            // return $apiDistance;
+
+            return $this->haversineDistance($fromLat, $fromLng, $toLat, $toLng);
         } catch (\Exception $e) {
             Log::error('Error calculating distance: ' . $e->getMessage());
             return 200; // Return maximum penalty on error
@@ -242,31 +278,66 @@ class RekomendasiController extends Controller
     private function getDistanceFromAPI($fromLng, $fromLat, $toLng, $toLat)
     {
         try {
-            $response = Http::timeout(10)->get('https://api.openrouteservice.org/v2/directions/driving-car', [
-                'api_key' => $this->openRouteApiKey,
-                'start' => $fromLng . ',' . $fromLat,
-                'end' => $toLng . ',' . $toLat,
-                'format' => 'json'
-            ]);
+            // Validate coordinates before making API call
+            if (!$this->isValidCoordinate($fromLat, $fromLng) || !$this->isValidCoordinate($toLat, $toLng)) {
+                return null;
+            }
+
+            // Create cache key for this distance calculation
+            $cacheKey = "distance_{$fromLng}_{$fromLat}_{$toLng}_{$toLat}";
+
+            // Check cache first (if using cache)
+            if (cache()->has($cacheKey)) {
+                return cache($cacheKey);
+            }
+
+            $response = Http::timeout(5) // Reduced timeout
+                ->retry(2, 100) // Retry 2 times with 100ms delay
+                ->get('https://api.openrouteservice.org/v2/directions/driving-car', [
+                    'api_key' => $this->openRouteApiKey,
+                    'start' => "{$fromLng},{$fromLat}",
+                    'end' => "{$toLng},{$toLat}",
+                    'format' => 'json'
+                ]);
 
             if ($response->successful()) {
                 $data = $response->json();
-                
-                if (isset($data['features'][0]['properties']['segments'][0]['distance'])) {
-                    // Convert meters to kilometers and round to 2 decimal places
-                    $distanceInKm = round($data['features'][0]['properties']['segments'][0]['distance'] / 1000, 2);
+
+                // More robust data extraction
+                $distance = data_get($data, 'features.0.properties.segments.0.distance');
+
+                if ($distance !== null && is_numeric($distance)) {
+                    $distanceInKm = round($distance / 1000, 2);
+
+                    // Cache the result for 1 hour
+                    cache([$cacheKey => $distanceInKm], now()->addHour());
+
                     return $distanceInKm;
                 }
             }
 
-            // Log API error for debugging
-            Log::warning('OpenRoute API response error: ' . $response->body());
-            return null;
+            // Log only if response is not successful
+            if (!$response->successful()) {
+                Log::warning('OpenRoute API failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ]);
+            }
 
+            return null;
         } catch (\Exception $e) {
-            Log::error('OpenRoute API request failed: ' . $e->getMessage());
+            Log::error('OpenRoute API request failed', [
+                'message' => $e->getMessage(),
+                'coordinates' => "{$fromLng},{$fromLat} to {$toLng},{$toLat}"
+            ]);
             return null;
         }
+    }
+
+    private function isValidCoordinate($lat, $lng)
+    {
+        return is_numeric($lat) && is_numeric($lng) &&
+            abs($lat) <= 90 && abs($lng) <= 180;
     }
 
     private function haversineDistance($lat1, $lng1, $lat2, $lng2)

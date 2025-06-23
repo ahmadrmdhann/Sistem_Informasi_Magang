@@ -197,7 +197,6 @@ Route::middleware('auth')->group(function () {
         Route::prefix('mhsbimbingan')->group(function () {
             Route::get('/', [MahasiswaBimbingan::class, 'index'])->name('dosen.mhsbimbingan.index');
         });
-
     });
 
     // Mahasiswa routes

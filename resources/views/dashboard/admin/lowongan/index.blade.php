@@ -199,13 +199,13 @@
                                                     <i class="fas fa-eye"></i>
                                                     <span>Lihat</span>
                                                 </button>
-                                                
+
                                                 <button class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5 editLowonganBtn"
                                                     data-lowongan='@json($lowongan)'>
                                                     <i class="fas fa-edit"></i>
                                                     <span>Edit</span>
                                                 </button>
-                                                
+
                                                 <form action="{{ route('lowongan.destroy', $lowongan->lowongan_id) }}" method="POST" class="inline-block">
                                                     @csrf
                                                     @method('DELETE')
@@ -247,7 +247,7 @@
                         </div>
                         <p class="text-green-700 text-sm">Lowongan yang sedang berlangsung dan dapat diajukan oleh mahasiswa.</p>
                     </div>
-                    
+
                     <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
                         <div class="flex items-center mb-3">
                             <i class="fas fa-clock text-blue-600 text-xl mr-3"></i>
@@ -255,7 +255,7 @@
                         </div>
                         <p class="text-blue-700 text-sm">Lowongan yang sudah terdaftar tetapi belum memasuki periode pendaftaran.</p>
                     </div>
-                    
+
                     <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6">
                         <div class="flex items-center mb-3">
                             <i class="fas fa-calendar-check text-gray-600 text-xl mr-3"></i>
@@ -430,7 +430,7 @@
                 </div>
                 <div>
                     <label class="block text-gray-700">Persyaratan</label>
-                    <p id="show_persyaratan" class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50"></p>
+                    <p id="show_persyaratan" class="w-full border border-gray-300 rounded px-3 py-2 bg-gray-50 min-h-[100px]"></p>
                 </div>
                 <div>
                     <label class="block text-gray-700">Lokasi</label>
@@ -505,8 +505,8 @@
                     </div>
                     <div>
                         <label for="edit_persyaratan" class="block text-gray-700">Persyaratan</label>
-                        <input type="text" name="persyaratan" id="edit_persyaratan"
-                            class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        <textarea name="persyaratan" id="edit_persyaratan" rows="2"
+                            class="w-full border border-gray-300 rounded px-3 py-2 resize-y" required></textarea>
                     </div>
                     <div>
                         <label for="edit_lokasi" class="block text-gray-700">Lokasi</label>
